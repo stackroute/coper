@@ -20,20 +20,24 @@ const compression = require('compression');
 app.use(compression());
 
 // Setup Web pack only for non-production environments (like Development, Load Testing etc.,)
-if (config.NODE_ENV !== 'production') {
-  const webpack = require('webpack');
-  const webpackDevMiddleware = require('webpack-dev-middleware');
-  const webpackHotMiddleware = require('webpack-hot-middleware');
+// if (process.env.NODE_ENV !== 'production') {
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 
-  const webpackConfig = require('../webpack.config.js');
-  const webpackCompiler = webpack(webpackConfig);
+const webpackConfig = require('../webpack.config.js');
+const webpackCompiler = webpack(webpackConfig);
 
-  app.use(webpackHotMiddleware(webpackCompiler));
-  app.use(webpackDevMiddleware(webpackCompiler, {
-    noInfo: true,
-    publicPath: webpackConfig.output.publicPath
-  }));
-}
+app.use(webpackDevMiddleware(webpackCompiler, {
+  noInfo: true,
+  publicPath: webpackConfig.output.publicPath
+}));
+app.use(webpackHotMiddleware(webpackCompiler, {
+  path: '/__webpack_hmr',
+  heartbeat: 10 * 1000
+}));
+
+// }
 
 
 // Setup Static Routes
@@ -45,6 +49,11 @@ app.use(express.static(path.resolve(__dirname, '../', 'webclient')));
 // ******************************
 
 //  Eg: app.use('/resource', require(path.join(__dirname, './module')));
+
+app.get("/", function(req, res) {
+  res.sendFile(path.resolve(__dirname, '../', 'webclient', 'assets',
+    'index.html'));
+});
 
 app.get('/ping', (req, res) => {
   res.send('PONG');
