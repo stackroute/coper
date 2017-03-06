@@ -53,7 +53,7 @@ app.use(express.static(path.resolve(__dirname, '../', 'webclient')));
 
 app.get('/', function(req, res) {
   res.sendFile(path.resolve(__dirname, '../', 'webclient', 'assets',
-    'index.html', 'client'));
+    'index.html'));
 });
 
 app.get('/ping', (req, res) => {
@@ -82,6 +82,6 @@ app.use(function(err, req, res) {
 
 module.exports = app;
 const server = http.createServer();
-server.listen(3001);
+server.listen(3000);
 
 
