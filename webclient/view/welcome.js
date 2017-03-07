@@ -17,7 +17,7 @@ import {List,ListItem} from 'material-ui/List';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 //import {Wall} from './components/UserHome/index.js'
 import {Introduction,Navbar} from '../home/index.js';
-import CustomMenu from '../menu/menu.js';
+import CustomMenu from '../home/menu.js';
 
 
 var styles={
@@ -255,7 +255,7 @@ class AppHeader extends React.Component {
       handleLogin: that.handleLogin.bind(that),
       handleRegister: that.handleRegister.bind(that),
       openLogin: that.state.openLogin,
-    
+
       })
     }
     else if(that.props.children!=null &&that.props.children.props.route.path === '/Login')

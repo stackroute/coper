@@ -14,7 +14,7 @@ import Drawer from 'material-ui/Drawer';
 import List from 'material-ui/List';
 import {Menu,MenuItem} from 'material-ui/Menu';
 
-import CustomMenu from '../menu/menu.js';
+import CustomMenu from './menu.js';
 
 var styles={
   signInButtonStyle:{
