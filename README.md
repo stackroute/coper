@@ -44,3 +44,4 @@ This is a Speech Interactive, Cognitive, Personal Assistant for use across devic
 - Assistance settings
         - Services to subscribe
 - Track usage
+- Chat & Chat Groups
