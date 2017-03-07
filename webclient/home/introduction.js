@@ -108,7 +108,7 @@ return(
       <br/>
       <br/>
       <br/>
-    <h1>Conversational User Experience by kaushal jha Platform.<br/>
+    <h1>Conversational User Experience Platform.<br/>
               Now we are talking.</h1><br/>
            <h3>Build brand-unique, natural language interactions<br/>
            for bots, applications, services, and devices.<br/>

@@ -9,7 +9,8 @@ import {ChangePassword, Profile, AccountSettings} from './userProfile/index.js';
 import {Notification} from './notifications/index.js';
 import Conversation from './conversation/index.js';
 import {Introduction} from './home/index.js';
-
+import About from './view/aboutUs.js';
+import Contact from './view/contactUs.js';
 injectTapEventPlugin();
 
     ReactDOM.render((
@@ -24,6 +25,8 @@ injectTapEventPlugin();
               <Route path = "/ForgotPassword" component = {ForgotPassword}/>
               <Route path = "/AccountSettings" component = {AccountSettings}/>
               <Route path = "/Notification" component = {Notification}/>
+              <Route path = "/About" component = {About}/>
+              <Route path = "/Contact" component = {Contact}/>
             </Route>
         </Router>
       ), document.getElementById('container'))

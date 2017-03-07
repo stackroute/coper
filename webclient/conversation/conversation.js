@@ -7,11 +7,15 @@ class Conversation extends React.Component {
 
   }
  render() {
+   const style={
+     textAlign: 'center',
+   };
+
    return(
     <div><br/>
     <br/>
     <br/>
-    <h1>Conversation</h1></div>
+    <h1 style={style}>Let your conversation begin...</h1></div>
    );
 
  }

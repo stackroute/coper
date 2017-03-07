@@ -7,8 +7,17 @@ class Profile extends React.Component {
 
   }
  render() {
+   const style={
+     textAlign: 'center',
+   };
+
    return(
-    <div><h1>Profile</h1></div>
+    <div>
+      <br/>
+      <br/>
+      <br/>
+      <h1 style = {style}>Hey handsome :)</h1>
+    </div>
    );
 
  }

@@ -100,15 +100,14 @@ class Navbar extends React.Component {
   {
   	if(newProps != this.props)
   	{
-  		this.setState({loggedin: newProps.loggedin});
+  		this.setState({loggedin: newProps.loggedin,operPopover: false});
   		if(this.state.loggedin === true)
   		{
   			this.fetchNotification();
   			this.fetchProfilePic();
-        
   		}
       this.fetchMenu();
-  		
+
   	}
   }
   fetchNotification()
@@ -136,30 +135,50 @@ class Navbar extends React.Component {
   fetchMenu(){
     var drawerMenu=[];
     var that=this;
-    var userDetails=JSON.parse(localStorage.getItem('cognitiveUser'))||{user:{},loggedin: false};
-    if(userDetails.loggedin)
+    var userDetails=JSON.parse(localStorage.getItem('cognitiveUserToken')) || null;
+    if(userDetails === null)
     {
-      axios.get('http://localhost:3000/menus?username='+userDetails.user.username)
-      .then(function (response){
-        drawerMenu.push({text:'Chats',link:'/UserHome',subMenu: []});
-        drawerMenu.push({text:'Account Settings',link:'',subMenu: [{text:'Profile',link:'/Profile',subMenu: []},
-        {text:'Change Password',link:'/ChangePassword',subMenu: []}]});
-        drawerMenu.push({text:'Voice Settings',link:'',subMenu: [{text:'Us-English',link:'/Language',subMenu: []}
-        ]});
-        drawerMenu.push({text:'Assistance Settings',link:'/About',subMenu: [
-          {text:'Services',link:'',subMenu: response.data[0].menu}
-        ]});
-        drawerMenu.push({text:'About Us',link:'/About',subMenu: []});
-        drawerMenu.push({text:'Contact Us',link:'/Contact',subMenu: []});
-        that.setState({drawerMenu});
-      })
-    }
-    else{
       drawerMenu.push({text:'Home',link:'/Home',subMenu: [],icon: 'home'});
       drawerMenu.push({text:'About Us',link:'/About',subMenu: []});
       drawerMenu.push({text:'Contact Us',link:'/Contact',subMenu: []});
       this.setState({drawerMenu});
+
     }
+    else{
+      axios({
+        method: 'post',
+        url: 'http://localhost:8080/auth/',
+        data: {
+          token: userDetails
+        }
+      }).then(function(response){
+        if(response.status === 200)
+        {
+          axios.get('http://localhost:3000/menus?username='+response.data.user.username)
+          .then(function (response){
+            drawerMenu.push({text:'Chats',link:'/UserHome',subMenu: []});
+            drawerMenu.push({text:'Account Settings',link:'',subMenu: [{text:'Profile',link:'/Profile',subMenu: []},
+            {text:'Change Password',link:'/ChangePassword',subMenu: []}]});
+            drawerMenu.push({text:'Voice Settings',link:'',subMenu: [{text:'Us-English',link:'/Language',subMenu: []}
+            ]});
+            drawerMenu.push({text:'Assistance Settings',link:'/About',subMenu: [
+              {text:'Services',link:'',subMenu: response.data[0].menu}
+            ]});
+            drawerMenu.push({text:'About Us',link:'/About',subMenu: []});
+            drawerMenu.push({text:'Contact Us',link:'/Contact',subMenu: []});
+            that.setState({drawerMenu});
+          })
+        }
+        else{
+          drawerMenu.push({text:'Home',link:'/Home',subMenu: [],icon: 'home'});
+          drawerMenu.push({text:'About Us',link:'/About',subMenu: []});
+          drawerMenu.push({text:'Contact Us',link:'/Contact',subMenu: []});
+          this.setState({drawerMenu});
+        }
+      })
+    }
+
+
 
   }
   createRightIcon(numberOfNotifications,image)
@@ -256,11 +275,6 @@ class Navbar extends React.Component {
         </Drawer>
         </div>
    );
-
  }
 }
 export default Navbar;
-
-
-
-

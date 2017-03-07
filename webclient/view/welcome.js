@@ -102,9 +102,6 @@ class AppHeader extends React.Component {
     window.addEventListener("resize", this.updateDimensions);
   }
 
-  
-  
-
   localUserAuthentication(){
     var that=this;
     var userDetails=JSON.parse(localStorage.getItem('cognitiveUser')) || {user:{},loggedin: false};
@@ -119,13 +116,16 @@ class AppHeader extends React.Component {
             that.setState({loggedin: true});
             browserHistory.push('/UserHome');
 
-          }else{
-            browserHistory.push('/Home');
           }
+            else
+            {
+            browserHistory.push('/Home');
+            }
         }
-        else{
-          browserHistory.push('/Home');
-        }
+            else
+            {
+            browserHistory.push('/Home');
+            }
       })
     }
     else{
@@ -133,17 +133,21 @@ class AppHeader extends React.Component {
     }
   }
 
-  
 
-   
-  
-  
   handleLogin(credentials){
     var that=this;
-    axios.get('http://localhost:3000/credentials?username='+credentials.username)
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/login/',
+      data: {
+        username: credentials.username,
+        password: credentials.password
+      }
+    })
     .then(function (response){
-      if(response.data.length === 1 && response.data[0].password == credentials.password)
+      if(response.status === 200)
       {
+        console.log(response);
         that.setState({loggedin: true,message: "Successfully signed in!",openSnackbar: true});
         setTimeout(() => {
             that.setState({
@@ -151,6 +155,7 @@ class AppHeader extends React.Component {
           })
         }, 2000);
         localStorage.setItem('cognitiveUser', JSON.stringify({user: {username:credentials.username,password:credentials.password},loggedin: true}));
+        localStorage.setItem('cognitiveUserToken', JSON.stringify({token:response.data.token}));
         browserHistory.push('/UserHome');
       }
       else{
@@ -201,6 +206,7 @@ class AppHeader extends React.Component {
   }
   handleLogoutUser(){
      localStorage.setItem('cognitiveUser', JSON.stringify({user: {},loggedin: false}));
+     localStorage.removeItem('cognitiveUserToken');
      this.setState({loggedin: false,openPopover: false,openDrawer: false});
      browserHistory.push('/Home');
      this.fetchMenu();
@@ -249,6 +255,7 @@ class AppHeader extends React.Component {
       handleLogin: that.handleLogin.bind(that),
       handleRegister: that.handleRegister.bind(that),
       openLogin: that.state.openLogin,
+    
       })
     }
     else if(that.props.children!=null &&that.props.children.props.route.path === '/Login')
@@ -272,9 +279,9 @@ class AppHeader extends React.Component {
 
         <div >
         <Navbar loggedin={this.state.loggedin} handleLogoutUser={this.handleLogoutUser.bind(this)} />
-        
+
         <div id="fake"></div>
-        
+
         <Snackbar
           open={this.state.openSnackbar}
           message={this.state.message}

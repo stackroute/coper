@@ -14,8 +14,11 @@ class ChangePassword extends React.Component {
   }
 
  render() {
+   const style={
+     textAlign: 'center',
+   };
    return(
-    <div><h1>ChangePassword</h1></div>
+    <div><h1 style={style}>ChangePassword :/</h1></div>
    );
 
  }
