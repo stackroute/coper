@@ -4,9 +4,8 @@ class Conversation extends React.Component {
   constructor()
   {
     super();
-
   }
- render() {
+  render() {
    const style={
      textAlign: 'center',
    };
@@ -16,7 +15,7 @@ class Conversation extends React.Component {
     <br/>
     <br/>
     <h1 style={style}>Let your conversation begin...</h1></div>
-   );
+    );
 
  }
 }

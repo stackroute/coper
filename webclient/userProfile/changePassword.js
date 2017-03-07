@@ -13,13 +13,13 @@ class ChangePassword extends React.Component {
 
   }
 
- render() {
+  render() {
    const style={
      textAlign: 'center',
    };
    return(
     <div><h1 style={style}>ChangePassword :/</h1></div>
-   );
+    );
 
  }
 }

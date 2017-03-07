@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "c08595bc07a07ee6b01f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "98af0b6252064fc78b6f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -21869,23 +21869,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _reactTapEventPlugin2.default)();
 
 _reactDom2.default.render(_react2.default.createElement(
-    _reactRouter.Router,
-    { history: _reactRouter.browserHistory },
-    _react2.default.createElement(
-        _reactRouter.Route,
-        { path: '/', component: _welcome2.default },
-        _react2.default.createElement(_reactRouter.Route, { path: '/Home', component: _index6.Introduction }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/Login', component: _index.Login }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/Register', component: _index.Register }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/Profile', component: _index2.Profile }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/UserHome', component: _index5.default }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/ChangePassword', component: _index2.ChangePassword }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/ForgotPassword', component: _index.ForgotPassword }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/AccountSettings', component: _index2.AccountSettings }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/Notification', component: _index3.Notification }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/About', component: _aboutUs2.default }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/Contact', component: _contactUs2.default })
-    )
+  _reactRouter.Router,
+  { history: _reactRouter.browserHistory },
+  _react2.default.createElement(
+    _reactRouter.Route,
+    { path: '/', component: _welcome2.default },
+    _react2.default.createElement(_reactRouter.Route, { path: '/Home', component: _index6.Introduction }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/Login', component: _index.Login }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/Register', component: _index.Register }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/Profile', component: _index2.Profile }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/UserHome', component: _index5.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/ChangePassword', component: _index2.ChangePassword }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/ForgotPassword', component: _index.ForgotPassword }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/AccountSettings', component: _index2.AccountSettings }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/Notification', component: _index3.Notification }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/About', component: _aboutUs2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/Contact', component: _contactUs2.default })
+  )
 ), document.getElementById('container'));
 
 /***/ }),
@@ -59292,7 +59292,7 @@ exports.Notification = _notification2.default;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -59310,30 +59310,30 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Notification = function (_React$Component) {
-  _inherits(Notification, _React$Component);
+	_inherits(Notification, _React$Component);
 
-  function Notification() {
-    _classCallCheck(this, Notification);
+	function Notification() {
+		_classCallCheck(this, Notification);
 
-    return _possibleConstructorReturn(this, (Notification.__proto__ || Object.getPrototypeOf(Notification)).call(this));
-  }
+		return _possibleConstructorReturn(this, (Notification.__proto__ || Object.getPrototypeOf(Notification)).call(this));
+	}
 
-  _createClass(Notification, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'h1',
-          null,
-          'Notification'
-        )
-      );
-    }
-  }]);
+	_createClass(Notification, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'h1',
+					null,
+					'Notification'
+				)
+			);
+		}
+	}]);
 
-  return Notification;
+	return Notification;
 }(_react2.default.Component);
 
 exports.default = Notification;

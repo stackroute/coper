@@ -44,7 +44,7 @@ var styles={
     overflow: "hidden",
   },
   iconStyles : {
-  marginRight: 24,
+    marginRight: 24,
   },
   listItemStyle: {
     display:'inline-block',
@@ -108,7 +108,7 @@ class Navbar extends React.Component {
   		}
       this.fetchMenu();
 
-  	}
+    }
   }
   fetchNotification()
   {
@@ -158,12 +158,12 @@ class Navbar extends React.Component {
           .then(function (response){
             drawerMenu.push({text:'Chats',link:'/UserHome',subMenu: []});
             drawerMenu.push({text:'Account Settings',link:'',subMenu: [{text:'Profile',link:'/Profile',subMenu: []},
-            {text:'Change Password',link:'/ChangePassword',subMenu: []}]});
+              {text:'Change Password',link:'/ChangePassword',subMenu: []}]});
             drawerMenu.push({text:'Voice Settings',link:'',subMenu: [{text:'Us-English',link:'/Language',subMenu: []}
-            ]});
+              ]});
             drawerMenu.push({text:'Assistance Settings',link:'/About',subMenu: [
               {text:'Services',link:'',subMenu: response.data[0].menu}
-            ]});
+              ]});
             drawerMenu.push({text:'About Us',link:'/About',subMenu: []});
             drawerMenu.push({text:'Contact Us',link:'/Contact',subMenu: []});
             that.setState({drawerMenu});
@@ -176,105 +176,105 @@ class Navbar extends React.Component {
           this.setState({drawerMenu});
         }
       })
-    }
+}
 
 
 
-  }
-  createRightIcon(numberOfNotifications,image)
-  {
-    return(
-      <div>
-      <div className="header">
+}
+createRightIcon(numberOfNotifications,image)
+{
+  return(
+    <div>
+    <div className="header">
 
-          <Link to={`/Notification`} >
-          <IconButton style={styles.iconButtonStyle}>
-          <Badge badgeContent={numberOfNotifications}  >
-            <NotificationsIcon color={'white'}/>
-            </Badge>
-          </IconButton>
-          </Link>
+    <Link to={`/Notification`} >
+    <IconButton style={styles.iconButtonStyle}>
+    <Badge badgeContent={numberOfNotifications}  >
+    <NotificationsIcon color={'white'}/>
+    </Badge>
+    </IconButton>
+    </Link>
 
-      </div>
-      <div className="header">
-          <IconButton style={styles.iconButtonStyle} onTouchTap={this.handlePopover.bind(this)}>
-            <Avatar src={image} />
-          </IconButton>
-        <Popover style={styles.popoverStyle}
-          open={this.state.openPopover}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={{"horizontal":"right","vertical":"bottom"}}
-          targetOrigin={{"horizontal":"right","vertical":"top"}}
-          onRequestClose={this.handleRequestClose.bind(this)}
-        >
-          <Menu>
-            <MenuItem primaryText="Refresh" />
-            <MenuItem primaryText="Help &amp; feedback" />
-            <MenuItem primaryText="Settings" />
-            <MenuItem primaryText="Sign out" onTouchTap={this.props.handleLogoutUser.bind(this)}/>
-          </Menu>
-        </Popover>
-      </div>
-      </div>
+    </div>
+    <div className="header">
+    <IconButton style={styles.iconButtonStyle} onTouchTap={this.handlePopover.bind(this)}>
+    <Avatar src={image} />
+    </IconButton>
+    <Popover style={styles.popoverStyle}
+    open={this.state.openPopover}
+    anchorEl={this.state.anchorEl}
+    anchorOrigin={{"horizontal":"right","vertical":"bottom"}}
+    targetOrigin={{"horizontal":"right","vertical":"top"}}
+    onRequestClose={this.handleRequestClose.bind(this)}
+    >
+    <Menu>
+    <MenuItem primaryText="Refresh" />
+    <MenuItem primaryText="Help &amp; feedback" />
+    <MenuItem primaryText="Settings" />
+    <MenuItem primaryText="Sign out" onTouchTap={this.props.handleLogoutUser.bind(this)}/>
+    </Menu>
+    </Popover>
+    </div>
+    </div>
     );
-   }
-   toggleNav(){
-    this.setState({openDrawer:!this.state.openDrawer})
-  }
-   handleRequestClose(){
-   this.setState({
-     openPopover: false,
-   });
+}
+toggleNav(){
+  this.setState({openDrawer:!this.state.openDrawer})
+}
+handleRequestClose(){
+ this.setState({
+   openPopover: false,
+ });
+}
+handlePopover(event){
+  event.preventDefault();
+  this.setState({openPopover:!this.state.openPopover,anchorEl: event.currentTarget})
+}
+render() {
+  var rightIcon={};
+  if(this.state.loggedin === true)
+  {
+   rightIcon=this.createRightIcon(this.state.numberOfNotifications,this.state.userImage);
  }
-   handlePopover(event){
-    event.preventDefault();
-    this.setState({openPopover:!this.state.openPopover,anchorEl: event.currentTarget})
-  }
- render() {
- 	var rightIcon={};
- 	if(this.state.loggedin === true)
- 	{
- 		rightIcon=this.createRightIcon(this.state.numberOfNotifications,this.state.userImage);
- 	}
- 	else
- 	{
- 		rightIcon=(
-        <div>
-          <div className="header">
-          <Link to='/Login'>
-            <FlatButton label="LogIn" backgroundColor='#000'
-            labelStyle={styles.signInButtonLabelStyle}
-            style={styles.signInButtonStyle}
-            /></Link>
-          </div>
-          <div className="header">
+ else
+ {
+   rightIcon=(
+    <div>
+    <div className="header">
+    <Link to='/Login'>
+    <FlatButton label="LogIn" backgroundColor='#000'
+    labelStyle={styles.signInButtonLabelStyle}
+    style={styles.signInButtonStyle}
+    /></Link>
+    </div>
+    <div className="header">
 
-          <Link to='/Register'>  <RaisedButton label="Sign up free"
-            backgroundColor='#21254F' labelStyle={styles.signUpButtonLabelStyle}
-            style={styles.signUpButtonStyle}/></Link>
-          </div>
-        </div>
-      );
- 	}
-   return(
+    <Link to='/Register'>  <RaisedButton label="Sign up free"
+    backgroundColor='#21254F' labelStyle={styles.signUpButtonLabelStyle}
+    style={styles.signUpButtonStyle}/></Link>
+    </div>
+    </div>
+    );
+ }
+ return(
    <div>
-    <AppBar style={styles.appbarStyle}
-        title={<Link to={(this.state.loggedin === true)?'/UserHome':'/Home'} style={styles.linkStyle}><span style={styles.appbarTitleStyle} >Cognitive Assistant</span></Link>}
-            titleStyle={styles.appbarTitleStyle}
-        iconElementRight={rightIcon}
-        onLeftIconButtonTouchTap={this.toggleNav.bind(this)}
-        />
+   <AppBar style={styles.appbarStyle}
+   title={<Link to={(this.state.loggedin === true)?'/UserHome':'/Home'} style={styles.linkStyle}><span style={styles.appbarTitleStyle} >Cognitive Assistant</span></Link>}
+   titleStyle={styles.appbarTitleStyle}
+   iconElementRight={rightIcon}
+   onLeftIconButtonTouchTap={this.toggleNav.bind(this)}
+   />
 
-        <Drawer open={this.state.openDrawer} containerStyle={styles.drawerStyle}
-        docked={false} onRequestChange={(open) => this.setState({openDrawer:open})}>
-          <AppBar style={styles.drawerAppbarStyle} title={<span style={styles.drawerAppbarTitleStyle}>Lucy</span>}
-              titleStyle={styles.appbarTitleStyle} onLeftIconButtonTouchTap={this.toggleNav.bind(this)}/>
-          <List>
-            <CustomMenu menu={this.state.drawerMenu}/>
-          </List>
-        </Drawer>
-        </div>
+   <Drawer open={this.state.openDrawer} containerStyle={styles.drawerStyle}
+   docked={false} onRequestChange={(open) => this.setState({openDrawer:open})}>
+   <AppBar style={styles.drawerAppbarStyle} title={<span style={styles.drawerAppbarTitleStyle}>Lucy</span>}
+   titleStyle={styles.appbarTitleStyle} onLeftIconButtonTouchTap={this.toggleNav.bind(this)}/>
+   <List>
+   <CustomMenu menu={this.state.drawerMenu}/>
+   </List>
+   </Drawer>
+   </div>
    );
- }
+}
 }
 export default Navbar;

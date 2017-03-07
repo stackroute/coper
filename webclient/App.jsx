@@ -1,8 +1,8 @@
+/* eslint no-extra-parens: ["error", "all", { ignoreJSX: "all" }] */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-
 import AppHeader from './view/welcome.js';
 import {ForgotPassword, Login, Register} from './auth/index.js';
 import {ChangePassword, Profile, AccountSettings} from './userProfile/index.js';
@@ -13,20 +13,20 @@ import About from './view/aboutUs.js';
 import Contact from './view/contactUs.js';
 injectTapEventPlugin();
 
-    ReactDOM.render((
-        <Router history = {browserHistory}>
-            <Route path = "/" component = {AppHeader}>
-              <Route path = "/Home" component = {Introduction}/>
-              <Route path="/Login" component = {Login} />
-              <Route path="/Register" component = {Register} />
-              <Route path = "/Profile" component = {Profile}/>
-              <Route path = "/UserHome" component = {Conversation}/>
-              <Route path = "/ChangePassword" component = {ChangePassword}/>
-              <Route path = "/ForgotPassword" component = {ForgotPassword}/>
-              <Route path = "/AccountSettings" component = {AccountSettings}/>
-              <Route path = "/Notification" component = {Notification}/>
-              <Route path = "/About" component = {About}/>
-              <Route path = "/Contact" component = {Contact}/>
-            </Route>
-        </Router>
-      ), document.getElementById('container'))
+ReactDOM.render((
+  <Router history = {browserHistory}>
+  <Route path = "/" component = {AppHeader}>
+  <Route path = "/Home" component = {Introduction}/>
+  <Route path="/Login" component = {Login}/>
+  <Route path="/Register" component = {Register}/>
+  <Route path = "/Profile" component = {Profile}/>
+  <Route path = "/UserHome" component = {Conversation}/>
+  <Route path = "/ChangePassword" component = {ChangePassword}/>
+  <Route path = "/ForgotPassword" component = {ForgotPassword}/>
+  <Route path = "/AccountSettings" component = {AccountSettings}/>
+  <Route path = "/Notification" component = {Notification}/>
+  <Route path = "/About" component = {About}/>
+  <Route path = "/Contact" component = {Contact}/>
+  </Route>
+  </Router>
+  ), document.getElementById('container'));
