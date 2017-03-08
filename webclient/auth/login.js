@@ -120,10 +120,10 @@ class Login extends React.Component {
         height: 100,
       },
       buttonStyle:{
-      padding: '10px',
-      width: '200px',
-      backgroundColor:'#F57C00',
-      borderRadius: '4px',
+        padding: '10px',
+        width: '200px',
+        backgroundColor:'#F57C00',
+        borderRadius: '4px',
       },
       flatButtonStyle:{
         padding: '10px',
@@ -136,51 +136,51 @@ class Login extends React.Component {
     }
     return (
       <div className='row'>
-        <div className='col-md-2'>
-        </div>
-        <div className="col-sm-12 col-md-4" style={styles.divStyle1}>
-
-        <h2 style={styles.headerStyle}>Sign In</h2>
-        <img src="../images/User-info.png" style={styles.iconImageStyle}/>
-        <br/>
-
-        <TextField hintText="Sourav" name="username" type="text" value={this.state.username} onChange={this.handleInputChange}
-        onFocus={this.handleFocus.bind(this)} fullWidth={true}
-        errorText={this.state.errorusername}
-         floatingLabelText="Username"
-         onKeyPress={this.handleKeyPress.bind(this)}
-         /><br/>
-
-        <TextField hintText="asdwz6a56agywe2#"
-         type="password"
-         name="password"
-         value={this.state.password} fullWidth={true}
-         onChange={this.handleInputChange}
-         onFocus={this.handleFocus.bind(this)}
-         errorText={this.state.errorpassword}
-         floatingLabelText="Password"
-         onKeyPress={this.handleKeyPress.bind(this)}
-        /><br/><br/><br/>
-        <RaisedButton label="LogIn" onClick={this.handleSubmit} backgroundColor='#F57C00' fullWidth={true}
-        labelStyle={styles.buttonLabelStyle} style={styles.buttonStyle}/><br/>
-
-        <br/>
-        <br/>
-
-          <Link to='/Register'><FlatButton style={styles.flatButtonStyle} primary={true}><span>Create Account</span></FlatButton></Link>
-
-        </div>
-        <div className="col-sm-12 col-md-6" style={styles.divStyle2}>
-          <br/>
-          <br/>
-          <RaisedButton label="LogIn with Facebook" onClick={this.handleSubmit}  className="logInButtonStyle"/><br/>
-          <RaisedButton label="LogIn with Gmail" onClick={this.handleSubmit}  className="logInButtonStyle"/><br/>
-          <RaisedButton icon={<FontIcon className="muidocs-icon-custom-github" />}
-          label="LogIn with Github"  onClick={this.handleSubmit} className="logInButtonStyle"/><br/>
-          <RaisedButton label="LogIn with Linked In" onClick={this.handleSubmit} className="logInButtonStyle"/><br/>
-        </div>
+      <div className='col-md-2'>
       </div>
-    );
-  }
+      <div className="col-sm-12 col-md-4" style={styles.divStyle1}>
+
+      <h2 style={styles.headerStyle}>Sign In</h2>
+      <img src="../images/User-info.png" style={styles.iconImageStyle}/>
+      <br/>
+
+      <TextField hintText="User Name" name="username" type="text" value={this.state.username} onChange={this.handleInputChange}
+      onFocus={this.handleFocus.bind(this)} fullWidth={true}
+      errorText={this.state.errorusername}
+      floatingLabelText="Username"
+      onKeyPress={this.handleKeyPress.bind(this)}
+      /><br/>
+
+      <TextField hintText="Password"
+      type="password"
+      name="password"
+      value={this.state.password} fullWidth={true}
+      onChange={this.handleInputChange}
+      onFocus={this.handleFocus.bind(this)}
+      errorText={this.state.errorpassword}
+      floatingLabelText="Password"
+      onKeyPress={this.handleKeyPress.bind(this)}
+      /><br/><br/><br/>
+      <RaisedButton label="LogIn" onClick={this.handleSubmit} backgroundColor='#F57C00' fullWidth={true}
+      labelStyle={styles.buttonLabelStyle} style={styles.buttonStyle}/><br/>
+
+      <br/>
+      <br/>
+
+      <Link to='/Register'><FlatButton style={styles.flatButtonStyle} primary={true}><span>Create Account</span></FlatButton></Link>
+
+      </div>
+      <div className="col-sm-12 col-md-6" style={styles.divStyle2}>
+      <br/>
+      <br/>
+      <RaisedButton label="LogIn with Facebook" onClick={this.handleSubmit}  className="logInButtonStyle"/><br/>
+      <RaisedButton label="LogIn with Gmail" onClick={this.handleSubmit}  className="logInButtonStyle"/><br/>
+      <RaisedButton icon={<FontIcon className="muidocs-icon-custom-github" />}
+      label="LogIn with Github"  onClick={this.handleSubmit} className="logInButtonStyle"/><br/>
+      <RaisedButton label="LogIn with Linked In" onClick={this.handleSubmit} className="logInButtonStyle"/><br/>
+      </div>
+      </div>
+      );
+}
 }
 export default Login;

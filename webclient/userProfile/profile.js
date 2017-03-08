@@ -6,20 +6,20 @@ class Profile extends React.Component {
     super();
 
   }
- render() {
+  render() {
    const style={
      textAlign: 'center',
    };
 
    return(
     <div>
-      <br/>
-      <br/>
-      <br/>
-      <h1 style = {style}>Hey handsome :)</h1>
-    </div>
+    <br/>
+    <br/>
+    <br/>
+    <h1 style = {style}>Hey handsome :)</h1>
+   </div>
    );
 
- }
+}
 }
 export default Profile;

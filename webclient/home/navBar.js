@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link,browserHistory  } from 'react-router';
-
 import axios from 'axios';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -14,9 +13,9 @@ import Drawer from 'material-ui/Drawer';
 import List from 'material-ui/List';
 import {Menu,MenuItem} from 'material-ui/Menu';
 
-import CustomMenu from './menu.js';
+import CustomMenu from './menu';
 
-var styles={
+let styles={
   signInButtonStyle:{
     margin:'10px',
     border: '0px solid black',
@@ -40,11 +39,11 @@ var styles={
   },
   drawerStyle:{
     backgroundColor:'#fff',
-    borderRight: "5px solid #555",
-    overflow: "hidden",
+    borderRight: '5px solid #555',
+    overflow: 'hidden',
   },
   iconStyles : {
-  marginRight: 24,
+    marginRight: 24,
   },
   listItemStyle: {
     display:'inline-block',
@@ -56,7 +55,7 @@ var styles={
     borderRadius: '4px',
   },
   drawerAppbarTitleStyle:{
-    marginTop: "0px",
+    marginTop: '0px',
     color: '#FFF',
   },
   drawerAppbarStyle:{
@@ -84,6 +83,7 @@ class Navbar extends React.Component {
     	loggedin: false,
     	openPopover: false,
     	numberOfNotifications: 0,
+      drawerMenu: []
     }
   }
   componentWillMount()
@@ -108,24 +108,24 @@ class Navbar extends React.Component {
   		}
       this.fetchMenu();
 
-  	}
+    }
   }
   fetchNotification()
   {
-    var numberOfNotifications=0;
-    var that=this;
-    var userDetails=JSON.parse(localStorage.getItem('cognitiveUser'));
-    axios.get('http://localhost:8080/notifications/'+userDetails.user.username)
+    let numberOfNotifications=0;
+    let that=this;
+    let userDetails=JSON.parse(localStorage.getItem('cognitiveUser'));
+    axios.get('/notifications/'+userDetails.user.username)
     .then(function (response){
       numberOfNotifications=response.data.notifications.length;
       that.setState({numberOfNotifications});
     })
   }
   fetchProfilePic(){
-    var that=this;
-    var userImage="";
-    var userDetails=JSON.parse(localStorage.getItem('cognitiveUser'));
-    axios.get('http://localhost:8080/Profiles?'+userDetails.user.username)
+    let that=this;
+    let userImage='';
+    let userDetails=JSON.parse(localStorage.getItem('cognitiveUser'));
+    axios.get('/Profiles?'+userDetails.user.username)
     .then(function (response){
       userImage=response.data[0].image;
       that.setState({userImage});
@@ -133,9 +133,9 @@ class Navbar extends React.Component {
   }
 
   fetchMenu(){
-    var drawerMenu=[];
-    var that=this;
-    var userDetails=JSON.parse(localStorage.getItem('cognitiveUserToken')) || null;
+    let drawerMenu=[];
+    let that=this;
+    let userDetails=JSON.parse(localStorage.getItem('cognitiveUserToken')) || null;
     if(userDetails === null)
     {
       drawerMenu.push({text:'Home',link:'/Home',subMenu: [],icon: 'home'});
@@ -147,23 +147,23 @@ class Navbar extends React.Component {
     else{
       axios({
         method: 'post',
-        url: 'http://localhost:8080/auth/',
+        url: '/auth',
         data: {
           token: userDetails
         }
       }).then(function(response){
         if(response.status === 200)
         {
-          axios.get('http://localhost:8080/menus?username='+response.data.user.username)
+          axios.get('/menus?username='+response.data.user.username)
           .then(function (response){
             drawerMenu.push({text:'Chats',link:'/UserHome',subMenu: []});
             drawerMenu.push({text:'Account Settings',link:'',subMenu: [{text:'Profile',link:'/Profile',subMenu: []},
-            {text:'Change Password',link:'/ChangePassword',subMenu: []}]});
+              {text:'Change Password',link:'/ChangePassword',subMenu: []}]});
             drawerMenu.push({text:'Voice Settings',link:'',subMenu: [{text:'Us-English',link:'/Language',subMenu: []}
-            ]});
+              ]});
             drawerMenu.push({text:'Assistance Settings',link:'/About',subMenu: [
               {text:'Services',link:'',subMenu: response.data[0].menu}
-            ]});
+              ]});
             drawerMenu.push({text:'About Us',link:'/About',subMenu: []});
             drawerMenu.push({text:'Contact Us',link:'/Contact',subMenu: []});
             that.setState({drawerMenu});
@@ -176,105 +176,106 @@ class Navbar extends React.Component {
           this.setState({drawerMenu});
         }
       })
-    }
+}
 
 
 
-  }
-  createRightIcon(numberOfNotifications,image)
-  {
-    return(
-      <div>
-      <div className="header">
+}
+createRightIcon(numberOfNotifications,image)
+{
+  return(
+    <div>
+    <div className='header'>
 
-          <Link to={`/Notification`} >
-          <IconButton style={styles.iconButtonStyle}>
-          <Badge badgeContent={numberOfNotifications}  >
-            <NotificationsIcon color={'white'}/>
-            </Badge>
-          </IconButton>
-          </Link>
+    <Link to={`/Notification`} >
+    <IconButton style={styles.iconButtonStyle}>
+    <Badge badgeContent={numberOfNotifications}  >
+    <NotificationsIcon color={'white'}/>
+    </Badge>
+    </IconButton>
+    </Link>
 
-      </div>
-      <div className="header">
-          <IconButton style={styles.iconButtonStyle} onTouchTap={this.handlePopover.bind(this)}>
-            <Avatar src={image} />
-          </IconButton>
-        <Popover style={styles.popoverStyle}
-          open={this.state.openPopover}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={{"horizontal":"right","vertical":"bottom"}}
-          targetOrigin={{"horizontal":"right","vertical":"top"}}
-          onRequestClose={this.handleRequestClose.bind(this)}
-        >
-          <Menu>
-            <MenuItem primaryText="Refresh" />
-            <MenuItem primaryText="Help &amp; feedback" />
-            <MenuItem primaryText="Settings" />
-            <MenuItem primaryText="Sign out" onTouchTap={this.props.handleLogoutUser.bind(this)}/>
-          </Menu>
-        </Popover>
-      </div>
-      </div>
+    </div>
+    <div className='header'>
+    <IconButton style={styles.iconButtonStyle} onTouchTap={this.handlePopover.bind(this)}>
+    <Avatar src={image} />
+    </IconButton>
+    <Popover style={styles.popoverStyle}
+    open={this.state.openPopover}
+    anchorEl={this.state.anchorEl}
+    anchorOrigin={{'horizontal':'right','vertical':'bottom'}}
+    targetOrigin={{'horizontal':'right','vertical':'top'}}
+    onRequestClose={this.handleRequestClose.bind(this)}
+    >
+    <Menu>
+    <MenuItem primaryText='Refresh' />
+    <MenuItem primaryText='Help &amp; feedback' />
+    <MenuItem primaryText='Settings' />
+    <MenuItem primaryText='Sign out' onTouchTap={this.props.handleLogoutUser.bind(this)}/>
+    </Menu>
+    </Popover>
+    </div>
+    </div>
     );
-   }
-   toggleNav(){
-    this.setState({openDrawer:!this.state.openDrawer})
-  }
-   handleRequestClose(){
-   this.setState({
-     openPopover: false,
-   });
+}
+toggleNav(){
+  this.setState({openDrawer:!this.state.openDrawer})
+}
+handleRequestClose(){
+ this.setState({
+   openPopover: false,
+ });
+}
+handlePopover(event){
+  event.preventDefault();
+  this.setState({openPopover:!this.state.openPopover,anchorEl: event.currentTarget})
+}
+render() {
+  let rightIcon={};
+  if(this.state.loggedin === true)
+  {
+   rightIcon=this.createRightIcon(this.state.numberOfNotifications,this.state.userImage);
  }
-   handlePopover(event){
-    event.preventDefault();
-    this.setState({openPopover:!this.state.openPopover,anchorEl: event.currentTarget})
-  }
- render() {
- 	var rightIcon={};
- 	if(this.state.loggedin === true)
- 	{
- 		rightIcon=this.createRightIcon(this.state.numberOfNotifications,this.state.userImage);
- 	}
- 	else
- 	{
- 		rightIcon=(
-        <div>
-          <div className="header">
-          <Link to='/Login'>
-            <FlatButton label="LogIn" backgroundColor='#000'
-            labelStyle={styles.signInButtonLabelStyle}
-            style={styles.signInButtonStyle}
-            /></Link>
-          </div>
-          <div className="header">
+ else
+ {
+   rightIcon=(
+    <div>
+    <div className='header'>
+    <Link to='/Login'>
+    <FlatButton label='LogIn' backgroundColor='#000'
+    labelStyle={styles.signInButtonLabelStyle}
+    style={styles.signInButtonStyle}
+    /></Link>
+    </div>
+    <div className='header'>
 
-          <Link to='/Register'>  <RaisedButton label="Sign up free"
-            backgroundColor='#21254F' labelStyle={styles.signUpButtonLabelStyle}
-            style={styles.signUpButtonStyle}/></Link>
-          </div>
-        </div>
-      );
- 	}
-   return(
+    <Link to='/Register'>
+    <RaisedButton label='Sign up free'
+    backgroundColor='#21254F' labelStyle={styles.signUpButtonLabelStyle}
+    style={styles.signUpButtonStyle}/></Link>
+    </div>
+    </div>
+    );
+ }
+ return(
    <div>
-    <AppBar style={styles.appbarStyle}
-        title={<Link to={(this.state.loggedin === true)?'/UserHome':'/Home'} style={styles.linkStyle}><span style={styles.appbarTitleStyle} >Cognitive Assistant</span></Link>}
-            titleStyle={styles.appbarTitleStyle}
-        iconElementRight={rightIcon}
-        onLeftIconButtonTouchTap={this.toggleNav.bind(this)}
-        />
+   <AppBar style={styles.appbarStyle}
+   title={<Link to={(this.state.loggedin === true)?'/UserHome':'/Home'} style={styles.linkStyle}><span style={styles.appbarTitleStyle} >Cognitive Assistant</span></Link>}
+   titleStyle={styles.appbarTitleStyle}
+   iconElementRight={rightIcon}
+   onLeftIconButtonTouchTap={this.toggleNav.bind(this)}
+   />
 
-        <Drawer open={this.state.openDrawer} containerStyle={styles.drawerStyle}
-        docked={false} onRequestChange={(open) => this.setState({openDrawer:open})}>
-          <AppBar style={styles.drawerAppbarStyle} title={<span style={styles.drawerAppbarTitleStyle}>Lucy</span>}
-              titleStyle={styles.appbarTitleStyle} onLeftIconButtonTouchTap={this.toggleNav.bind(this)}/>
-          <List>
-            <CustomMenu menu={this.state.drawerMenu}/>
-          </List>
-        </Drawer>
-        </div>
+   <Drawer open={this.state.openDrawer} containerStyle={styles.drawerStyle}
+   docked={false} onRequestChange={(open) => this.setState({openDrawer:open})}>
+   <AppBar style={styles.drawerAppbarStyle} title={<span style={styles.drawerAppbarTitleStyle}>Lucy</span>}
+   titleStyle={styles.appbarTitleStyle} onLeftIconButtonTouchTap={this.toggleNav.bind(this)}/>
+   <List>
+   <CustomMenu menu={this.state.drawerMenu}/>
+   </List>
+   </Drawer>
+   </div>
    );
- }
+}
 }
 export default Navbar;

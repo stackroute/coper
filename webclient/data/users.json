@@ -86,17 +86,41 @@
       "id": 19
     },
     {
+
       "id": 20
     },
     {
       "username": "lala12",
+
+      "username": "prem123",
       "password": "123",
-      "id": 21
+      "id": 20
     },
     {
-      "username": "test",
-      "password": "test123",
-      "id": 22
+      "username": "sakshi",
+      "password": "1234",
+      "id": 23
+    },
+    {
+      "username": "mandeep",
+      "password": "12345",
+      "id": 24
+    },
+    {
+      "username": "mnbv",
+      "password": "098",
+      "id": 25
+    },
+    {
+      "username": "inder",
+      "password": "12345",
+      "id": 26
+    },
+    {
+      "username": "shaan",
+      "password": "shaan",
+      "id": 27
+
     }
   ],
   "profiles": [
@@ -207,6 +231,7 @@
       "id": 18
     },
     {
+
       "name": "lala",
       "dateOfBirth": "2017-03-05T18:30:00.000Z",
       "email": "lala@yahoo.com",
@@ -219,6 +244,62 @@
       "email": "junk@junk.com",
       "username": "test",
       "id": 20
+        },
+      {
+       "name": "Prem",
+      "dateOfBirth": "2017-03-07T18:30:00.000Z",
+      "email": "prem@gmail.com",
+      "username": "prem123",
+      "id": 19
+    },
+    {
+      "name": "asdasd",
+      "dateOfBirth": "2017-03-06T18:30:00.000Z",
+      "email": "dssfs@sdds.com",
+      "username": "azaz",
+      "id": 20
+    },
+    {
+      "name": "Mandeep",
+      "dateOfBirth": "1993-03-17T18:30:00.000Z",
+      "email": "shaan9888@gmail.com",
+      "username": "mandeep9888",
+      "id": 21
+    },
+    {
+      "name": "sakshi mehta",
+      "dateOfBirth": "2015-07-13T18:30:00.000Z",
+      "email": "sakshi.mehta2@gmail.com",
+      "username": "sakshi",
+      "id": 22
+    },
+    {
+      "name": "sfsf",
+      "dateOfBirth": "2017-03-14T18:30:00.000Z",
+      "email": "dusfoius@fdjsflj.com",
+      "username": "mandeep",
+      "id": 23
+    },
+    {
+      "name": "doiadijd",
+      "dateOfBirth": "2017-03-06T18:30:00.000Z",
+      "email": "dkkadjla@dsjlkds.com",
+      "username": "mnbv",
+      "id": 24
+    },
+    {
+      "name": "inder",
+      "dateOfBirth": "2016-12-07T18:30:00.000Z",
+      "email": "inderpreer@ghjj.com",
+      "username": "inder",
+      "id": 25
+    },
+    {
+      "name": "mandep",
+      "dateOfBirth": "2017-03-08T18:30:00.000Z",
+      "email": "asdj@adj.com",
+      "username": "shaan",
+      "id": 26
     }
   ],
   "menus": [
@@ -255,14 +336,51 @@
       "id": 5
     },
     {
+
       "username": "lala12",
-      "menu": [],
+
+      "username": "prem123",
       "id": 6
     },
     {
       "username": "test",
       "menu": [],
       "id": 7
+     },
+      {
+      "username": "azaz",
+      "menu": [],
+      "id": 7
+    },
+    {
+      "username": "mandeep9888",
+      "menu": [],
+      "id": 8
+    },
+    {
+      "username": "sakshi",
+      "menu": [],
+      "id": 9
+    },
+    {
+      "username": "mandeep",
+      "menu": [],
+      "id": 10
+    },
+    {
+      "username": "mnbv",
+      "menu": [],
+      "id": 11
+    },
+    {
+      "username": "inder",
+      "menu": [],
+      "id": 12
+    },
+    {
+      "username": "shaan",
+      "menu": [],
+      "id": 13
     }
   ],
   "notifications": [
@@ -297,11 +415,41 @@
       "notifications": []
     },
     {
+
       "id": "lala12",
       "notifications": []
     },
     {
       "id": "test",
+
+      "notifications": []
+    },
+    {
+      "id": "azaz",
+      "notifications": []
+    },
+    {
+      "id": "mandeep9888",
+      "notifications": []
+    },
+    {
+      "id": "sakshi",
+      "notifications": []
+    },
+    {
+      "id": "mandeep",
+      "notifications": []
+    },
+    {
+      "id": "mnbv",
+      "notifications": []
+    },
+    {
+      "id": "inder",
+      "notifications": []
+    },
+    {
+      "id": "shaan",
       "notifications": []
     }
   ]

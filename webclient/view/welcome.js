@@ -148,7 +148,7 @@ class AppHeader extends React.Component {
       if(response.status === 200)
       {
         console.log(response);
-        that.setState({loggedin: true,message: "Successfully signed in!",openSnackbar: true});
+       that.setState({loggedin: true,message: "Successfully signed in!",openSnackbar: true});
         setTimeout(() => {
             that.setState({
             openSnackbar: false
@@ -169,7 +169,6 @@ class AppHeader extends React.Component {
     })
   }
   handleRegister(userDetails)
-  
   {
      console.log('enter');
     var that=this;
@@ -179,7 +178,7 @@ class AppHeader extends React.Component {
       email: userDetails.email,
       username: userDetails.username
     }
-    axios.post('http://localhost:8080/profiles', profile)
+    axios.post('/profiles', profile)
     .then(function (response) {
       browserHistory.push('/Login')
     })
@@ -187,7 +186,7 @@ class AppHeader extends React.Component {
       username: userDetails.username,
       password: userDetails.password,
     }
-    axios.post('http://localhost:8080/credentials', credentials)
+    axios.post('/credentials', credentials)
     .then(function (response) {
 
       that.setState({open:true,message:"Successfully signed up!",openLogin:true});
@@ -198,13 +197,12 @@ class AppHeader extends React.Component {
       }, 2000);
 
     })
-    axios.post('http://localhost:8080/menus', {username: credentials.username,menu: []})
+    axios.post('/menus', {username: credentials.username,menu: []})
     .then(function (response) {
     })
-    axios.post('http://localhost:8080/notifications', {id:credentials.username,notifications:[]})
+    axios.post('/notifications', {id:credentials.username,notifications:[]})
     .then(function (response) {
-
-    })
+  })
   }
   handleLogoutUser(){
      localStorage.setItem('cognitiveUser', JSON.stringify({user: {},loggedin: false}));
@@ -223,12 +221,10 @@ class AppHeader extends React.Component {
     {
       openLogin = 'Register';
     }
-    else if(openLogin === 'Register')
-    {
+    else if(openLogin === 'Register'   {
       openLogin = 'Login';
     }
-    this.setState({openLogin});
-  }
+    this. at
   showLogin()
   {
     this.setState({openLogin:'Login'});
