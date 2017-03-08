@@ -131,7 +131,7 @@ class Introduction extends React.Component
       <span>Use the Lucy Voice Service (LVS) to add intelligent voice control to any connected product that has a microphone and speaker. Your customers will be able to ask Lucy to play music, answer questions, get news and local information, control smart home products, and more on their voice-enabled products. <br/><a href="#">Get started with LVS »</a></span>
       </div>
       <div className="col-sm-12 col-md-4">
-      <img src="../images/1.png" alt="Voice-Enable Your Product with Lucy" className="img-responsive"/>
+      <img src="../images/main.png" alt="Voice-Enable Your Product with Lucy" className="img-responsive"/>
       </div>
       </div>
       <div className="row" style={styles.styleRowGrey}>
@@ -142,18 +142,18 @@ class Introduction extends React.Component
       </div>
       <div className="row" style={styles.styleRowGrey}>
       <div className="col-sm-12 col-md-4">
-      <img src="../images/2.png" alt="Natural Voice Control" className="img-responsive"/>
+      <img src="../images/mic.png" alt="Natural Voice Control" className="img-responsive"/>
       <h3>Natural Voice Control</h3>
       <span>Lucy has finely tuned automatic speech recognition (ASR) and natural language understanding (NLU) engines that recognize and respond to voice requests instantly.
       <br/><a href="#">See more LVS features »</a></span>
       </div>
       <div className="col-sm-12 col-md-4">
-      <img src="../images/3.png" alt="" className="img-responsive"/>
+      <img src="../images/graph.png" alt="" className="img-responsive"/>
       <h3>Always Getting Smarter</h3>
       <span>Lucy is always getting smarter with new capabilities and services through machine learning, regular API updates, feature launches, and custom skills from the Lucy Skills Kit (LSK).</span>
       </div>
       <div className="col-sm-12 col-md-4">
-      <img src="../images/4.png" alt="" className="img-responsive"/>
+      <img src="../images/form.png" alt="" className="img-responsive"/>
       <h3>Free, Easy Integration</h3>
       <span>The LVS API is a programming language agnostic service that makes it easy to integrate Lucy into your devices, services, and applications. Best of all, it’s free.
       <br/><a href="#">Get started »</a></span>
@@ -161,7 +161,7 @@ class Introduction extends React.Component
       </div>
       <div className="row" style={styles.styleRow}>
       <div className="col-sm-12 col-md-4">
-      <img src="../images/5.png" alt="" className="img-responsive"/>
+      <img src="../images/globe.png" alt="" className="img-responsive"/>
       </div>
       <div className="col-sm-12 col-md-8">
       <h2>LVS Now Available for India</h2>
@@ -172,7 +172,7 @@ class Introduction extends React.Component
       <div className="row" style={styles.styleRowGrey}>
       <div className="col-md-2"></div>
       <div className="col-sm-12 col-md-8" style={styles.styleRowGreyCenter2}>
-      <img src="../images/6.png" alt="Design Voice Experiences" className="img-responsive"/>
+      <img src="../images/features.png" alt="Design Voice Experiences" className="img-responsive"/>
       <br/>
       <h1>Design Voice Experiences</h1>
       <span>Whether you’re building a hand-held device like a TV remote or developing a hands-free experience for a connected speaker, LVS provides flexibility to design the best voice experience for your product.
@@ -187,12 +187,12 @@ class Introduction extends React.Component
       <br/><a href="#">See documentation »</a></span>
       </div>
       <div className="col-sm-12 col-md-5">
-      <img src="../images/7.png" alt="" className="img-responsive"/>
+      <img src="../images/main_2.png" alt="" className="img-responsive"/>
       </div>
       </div>
       <div className="row" style={styles.styleRowGrey}>
       <div className="col-sm-12 col-md-5">
-      <img src="../images/8.png" alt="" className="img-responsive"/>
+      <img src="../images/devices.png" alt="" className="img-responsive"/>
       </div>
       <div className="col-sm-12 col-md-7">
       <h1>Launch New Products with Lucy</h1>
@@ -203,7 +203,7 @@ class Introduction extends React.Component
       <div className="col-md-2">
       </div>
       <div className="col-sm-6 col-md-2">
-      <img src="../images/9.png" alt=""/>
+      <img src="../images/book.png" alt=""/>
       <h4>Learn</h4>
       <span>
       <a href="#">Lucy Features</a><br/>
@@ -213,7 +213,7 @@ class Introduction extends React.Component
       </span>
       </div>
       <div className="col-sm-6 col-md-2">
-      <img src="../images/10.png" alt=""/>
+      <img src="../images/design.png" alt=""/>
       <h4>Design</h4>
       <span>
       <a href="#">Designing for LVS</a><br/>
@@ -222,7 +222,7 @@ class Introduction extends React.Component
       </span>
       </div>
       <div className="col-sm-6 col-md-2">
-      <img src="../images/11.png" alt=""/>
+      <img src="../images/tools.png" alt=""/>
       <h4>Build</h4>
       <span>
       <a href="#">Start Building</a><br/>
@@ -231,7 +231,7 @@ class Introduction extends React.Component
       </span>
       </div>
       <div className="col-sm-6 col-md-2">
-      <img src="../images/12.png" alt=""/>
+      <img src="../images/launch.png" alt=""/>
       <h4>Launch</h4>
       <span>
       <a href="#">Marketing Brand Guidelines</a><br/>
