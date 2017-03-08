@@ -23,7 +23,7 @@ gulp.task('webpack', ['clean'], function() {
 
 gulp.task('usemin', ['clean'], function() {
   return gulp
-  .src([__dirname,'webclient/*.html','webclient/client/**/**/*.js'])
+  .src([__dirname,'webclient/*.html','webclient/*.js'])
     .pipe(usemin({
       html: [minifyHtml({
         empty: true
@@ -32,7 +32,7 @@ gulp.task('usemin', ['clean'], function() {
       inlinejs: [uglify()],
       css: [rev()],
       inlinecss: [minifyCss()]
-    })).pipe(gulp.dest('dist/webclient/**/'));
+    })).pipe(gulp.dest('dist/webclient/'));
 });
 
 gulp.task('copy:package.json', ['clean'], function() {
@@ -61,7 +61,7 @@ gulp.task('eslint', function() {
   return gulp.src([
       '!gulpfile.js', 'webpack.config.js', '.eslintrc.js',
       'server/**/*',
-      'webclient/**/*.jsx', '!dist/**/*'
+      'webclient/*.jsx', '!dist/**/*'
     ])
     .pipe(eslint())
     .pipe(eslint.format())

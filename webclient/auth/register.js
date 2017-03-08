@@ -108,7 +108,7 @@ class Register extends React.Component {
     if(x === "")
     {
       var that=this;
-      axios.get('http://localhost:3000/credentials?username='+that.state.username)
+      axios.get('http://localhost:8080/credentials?username='+that.state.username)
       .then(function (response) {
         if(response.data.length === 0)
         {

@@ -84,6 +84,19 @@
       "username": "qwerty",
       "password": "123",
       "id": 19
+    },
+    {
+      "id": 20
+    },
+    {
+      "username": "lala12",
+      "password": "123",
+      "id": 21
+    },
+    {
+      "username": "test",
+      "password": "test123",
+      "id": 22
     }
   ],
   "profiles": [
@@ -192,6 +205,20 @@
       "email": "sdsa",
       "username": "qwerty",
       "id": 18
+    },
+    {
+      "name": "lala",
+      "dateOfBirth": "2017-03-05T18:30:00.000Z",
+      "email": "lala@yahoo.com",
+      "username": "lala12",
+      "id": 19
+    },
+    {
+      "name": "test",
+      "dateOfBirth": "2020-02-29T18:30:00.000Z",
+      "email": "junk@junk.com",
+      "username": "test",
+      "id": 20
     }
   ],
   "menus": [
@@ -226,6 +253,16 @@
       "username": "qwerty",
       "menu": [],
       "id": 5
+    },
+    {
+      "username": "lala12",
+      "menu": [],
+      "id": 6
+    },
+    {
+      "username": "test",
+      "menu": [],
+      "id": 7
     }
   ],
   "notifications": [
@@ -257,6 +294,14 @@
     },
     {
       "id": "qwerty",
+      "notifications": []
+    },
+    {
+      "id": "lala12",
+      "notifications": []
+    },
+    {
+      "id": "test",
       "notifications": []
     }
   ]

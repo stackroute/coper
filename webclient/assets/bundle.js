@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "c08595bc07a07ee6b01f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "35cbe5e6c6c2ff79968f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -15672,7 +15672,7 @@ var _List = __webpack_require__(122);
 
 var _List2 = _interopRequireDefault(_List);
 
-var _menuUtils = __webpack_require__(397);
+var _menuUtils = __webpack_require__(395);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -16287,7 +16287,7 @@ var _Menu2 = __webpack_require__(189);
 
 var _Menu3 = _interopRequireDefault(_Menu2);
 
-var _MenuItem2 = __webpack_require__(396);
+var _MenuItem2 = __webpack_require__(397);
 
 var _MenuItem3 = _interopRequireDefault(_MenuItem2);
 
@@ -37306,6 +37306,53 @@ exports.default = makeSelectable;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.HotKeyHolder = undefined;
+
+var _classCallCheck2 = __webpack_require__(2);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(3);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var HotKeyHolder = exports.HotKeyHolder = function () {
+  function HotKeyHolder() {
+    var _this = this;
+
+    (0, _classCallCheck3.default)(this, HotKeyHolder);
+
+    this.clear = function () {
+      _this.timerId = null;
+      _this.lastKeys = null;
+    };
+  }
+
+  (0, _createClass3.default)(HotKeyHolder, [{
+    key: 'append',
+    value: function append(key) {
+      clearTimeout(this.timerId);
+      this.timerId = setTimeout(this.clear, 500);
+      return this.lastKeys = (this.lastKeys || '') + key;
+    }
+  }]);
+  return HotKeyHolder;
+}();
+
+/***/ }),
+/* 396 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 Object.defineProperty(exports, "__esModule", {
@@ -37669,7 +37716,7 @@ exports.default = MenuItem;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 396 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37680,7 +37727,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _MenuItem = __webpack_require__(395);
+var _MenuItem = __webpack_require__(396);
 
 var _MenuItem2 = _interopRequireDefault(_MenuItem);
 
@@ -37689,53 +37736,6 @@ function _interopRequireDefault(obj) {
 }
 
 exports.default = _MenuItem2.default;
-
-/***/ }),
-/* 397 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.HotKeyHolder = undefined;
-
-var _classCallCheck2 = __webpack_require__(2);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(3);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-var HotKeyHolder = exports.HotKeyHolder = function () {
-  function HotKeyHolder() {
-    var _this = this;
-
-    (0, _classCallCheck3.default)(this, HotKeyHolder);
-
-    this.clear = function () {
-      _this.timerId = null;
-      _this.lastKeys = null;
-    };
-  }
-
-  (0, _createClass3.default)(HotKeyHolder, [{
-    key: 'append',
-    value: function append(key) {
-      clearTimeout(this.timerId);
-      this.timerId = setTimeout(this.clear, 500);
-      return this.lastKeys = (this.lastKeys || '') + key;
-    }
-  }]);
-  return HotKeyHolder;
-}();
 
 /***/ }),
 /* 398 */
@@ -58087,7 +58087,7 @@ var Register = function (_React$Component) {
       var x = errorname + errordateOfBirth + erroremail + errorusername + errorpassword + errorrepassword;
       if (x === "") {
         var that = this;
-        _axios2.default.get('http://localhost:3000/credentials?username=' + that.state.username).then(function (response) {
+        _axios2.default.get('http://localhost:8080/credentials?username=' + that.state.username).then(function (response) {
           if (response.data.length === 0) {
             that.props.handleRegister(that.state);
           } else {
@@ -59058,7 +59058,7 @@ var Navbar = function (_React$Component) {
       var numberOfNotifications = 0;
       var that = this;
       var userDetails = JSON.parse(localStorage.getItem('cognitiveUser'));
-      _axios2.default.get('http://localhost:3000/notifications/' + userDetails.user.username).then(function (response) {
+      _axios2.default.get('http://localhost:8080/notifications/' + userDetails.user.username).then(function (response) {
         numberOfNotifications = response.data.notifications.length;
         that.setState({ numberOfNotifications: numberOfNotifications });
       });
@@ -59069,7 +59069,7 @@ var Navbar = function (_React$Component) {
       var that = this;
       var userImage = "";
       var userDetails = JSON.parse(localStorage.getItem('cognitiveUser'));
-      _axios2.default.get('http://localhost:3000/Profiles?' + userDetails.user.username).then(function (response) {
+      _axios2.default.get('http://localhost:8080/Profiles?' + userDetails.user.username).then(function (response) {
         userImage = response.data[0].image;
         that.setState({ userImage: userImage });
       });
@@ -59094,7 +59094,7 @@ var Navbar = function (_React$Component) {
           }
         }).then(function (response) {
           if (response.status === 200) {
-            _axios2.default.get('http://localhost:3000/menus?username=' + response.data.user.username).then(function (response) {
+            _axios2.default.get('http://localhost:8080/menus?username=' + response.data.user.username).then(function (response) {
               drawerMenu.push({ text: 'Chats', link: '/UserHome', subMenu: [] });
               drawerMenu.push({ text: 'Account Settings', link: '', subMenu: [{ text: 'Profile', link: '/Profile', subMenu: [] }, { text: 'Change Password', link: '/ChangePassword', subMenu: [] }] });
               drawerMenu.push({ text: 'Voice Settings', link: '', subMenu: [{ text: 'Us-English', link: '/Language', subMenu: [] }] });
@@ -59806,7 +59806,7 @@ var AppHeader = function (_React$Component) {
       var that = this;
       var userDetails = JSON.parse(localStorage.getItem('cognitiveUser')) || { user: {}, loggedin: false };
       if (userDetails.loggedin === true) {
-        _axios2.default.get('http://localhost:3000/credentials?username=' + userDetails.user.username).then(function (response) {
+        _axios2.default.get('/credentials?username=' + userDetails.user.username).then(function (response) {
           if (response.data.length !== 0) {
             if (userDetails.user.password === response.data[0].password) {
               that.setState({ loggedin: true });
@@ -59828,7 +59828,7 @@ var AppHeader = function (_React$Component) {
       var that = this;
       (0, _axios2.default)({
         method: 'post',
-        url: 'http://localhost:8080/login/',
+        url: '/login/',
         data: {
           username: credentials.username,
           password: credentials.password
@@ -59858,6 +59858,7 @@ var AppHeader = function (_React$Component) {
   }, {
     key: 'handleRegister',
     value: function handleRegister(userDetails) {
+      console.log('enter');
       var that = this;
       var profile = {
         name: userDetails.name,
@@ -59865,14 +59866,14 @@ var AppHeader = function (_React$Component) {
         email: userDetails.email,
         username: userDetails.username
       };
-      _axios2.default.post('http://localhost:3000/profiles', profile).then(function (response) {
+      _axios2.default.post('http://localhost:8080/profiles', profile).then(function (response) {
         _reactRouter.browserHistory.push('/Login');
       });
       var credentials = {
         username: userDetails.username,
         password: userDetails.password
       };
-      _axios2.default.post('http://localhost:3000/credentials', credentials).then(function (response) {
+      _axios2.default.post('http://localhost:8080/credentials', credentials).then(function (response) {
 
         that.setState({ open: true, message: "Successfully signed up!", openLogin: true });
         setTimeout(function () {
@@ -59881,8 +59882,8 @@ var AppHeader = function (_React$Component) {
           });
         }, 2000);
       });
-      _axios2.default.post('http://localhost:3000/menus', { username: credentials.username, menu: [] }).then(function (response) {});
-      _axios2.default.post('http://localhost:3000/notifications', { id: credentials.username, notifications: [] }).then(function (response) {});
+      _axios2.default.post('http://localhost:8080/menus', { username: credentials.username, menu: [] }).then(function (response) {});
+      _axios2.default.post('http://localhost:8080/notifications', { id: credentials.username, notifications: [] }).then(function (response) {});
     }
   }, {
     key: 'handleLogoutUser',
@@ -59891,7 +59892,7 @@ var AppHeader = function (_React$Component) {
       localStorage.removeItem('cognitiveUserToken');
       this.setState({ loggedin: false, openPopover: false, openDrawer: false });
       _reactRouter.browserHistory.push('/Home');
-      this.fetchMenu();
+      //this.fetchMenu();
     }
     /*  toggleSign(){
         var openLogin=this.state.openLogin;

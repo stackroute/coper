@@ -5,7 +5,8 @@ const morgan = require('morgan');
 const _ = require("lodash");
 const bodyParser = require("body-parser");
 const jwt = require('jsonwebtoken');
-
+const jsonServer = require('json-server');
+const jsonRouter = jsonServer.router(path.resolve(__dirname, '../webclient/data','users.json'));
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 
@@ -70,6 +71,8 @@ app.get('/', function(req, res) {
     'index.html', 'client'));
 });
 
+
+
 app.post('/auth', function(req, res){
   console.log(req.body.token.token);
   var userToken= jwt.verify(req.body.token.token,'lucy') ;
@@ -107,6 +110,8 @@ app.post("/login", function(req, res) {
   }
 });
 
+app.use(jsonRouter);
+
 app.use(function(req, res) {
   let err = new Error('Resource not found');
   err.status = 404;
@@ -122,6 +127,7 @@ app.use(function(err, req, res) {
   });
 });
 
+
 module.exports = app;
 const server = http.createServer();
-server.listen(3001);
+server.listen(3000);

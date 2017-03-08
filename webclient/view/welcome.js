@@ -107,7 +107,7 @@ class AppHeader extends React.Component {
     var userDetails=JSON.parse(localStorage.getItem('cognitiveUser')) || {user:{},loggedin: false};
     if(userDetails.loggedin === true)
     {
-      axios.get('http://localhost:3000/credentials?username='+userDetails.user.username)
+      axios.get('/credentials?username='+userDetails.user.username)
       .then(function (response){
         if(response.data.length!==0)
         {
@@ -138,7 +138,7 @@ class AppHeader extends React.Component {
     var that=this;
     axios({
       method: 'post',
-      url: 'http://localhost:8080/login/',
+      url: '/login/',
       data: {
         username: credentials.username,
         password: credentials.password
@@ -169,7 +169,9 @@ class AppHeader extends React.Component {
     })
   }
   handleRegister(userDetails)
+  
   {
+     console.log('enter');
     var that=this;
     var profile={
       name: userDetails.name,
@@ -177,7 +179,7 @@ class AppHeader extends React.Component {
       email: userDetails.email,
       username: userDetails.username
     }
-    axios.post('http://localhost:3000/profiles', profile)
+    axios.post('http://localhost:8080/profiles', profile)
     .then(function (response) {
       browserHistory.push('/Login')
     })
@@ -185,7 +187,7 @@ class AppHeader extends React.Component {
       username: userDetails.username,
       password: userDetails.password,
     }
-    axios.post('http://localhost:3000/credentials', credentials)
+    axios.post('http://localhost:8080/credentials', credentials)
     .then(function (response) {
 
       that.setState({open:true,message:"Successfully signed up!",openLogin:true});
@@ -196,10 +198,10 @@ class AppHeader extends React.Component {
       }, 2000);
 
     })
-    axios.post('http://localhost:3000/menus', {username: credentials.username,menu: []})
+    axios.post('http://localhost:8080/menus', {username: credentials.username,menu: []})
     .then(function (response) {
     })
-    axios.post('http://localhost:3000/notifications', {id:credentials.username,notifications:[]})
+    axios.post('http://localhost:8080/notifications', {id:credentials.username,notifications:[]})
     .then(function (response) {
 
     })
@@ -209,7 +211,7 @@ class AppHeader extends React.Component {
      localStorage.removeItem('cognitiveUserToken');
      this.setState({loggedin: false,openPopover: false,openDrawer: false});
      browserHistory.push('/Home');
-     this.fetchMenu();
+     //this.fetchMenu();
    }
 /*  toggleSign(){
     var openLogin=this.state.openLogin;
