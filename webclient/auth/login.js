@@ -144,14 +144,14 @@ class Login extends React.Component {
       <img src="../images/User-info.png" style={styles.iconImageStyle}/>
       <br/>
 
-      <TextField hintText="Sourav" name="username" type="text" value={this.state.username} onChange={this.handleInputChange}
+      <TextField hintText="User Name" name="username" type="text" value={this.state.username} onChange={this.handleInputChange}
       onFocus={this.handleFocus.bind(this)} fullWidth={true}
       errorText={this.state.errorusername}
       floatingLabelText="Username"
       onKeyPress={this.handleKeyPress.bind(this)}
       /><br/>
 
-      <TextField hintText="asdwz6a56agywe2#"
+      <TextField hintText="Password"
       type="password"
       name="password"
       value={this.state.password} fullWidth={true}

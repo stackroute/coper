@@ -115,7 +115,7 @@ class Navbar extends React.Component {
     var numberOfNotifications=0;
     var that=this;
     var userDetails=JSON.parse(localStorage.getItem('cognitiveUser'));
-    axios.get('http://localhost:3000/notifications/'+userDetails.user.username)
+    axios.get('http://172.23.238.152:3000/notifications/'+userDetails.user.username)
     .then(function (response){
       numberOfNotifications=response.data.notifications.length;
       that.setState({numberOfNotifications});
@@ -125,7 +125,7 @@ class Navbar extends React.Component {
     var that=this;
     var userImage="";
     var userDetails=JSON.parse(localStorage.getItem('cognitiveUser'));
-    axios.get('http://localhost:3000/Profiles?'+userDetails.user.username)
+    axios.get('http://172.23.238.152:3000/Profiles?'+userDetails.user.username)
     .then(function (response){
       userImage=response.data[0].image;
       that.setState({userImage});
@@ -147,14 +147,14 @@ class Navbar extends React.Component {
     else{
       axios({
         method: 'post',
-        url: 'http://localhost:8080/auth/',
+        url: 'http://172.23.238.152:8080/auth/',
         data: {
           token: userDetails
         }
       }).then(function(response){
         if(response.status === 200)
         {
-          axios.get('http://localhost:3000/menus?username='+response.data.user.username)
+          axios.get('http://172.23.238.152:3000/menus?username='+response.data.user.username)
           .then(function (response){
             drawerMenu.push({text:'Chats',link:'/UserHome',subMenu: []});
             drawerMenu.push({text:'Account Settings',link:'',subMenu: [{text:'Profile',link:'/Profile',subMenu: []},

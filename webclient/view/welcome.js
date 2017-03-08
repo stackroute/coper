@@ -107,7 +107,7 @@ class AppHeader extends React.Component {
     var userDetails=JSON.parse(localStorage.getItem('cognitiveUser')) || {user:{},loggedin: false};
     if(userDetails.loggedin === true)
     {
-      axios.get('http://localhost:3000/credentials?username='+userDetails.user.username)
+      axios.get('http://172.23.238.152:3000/credentials?username='+userDetails.user.username)
       .then(function (response){
         if(response.data.length!==0)
         {
@@ -138,7 +138,7 @@ class AppHeader extends React.Component {
     var that=this;
     axios({
       method: 'post',
-      url: 'http://localhost:8080/login/',
+      url: 'http://172.23.238.152:8080/login/',
       data: {
         username: credentials.username,
         password: credentials.password
@@ -177,7 +177,7 @@ class AppHeader extends React.Component {
       email: userDetails.email,
       username: userDetails.username
     }
-    axios.post('http://localhost:3000/profiles', profile)
+    axios.post('http://172.23.238.152:3000/profiles', profile)
     .then(function (response) {
       browserHistory.push('/Login')
     })
@@ -185,7 +185,7 @@ class AppHeader extends React.Component {
       username: userDetails.username,
       password: userDetails.password,
     }
-    axios.post('http://localhost:3000/credentials', credentials)
+    axios.post('http://172.23.238.152:3000/credentials', credentials)
     .then(function (response) {
 
       that.setState({open:true,message:"Successfully signed up!",openLogin:true});
@@ -196,10 +196,10 @@ class AppHeader extends React.Component {
       }, 2000);
 
     })
-    axios.post('http://localhost:3000/menus', {username: credentials.username,menu: []})
+    axios.post('http://172.23.238.152:3000/menus', {username: credentials.username,menu: []})
     .then(function (response) {
     })
-    axios.post('http://localhost:3000/notifications', {id:credentials.username,notifications:[]})
+    axios.post('http://172.23.238.152:3000/notifications', {id:credentials.username,notifications:[]})
     .then(function (response) {
 
     })

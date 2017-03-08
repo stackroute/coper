@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "98af0b6252064fc78b6f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "d75d0b4c0f0d4503c69d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -21866,6 +21866,7 @@ var _contactUs2 = _interopRequireDefault(_contactUs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* eslint no-extra-parens: ["error", "all", { ignoreJSX: "all" }] */
 (0, _reactTapEventPlugin2.default)();
 
 _reactDom2.default.render(_react2.default.createElement(
@@ -57847,14 +57848,14 @@ var Login = function (_React$Component) {
           ),
           _react2.default.createElement('img', { src: '../images/User-info.png', style: styles.iconImageStyle }),
           _react2.default.createElement('br', null),
-          _react2.default.createElement(_TextField2.default, { hintText: 'Sourav', name: 'username', type: 'text', value: this.state.username, onChange: this.handleInputChange,
+          _react2.default.createElement(_TextField2.default, { hintText: 'User Name', name: 'username', type: 'text', value: this.state.username, onChange: this.handleInputChange,
             onFocus: this.handleFocus.bind(this), fullWidth: true,
             errorText: this.state.errorusername,
             floatingLabelText: 'Username',
             onKeyPress: this.handleKeyPress.bind(this)
           }),
           _react2.default.createElement('br', null),
-          _react2.default.createElement(_TextField2.default, { hintText: 'asdwz6a56agywe2#',
+          _react2.default.createElement(_TextField2.default, { hintText: 'Password',
             type: 'password',
             name: 'password',
             value: this.state.password, fullWidth: true,
@@ -58087,7 +58088,7 @@ var Register = function (_React$Component) {
       var x = errorname + errordateOfBirth + erroremail + errorusername + errorpassword + errorrepassword;
       if (x === "") {
         var that = this;
-        _axios2.default.get('http://localhost:3000/credentials?username=' + that.state.username).then(function (response) {
+        _axios2.default.get('http://172.23.238.152:3000/credentials?username=' + that.state.username).then(function (response) {
           if (response.data.length === 0) {
             that.props.handleRegister(that.state);
           } else {
@@ -58122,11 +58123,11 @@ var Register = function (_React$Component) {
               { style: styles.headerStyle },
               'Sign Up'
             ),
-            _react2.default.createElement(_TextField2.default, { hintText: 'Sourav', name: 'name', type: 'text', value: this.state.name, onFocus: this.handleFocus.bind(this),
+            _react2.default.createElement(_TextField2.default, { hintText: 'Your Name', name: 'name', type: 'text', value: this.state.name, onFocus: this.handleFocus.bind(this),
               onKeyPress: this.handleKeyPress.bind(this),
               onChange: this.handleInputChange, floatingLabelText: 'Name', errorText: this.state.errorname, fullWidth: true }),
             _react2.default.createElement('br', null),
-            _react2.default.createElement(_DatePicker2.default, { hintText: '20-08-1994', name: 'dateOfBirth', mode: 'landscape', value: this.state.dateOfBirth, onFocus: this.handleFocus.bind(this),
+            _react2.default.createElement(_DatePicker2.default, { hintText: 'DD-MM-YYYY', name: 'dateOfBirth', mode: 'landscape', value: this.state.dateOfBirth, onFocus: this.handleFocus.bind(this),
               onChange: this.handleDateChange.bind(this), autoOk: true, floatingLabelText: 'Date Of Birth', errorText: this.state.errordateOfBirth,
               fullWidth: true, onKeyPress: this.handleKeyPress.bind(this) }),
             _react2.default.createElement('br', null),
@@ -58134,15 +58135,15 @@ var Register = function (_React$Component) {
               onKeyPress: this.handleKeyPress.bind(this),
               onChange: this.handleInputChange, floatingLabelText: 'Email', errorText: this.state.erroremail, fullWidth: true }),
             _react2.default.createElement('br', null),
-            _react2.default.createElement(_TextField2.default, { hintText: 'Sourav123', name: 'username', type: 'text', value: this.state.username, onFocus: this.handleFocus.bind(this),
+            _react2.default.createElement(_TextField2.default, { hintText: 'User Name', name: 'username', type: 'text', value: this.state.username, onFocus: this.handleFocus.bind(this),
               onKeyPress: this.handleKeyPress.bind(this),
               onChange: this.handleInputChange, floatingLabelText: 'Username', errorText: this.state.errorusername, fullWidth: true }),
             _react2.default.createElement('br', null),
-            _react2.default.createElement(_TextField2.default, { hintText: 'RTdsrsdEE335w', name: 'password', type: 'password', value: this.state.password, onFocus: this.handleFocus.bind(this),
+            _react2.default.createElement(_TextField2.default, { hintText: 'Password', name: 'password', type: 'password', value: this.state.password, onFocus: this.handleFocus.bind(this),
               onKeyPress: this.handleKeyPress.bind(this),
               onChange: this.handleInputChange, floatingLabelText: 'Password', errorText: this.state.errorpassword, fullWidth: true }),
             _react2.default.createElement('br', null),
-            _react2.default.createElement(_TextField2.default, { hintText: 'RTdsrsdEE335w', name: 'repassword', type: 'password', value: this.state.repassword, onFocus: this.handleFocus.bind(this),
+            _react2.default.createElement(_TextField2.default, { hintText: 'Re-password', name: 'repassword', type: 'password', value: this.state.repassword, onFocus: this.handleFocus.bind(this),
               onKeyPress: this.handleKeyPress.bind(this),
               onChange: this.handleInputChange, floatingLabelText: 'Re-Enter Password', errorText: this.state.errorrepassword, fullWidth: true }),
             _react2.default.createElement('br', null),
@@ -59058,7 +59059,7 @@ var Navbar = function (_React$Component) {
       var numberOfNotifications = 0;
       var that = this;
       var userDetails = JSON.parse(localStorage.getItem('cognitiveUser'));
-      _axios2.default.get('http://localhost:3000/notifications/' + userDetails.user.username).then(function (response) {
+      _axios2.default.get('http://172.23.238.152:3000/notifications/' + userDetails.user.username).then(function (response) {
         numberOfNotifications = response.data.notifications.length;
         that.setState({ numberOfNotifications: numberOfNotifications });
       });
@@ -59069,7 +59070,7 @@ var Navbar = function (_React$Component) {
       var that = this;
       var userImage = "";
       var userDetails = JSON.parse(localStorage.getItem('cognitiveUser'));
-      _axios2.default.get('http://localhost:3000/Profiles?' + userDetails.user.username).then(function (response) {
+      _axios2.default.get('http://172.23.238.152:3000/Profiles?' + userDetails.user.username).then(function (response) {
         userImage = response.data[0].image;
         that.setState({ userImage: userImage });
       });
@@ -59088,13 +59089,13 @@ var Navbar = function (_React$Component) {
       } else {
         (0, _axios2.default)({
           method: 'post',
-          url: 'http://localhost:8080/auth/',
+          url: 'http://172.23.238.152:8080/auth/',
           data: {
             token: userDetails
           }
         }).then(function (response) {
           if (response.status === 200) {
-            _axios2.default.get('http://localhost:3000/menus?username=' + response.data.user.username).then(function (response) {
+            _axios2.default.get('http://172.23.238.152:3000/menus?username=' + response.data.user.username).then(function (response) {
               drawerMenu.push({ text: 'Chats', link: '/UserHome', subMenu: [] });
               drawerMenu.push({ text: 'Account Settings', link: '', subMenu: [{ text: 'Profile', link: '/Profile', subMenu: [] }, { text: 'Change Password', link: '/ChangePassword', subMenu: [] }] });
               drawerMenu.push({ text: 'Voice Settings', link: '', subMenu: [{ text: 'Us-English', link: '/Language', subMenu: [] }] });
@@ -59806,7 +59807,7 @@ var AppHeader = function (_React$Component) {
       var that = this;
       var userDetails = JSON.parse(localStorage.getItem('cognitiveUser')) || { user: {}, loggedin: false };
       if (userDetails.loggedin === true) {
-        _axios2.default.get('http://localhost:3000/credentials?username=' + userDetails.user.username).then(function (response) {
+        _axios2.default.get('http://172.23.238.152:3000/credentials?username=' + userDetails.user.username).then(function (response) {
           if (response.data.length !== 0) {
             if (userDetails.user.password === response.data[0].password) {
               that.setState({ loggedin: true });
@@ -59828,7 +59829,7 @@ var AppHeader = function (_React$Component) {
       var that = this;
       (0, _axios2.default)({
         method: 'post',
-        url: 'http://localhost:8080/login/',
+        url: 'http://172.23.238.152:8080/login/',
         data: {
           username: credentials.username,
           password: credentials.password
@@ -59865,14 +59866,14 @@ var AppHeader = function (_React$Component) {
         email: userDetails.email,
         username: userDetails.username
       };
-      _axios2.default.post('http://localhost:3000/profiles', profile).then(function (response) {
+      _axios2.default.post('http://172.23.238.152:3000/profiles', profile).then(function (response) {
         _reactRouter.browserHistory.push('/Login');
       });
       var credentials = {
         username: userDetails.username,
         password: userDetails.password
       };
-      _axios2.default.post('http://localhost:3000/credentials', credentials).then(function (response) {
+      _axios2.default.post('http://172.23.238.152:3000/credentials', credentials).then(function (response) {
 
         that.setState({ open: true, message: "Successfully signed up!", openLogin: true });
         setTimeout(function () {
@@ -59881,8 +59882,8 @@ var AppHeader = function (_React$Component) {
           });
         }, 2000);
       });
-      _axios2.default.post('http://localhost:3000/menus', { username: credentials.username, menu: [] }).then(function (response) {});
-      _axios2.default.post('http://localhost:3000/notifications', { id: credentials.username, notifications: [] }).then(function (response) {});
+      _axios2.default.post('http://172.23.238.152:3000/menus', { username: credentials.username, menu: [] }).then(function (response) {});
+      _axios2.default.post('http://172.23.238.152:3000/notifications', { id: credentials.username, notifications: [] }).then(function (response) {});
     }
   }, {
     key: 'handleLogoutUser',

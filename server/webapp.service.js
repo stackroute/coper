@@ -26,8 +26,10 @@ jwtOptions.secretOrKey = 'lucy';
 
 // defined a strategy for Passport JWT
 var strategy = new JwtStrategy(jwtOptions, function(jwtPayload, next) {
-  // console.log('payload received', jwtPayload); // payload acknowledgement
-  // var user = users[_.findIndex(users, {id: jwtPayload.id})]; // database call
+  // payload acknowledgement
+  console.log('payload received', jwtPayload);
+  // database call
+  var user = users[_.findIndex(users, {id: jwtPayload.id})];
   if (user) {
     next(null, user);
   } else {
@@ -68,10 +70,10 @@ app.get('/', function(req, res) {
 });
 
 app.post('/auth', function(req, res) {
-  // console.log(req.body.token.token);
+  console.log(req.body.token.token);
   // validating and extracting cerdentials by decoding JWT
   var userToken = jwt.verify(req.body.token.token, 'lucy');
-  // console.log(userToken);
+  console.log(userToken);
   var user = [{username: 'abc', password: '123'}];
   if(user.length === 0)
   {
