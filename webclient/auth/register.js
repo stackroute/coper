@@ -11,6 +11,12 @@ import Paper from 'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { browserHistory,Link  } from 'react-router';
 
+const regexName = /[a-zA-Z]{3}/;
+const regexEmail = /[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+/;
+const regexUserName = /[a-zA-Z]+[0-9]{2}/;
+const regexPassword = /[a-zA-Z0-9_@%$*!#]{3}/;
+//const regexDOB = /^(0[1-9]|1[012])[-/.](0[1-9]|[12][0-9]|3[01])[-/.](19|20)\\d\\d$/;
+const regexDOB=/((19|20)\d\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])/;
 const styles={
   headerStyle:{
     color: '#999',
@@ -103,6 +109,12 @@ class Register extends React.Component {
     let errorpassword = (this.state.password ==='')? 'Required' : '';
     let errorrepassword = (this.state.repassword ==='')? 'Required' : '';
     errorrepassword = (errorpassword !== 'Required' && errorpassword !== 'Required' && this.state.repassword !== this.state.password)? 'Password did not match' : '';
+    errorname =(errorname !== 'Required' && regexName.test(this.state.name))?'':'not valid';
+    erroremail=(erroremail!== 'Required' && regexEmail.test(this.state.email))?'':'not valid';
+    errorusername=(errorusername!== 'Required' && regexUserName.test(this.state.username))?'':'not valid';
+    errorpassword = (errorpassword!== 'Required' && regexPassword.test(this.state.password))?'':'not valid';
+    errordateOfBirth=(errordateOfBirth!== 'Required' && regexDOB.test(this.state.dateOfBirth))?'':'not validDOB';
+
     this.setState({errorname,errordateOfBirth,erroremail,errorusername,errorpassword,errorrepassword});
     let x=errorname+errordateOfBirth+erroremail+errorusername+errorpassword+errorrepassword;
     if(x === '')
