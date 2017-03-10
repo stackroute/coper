@@ -180,10 +180,7 @@ class Register extends React.Component {
       <span>{'or'}</span>
       <Divider />
       <RaisedButton label='Sign up with Facebook' onClick={this.handleSubmit}  className='logInButtonStyle' style={styles.signUpButtonStyle}/><br/>
-      <RaisedButton label='Sign up with Gmail' onClick={this.handleSubmit}  className='logInButtonStyle' style={styles.signUpButtonStyle}/><br/>
-      <RaisedButton icon={<FontIcon className='muidocs-icon-custom-github' />}
-      label='Sign up with Github'  onClick={this.handleSubmit} className='logInButtonStyle' style={styles.signUpButtonStyle}/><br/>
-      <RaisedButton label='Sign up with Linked In' onClick={this.handleSubmit} className='logInButtonStyle' style={styles.signUpButtonStyle}/><br/>
+      <RaisedButton label='Sign up with Google' onClick={this.handleSubmit}  className='logInButtonStyle' style={styles.signUpButtonStyle}/><br/>
       </div>
       </div>
       </MuiThemeProvider>

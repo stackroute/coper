@@ -175,9 +175,6 @@ class Login extends React.Component {
       <br/>
       <RaisedButton label="LogIn with Facebook" onClick={this.handleSubmit}  className="logInButtonStyle"/><br/>
       <RaisedButton label="LogIn with Gmail" onClick={this.handleSubmit}  className="logInButtonStyle"/><br/>
-      <RaisedButton icon={<FontIcon className="muidocs-icon-custom-github" />}
-      label="LogIn with Github"  onClick={this.handleSubmit} className="logInButtonStyle"/><br/>
-      <RaisedButton label="LogIn with Linked In" onClick={this.handleSubmit} className="logInButtonStyle"/><br/>
       </div>
       </div>
       );
