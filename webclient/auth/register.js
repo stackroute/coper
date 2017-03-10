@@ -40,7 +40,8 @@ const styles={
     backgroundColor: '#eee',
   },
   signUpButtonStyle: {
-    width: '300px',
+    height: '46px',
+    width: '191px',
   },
   flatButtonStyle:{
     padding: '10px',
@@ -191,8 +192,8 @@ class Register extends React.Component {
       <br/>
       <span>{'or'}</span>
       <Divider />
-      <RaisedButton label='Sign up with Facebook' onClick={this.handleSubmit}  className='logInButtonStyle' style={styles.signUpButtonStyle}/><br/>
-      <RaisedButton label='Sign up with Google' onClick={this.handleSubmit}  className='logInButtonStyle' style={styles.signUpButtonStyle}/><br/>
+      <RaisedButton onClick={this.handleSubmit}  className='logInButtonStyle' labelColor = 'blue' style={styles.signUpButtonStyle} icon={<img src='../images/fb_login.png' height='46' width='191' alt='facebook' />}/><br/>
+      <RaisedButton onClick={this.handleSubmit}  className='logInButtonStyle' labelColor = 'red' style={styles.signUpButtonStyle} icon={<img src='../images/google_login.png' height='46' width='191' alt='google' />}/><br/>
       </div>
       </div>
       </MuiThemeProvider>

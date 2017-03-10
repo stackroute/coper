@@ -9,6 +9,7 @@ import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { browserHistory,Link  } from 'react-router';
 import FontIcon from 'material-ui/FontIcon';
+import Divider from 'material-ui/Divider';
 
 /*const styles={
   headerStyle:{
@@ -132,7 +133,12 @@ class Login extends React.Component {
       },
       buttonLabelStyle:{
         color: '#fff',
-      }
+      },
+      signUpButtonStyle: {
+        height: '46px',
+        width: '191px',
+        hover: 'red',
+      },
     }
     return (
       <div className='row'>
@@ -170,11 +176,13 @@ class Login extends React.Component {
       <Link to='/Register'><FlatButton style={styles.flatButtonStyle} primary={true}><span>Create Account</span></FlatButton></Link>
 
       </div>
-      <div className="col-sm-12 col-md-6" style={styles.divStyle2}>
+      <div className='col-sm-12 col-md-6' style={styles.divStyle2}>
       <br/>
       <br/>
-      <RaisedButton label="LogIn with Facebook" onClick={this.handleSubmit}  className="logInButtonStyle"/><br/>
-      <RaisedButton label="LogIn with Gmail" onClick={this.handleSubmit}  className="logInButtonStyle"/><br/>
+      <span>{'or'}</span>
+      <Divider />
+      <RaisedButton onClick={this.handleSubmit}  className='logInButtonStyle' labelColor = 'blue' style={styles.signUpButtonStyle} icon={<img src='../images/fb_login.png' height='46' width='191' alt='facebook' />}/><br/>
+      <RaisedButton onClick={this.handleSubmit}  className='logInButtonStyle' labelColor = 'red' style={styles.signUpButtonStyle} icon={<img src='../images/google_login.png' height='46' width='191' alt='google' />}/><br/>
       </div>
       </div>
       );
