@@ -15,9 +15,9 @@ const regexName = /[a-zA-Z]{3}/;
 const regexEmail = /[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+/;
 const regexUserName = /[a-zA-Z]+[0-9]{2}/;
 const regexPassword = /[a-zA-Z0-9_@%$*!#]{3}/;
-//const regexDOB = /^(0[1-9]|1[012])[-/.](0[1-9]|[12][0-9]|3[01])[-/.](19|20)\\d\\d$/;
-const regexDOB=/((19|20)\d\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])/;
-const styles={
+
+
+ const styles={
   headerStyle:{
     color: '#999',
     textAlign: 'left'
@@ -60,6 +60,13 @@ const styles={
 class Register extends React.Component {
   constructor(props) {
     super(props);
+     const minDate = new Date();
+     const maxDate = new Date();
+     minDate.setFullYear(minDate.getFullYear() - 37);
+       minDate.setHours(0, 0, 0, 0);
+        maxDate.setFullYear(maxDate.getFullYear() - 6);
+    maxDate.setHours(0, 0, 0, 0);
+
     this.state = {
       name: '',
       dateOfBirth: {},
@@ -75,12 +82,29 @@ class Register extends React.Component {
       errorrepassword: '',
       open: false,
       message: '',
-
+       minDate: minDate,
+        maxDate: maxDate,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+
+
+handleChangeMinDate = (event, date) => {
+    this.setState({
+      minDate: date,
+    });
+  };
+
+
+ handleChangeMaxDate = (event, date) => {
+    this.setState({
+      maxDate: date,
+    });
+  };
+
 
   handleInputChange(event) {
     const target = event.target;
@@ -90,17 +114,36 @@ class Register extends React.Component {
       [name]: value
     });
   }
+
+
   handleDateChange(event,date) {
     this.setState({
       dateOfBirth: date
     });
   }
-  handleKeyPress(target){
-    if(target.charCode == 13)
-    {
-      this.handleSubmit();
-    }
+
+
+
+
+
+
+
+
+handleKeyPress(target){
+  if(target.charCode == 13)
+  {
+    this.handleSubmit();
   }
+}
+
+
+
+
+
+
+ 
+    
+  
   handleSubmit(event) {
     let errorname = (this.state.name ==='')? 'Required' : '';
     let errordateOfBirth = (this.state.dateOfBirth ==='')? 'Required' : '';
@@ -113,8 +156,7 @@ class Register extends React.Component {
     erroremail=(erroremail!== 'Required' && regexEmail.test(this.state.email))?'':'not valid';
     errorusername=(errorusername!== 'Required' && regexUserName.test(this.state.username))?'':'not valid';
     errorpassword = (errorpassword!== 'Required' && regexPassword.test(this.state.password))?'':'not valid';
-    errordateOfBirth=(errordateOfBirth!== 'Required' && regexDOB.test(this.state.dateOfBirth))?'':'not validDOB';
-
+    
     this.setState({errorname,errordateOfBirth,erroremail,errorusername,errorpassword,errorrepassword});
     let x=errorname+errordateOfBirth+erroremail+errorusername+errorpassword+errorrepassword;
     if(x === '')
@@ -155,9 +197,9 @@ class Register extends React.Component {
       onKeyPress={this.handleKeyPress.bind(this)}
       onChange={this.handleInputChange}  floatingLabelText='Name' errorText={this.state.errorname} fullWidth={true}/><br/>
 
-      <DatePicker hintText='DD-MM-YYYY' name='dateOfBirth' mode='landscape' value={this.state.dateOfBirth} onFocus={this.handleFocus.bind(this)}
+      <DatePicker hintText='DD-MM-YYYY' name='dateOfBirth' mode='landscape'  value={this.state.dateOfBirth} onFocus={this.handleFocus.bind(this)}
       onChange={this.handleDateChange.bind(this)} autoOk={true} floatingLabelText='Date Of Birth' errorText={this.state.errordateOfBirth}
-      fullWidth={true} onKeyPress={this.handleKeyPress.bind(this)}/><br/>
+      fullWidth={true} onKeyPress={this.handleKeyPress.bind(this)}  minDate={this.state.minDate}  maxDate={this.state.maxDate}/><br/>
 
       <TextField hintText='abc@abc.com' name='email' type='email' value={this.state.email} onFocus={this.handleFocus.bind(this)}
       onKeyPress={this.handleKeyPress.bind(this)}
