@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link,browserHistory  } from 'react-router';
+import { Link,hashHistory  } from 'react-router';
 import axios from 'axios';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -114,22 +114,22 @@ class AppHeader extends React.Component {
           if(userDetails.user.password === response.data[0].password)
           {
             that.setState({loggedin: true});
-            browserHistory.push('/UserHome');
+            hashHistory.push('/UserHome');
 
           }
             else
             {
-            browserHistory.push('/Home');
+            hashHistory.push('/Home');
             }
         }
             else
             {
-            browserHistory.push('/Home');
+            hashHistory.push('/Home');
             }
       })
     }
     else{
-      browserHistory.push('/Home');
+      hashHistory.push('/Home');
     }
   }
 
@@ -156,7 +156,7 @@ class AppHeader extends React.Component {
         }, 2000);
         localStorage.setItem('cognitiveUser', JSON.stringify({user: {username:credentials.username,password:credentials.password},loggedin: true}));
         localStorage.setItem('cognitiveUserToken', JSON.stringify({token:response.data.token}));
-        browserHistory.push('/UserHome');
+        hashHistory.push('/UserHome');
       }
       else{
         that.setState({message: "Invalid Username or Password",openSnackbar: true});
@@ -180,7 +180,7 @@ class AppHeader extends React.Component {
     }
     axios.post('/profiles', profile)
     .then(function (response) {
-      browserHistory.push('/Login')
+      hashHistory.push('/Login')
     })
     var credentials={
       username: userDetails.username,
@@ -208,7 +208,7 @@ class AppHeader extends React.Component {
      localStorage.setItem('cognitiveUser', JSON.stringify({user: {},loggedin: false}));
      localStorage.removeItem('cognitiveUserToken');
      this.setState({loggedin: false,openPopover: false,openDrawer: false});
-     browserHistory.push('/Home');
+     hashHistory.push('/Home');
      //this.fetchMenu();
    }
 /*  toggleSign(){

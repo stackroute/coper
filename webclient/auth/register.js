@@ -9,7 +9,7 @@ import DatePicker from 'material-ui/DatePicker';
 import Snackbar from 'material-ui/Snackbar';
 import Paper from 'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { browserHistory,Link  } from 'react-router';
+import { hashHistory,Link  } from 'react-router';
 
 const regexName = /[a-zA-Z]{3}/;
 const regexEmail = /[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+/;
@@ -192,8 +192,10 @@ class Register extends React.Component {
       <br/>
       <span>{'or'}</span>
       <Divider />
-      <RaisedButton onClick={this.handleSubmit}  className='logInButtonStyle' labelColor = 'blue' style={styles.signUpButtonStyle} icon={<img src='../images/fb_login.png' height='46' width='191' alt='facebook' />}/><br/>
-      <RaisedButton onClick={this.handleSubmit}  className='logInButtonStyle' labelColor = 'red' style={styles.signUpButtonStyle} icon={<img src='../images/google_login.png' height='46' width='191' alt='google' />}/><br/>
+      <br/>
+      <br/>
+      <Link to='#'><RaisedButton onClick={this.handleSubmit}  className='logInButtonStyle' style={styles.signUpButtonStyle} icon={<img src='../images/fb_login.png' height='46' width='191' alt='facebook' />}/></Link><br/>
+      <Link to='#'><RaisedButton onClick={this.handleSubmit}  className='logInButtonStyle' style={styles.signUpButtonStyle} icon={<img src='../images/google_login.png' height='46' width='191' alt='google' />}/></Link><br/>
       </div>
       </div>
       </MuiThemeProvider>
