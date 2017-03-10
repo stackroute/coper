@@ -86,12 +86,9 @@
       "id": 19
     },
     {
-
       "id": 20
     },
     {
-      "username": "lala12",
-
       "username": "prem123",
       "password": "123",
       "id": 20
@@ -120,7 +117,16 @@
       "username": "shaan",
       "password": "shaan",
       "id": 27
-
+    },
+    {
+      "username": "inder_12345",
+      "password": "123456",
+      "id": 28
+    },
+    {
+      "username": "inder_123",
+      "password": "@1234",
+      "id": 29
     }
   ],
   "profiles": [
@@ -231,7 +237,6 @@
       "id": 18
     },
     {
-
       "name": "lala",
       "dateOfBirth": "2017-03-05T18:30:00.000Z",
       "email": "lala@yahoo.com",
@@ -244,9 +249,9 @@
       "email": "junk@junk.com",
       "username": "test",
       "id": 20
-        },
-      {
-       "name": "Prem",
+    },
+    {
+      "name": "Prem",
       "dateOfBirth": "2017-03-07T18:30:00.000Z",
       "email": "prem@gmail.com",
       "username": "prem123",
@@ -300,6 +305,20 @@
       "email": "asdj@adj.com",
       "username": "shaan",
       "id": 26
+    },
+    {
+      "name": "inder",
+      "dateOfBirth": "2017-03-12T18:30:00.000Z",
+      "email": "abc@gmail.com",
+      "username": "inder_12345",
+      "id": 27
+    },
+    {
+      "name": "inderpreet",
+      "dateOfBirth": "2017-03-05T18:30:00.000Z",
+      "email": "ab@g.com",
+      "username": "inder_123",
+      "id": 28
     }
   ],
   "menus": [
@@ -336,9 +355,6 @@
       "id": 5
     },
     {
-
-      "username": "lala12",
-
       "username": "prem123",
       "id": 6
     },
@@ -346,8 +362,8 @@
       "username": "test",
       "menu": [],
       "id": 7
-     },
-      {
+    },
+    {
       "username": "azaz",
       "menu": [],
       "id": 7
@@ -381,6 +397,16 @@
       "username": "shaan",
       "menu": [],
       "id": 13
+    },
+    {
+      "username": "inder_12345",
+      "menu": [],
+      "id": 14
+    },
+    {
+      "username": "inder_123",
+      "menu": [],
+      "id": 15
     }
   ],
   "notifications": [
@@ -415,13 +441,11 @@
       "notifications": []
     },
     {
-
       "id": "lala12",
       "notifications": []
     },
     {
       "id": "test",
-
       "notifications": []
     },
     {
@@ -450,6 +474,14 @@
     },
     {
       "id": "shaan",
+      "notifications": []
+    },
+    {
+      "id": "inder_12345",
+      "notifications": []
+    },
+    {
+      "id": "inder_123",
       "notifications": []
     }
   ]
