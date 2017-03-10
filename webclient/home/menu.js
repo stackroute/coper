@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import FontIcon from 'material-ui/FontIcon';
 import {List,ListItem} from 'material-ui/List';
-import { Link,browserHistory  } from 'react-router';
+import { Link,hashHistory  } from 'react-router';
 import axios from 'axios';
 const styles={
   paperStyle:{

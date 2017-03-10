@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link,browserHistory  } from 'react-router';
+import { Link,hashHistory  } from 'react-router';
 import axios from 'axios';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';

@@ -7,51 +7,19 @@ import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { browserHistory,Link  } from 'react-router';
+import { hashHistory,Link  } from 'react-router';
 import FontIcon from 'material-ui/FontIcon';
+import Divider from 'material-ui/Divider';
 
-/*const styles={
-  headerStyle:{
-    color: '#999',
-    textAlign: 'left'
-  },
-  divStyle1:{
-    textAlign: 'center',
-  },
-  divStyle2:{
-    textAlign: 'center',
-    height: window.innerHeight+'px',
-    backgroundColor: '#eee',
-  },
-  iconImageStyle:{
-    width: 100,
-    height: 100,
-  },
-  buttonStyle:{
-  padding: '10px',
-  width: '200px',
-  backgroundColor:'#F57C00',
-  borderRadius: '4px',
-  },
-  flatButtonStyle:{
-    padding: '10px',
-    height: '50px',
-    fontSize: '20px',
-  },
-  buttonLabelStyle:{
-    color: '#fff',
-  }
-}
-*/
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      password: "",
+      password: '',
       errorusername: '',
-      errorpassword: "",
-      message: "",
+      errorpassword: '',
+      message: '',
       open: false,
       height: '',
     };
@@ -132,7 +100,12 @@ class Login extends React.Component {
       },
       buttonLabelStyle:{
         color: '#fff',
-      }
+      },
+      signUpButtonStyle: {
+        height: '46px',
+        width: '191px',
+        hover: 'red',
+      },
     }
     return (
       <div className='row'>
@@ -170,14 +143,15 @@ class Login extends React.Component {
       <Link to='/Register'><FlatButton style={styles.flatButtonStyle} primary={true}><span>Create Account</span></FlatButton></Link>
 
       </div>
-      <div className="col-sm-12 col-md-6" style={styles.divStyle2}>
+      <div className='col-sm-12 col-md-6' style={styles.divStyle2}>
       <br/>
       <br/>
-      <RaisedButton label="LogIn with Facebook" onClick={this.handleSubmit}  className="logInButtonStyle"/><br/>
-      <RaisedButton label="LogIn with Gmail" onClick={this.handleSubmit}  className="logInButtonStyle"/><br/>
-      <RaisedButton icon={<FontIcon className="muidocs-icon-custom-github" />}
-      label="LogIn with Github"  onClick={this.handleSubmit} className="logInButtonStyle"/><br/>
-      <RaisedButton label="LogIn with Linked In" onClick={this.handleSubmit} className="logInButtonStyle"/><br/>
+      <span>{'or'}</span>
+      <Divider />
+      <br/>
+      <br/>
+      <Link to='#'><RaisedButton className='logInButtonStyle' labelColor = 'blue' style={styles.signUpButtonStyle} icon={<img src='../images/fb_login.png' height='46' width='191' alt='facebook' />}/></Link><br/>
+      <Link to='#'><RaisedButton onClick={this.handleSubmit}  className='logInButtonStyle' backgroundColor='#ff574f' labelColor = 'red' style={styles.signUpButtonStyle} icon={<img src='../images/google_login.png' height='46' width='191' alt='google' />}/></Link><br/>
       </div>
       </div>
       );

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
+import { Router, Route, Link, hashHistory, IndexRoute } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import AppHeader from './view/welcome';
 import {ForgotPassword, Login, Register} from './auth';
@@ -13,7 +13,7 @@ import Contact from './view/contactUs.js';
 injectTapEventPlugin();
 
 ReactDOM.render((
-  <Router history = {browserHistory}>
+  <Router history = {hashHistory}>
   <Route path = "/" component = {AppHeader}>
   <Route path = "/Home" component = {Introduction}/>
   <Route path = "/Login" component = {Login}/>
