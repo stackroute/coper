@@ -8,6 +8,7 @@ import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Introduction, Navbar} from '../home/index.js';
 import CustomMenu from '../home/menu.js';
+import cookie from 'react-cookie';
 
 class AppHeader extends React.Component {
     constructor(props) {
@@ -27,31 +28,27 @@ class AppHeader extends React.Component {
         this.localUserAuthentication = this.localUserAuthentication.bind(this);
     }
     componentDidMount() {
-        this.localUserAuthentication();
+      this.localUserAuthentication();
     }
     localUserAuthentication() {
+      console.log('local');
         var that = this;
-        var userDetails = JSON.parse(localStorage.getItem('cognitiveUser')) || {
-            user: {},
-            loggedin: false
-        };
-        if (userDetails.loggedin === true) {
-            axios.get('/credentials?username=' + userDetails.user.username).then(function(response) {
-                if (response.data.length !== 0) {
-                    if (userDetails.user.password === response.data[0].password) {
-                        that.setState({loggedin: true});
-                        hashHistory.push('/UserHome');
-
-                    } else {
-                        hashHistory.push('/Home');
-                    }
-                } else {
-                    hashHistory.push('/Home');
-                }
-            })
-        } else {
+        axios({
+            method: 'get',
+            url: '/Authenticate',
+        }).then(function(res){
+          if(res.status === 200)
+          {
+            console.log('loggedin');
+            that.setState({loggedin: true});
+            hashHistory.push('/UserHome');
+          }
+          else {
+            console.log('not loggedin');
+            that.setState({loggedin: false});
             hashHistory.push('/Home');
-        }
+          }
+        })
     }
     handleLogoutUser() {
         localStorage.setItem('cognitiveUser', JSON.stringify({user: {}, loggedin: false}));

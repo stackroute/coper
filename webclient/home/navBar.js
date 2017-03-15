@@ -119,8 +119,9 @@ class Navbar extends React.Component {
         let that = this;
         let userImage = '';
         let userDetails = JSON.parse(localStorage.getItem('cognitiveUser'));
-        axios.get('/Profiles?' + userDetails.user.username).then(function(response) {
-            userImage = response.data[0].image;
+        axios.get('/userAvatar').then(function(response) {
+            console.log(response);
+            // userImage = response.data[0].image;
             that.setState({userImage});
         })
     }
@@ -225,7 +226,7 @@ class Navbar extends React.Component {
                             <MenuItem primaryText='Refresh'/>
                             <MenuItem primaryText='Help &amp; feedback'/>
                             <MenuItem primaryText='Settings'/>
-                            <MenuItem primaryText='Sign out' onTouchTap={this.props.handleLogoutUser.bind(this)}/>
+                            <a href='/logout'><MenuItem primaryText='Sign out'/></a>
                         </Menu>
                     </Popover>
                 </div>
@@ -247,6 +248,10 @@ class Navbar extends React.Component {
             anchorEl: event.currentTarget
         })
     }
+    handleGoogleAuth()
+    {
+
+    }
     render() {
         let rightIcon = {};
         if (this.state.loggedin === true) {
@@ -255,12 +260,11 @@ class Navbar extends React.Component {
             rightIcon = (
                 <div>
                     <div className='header'>
-                        <Link to='/Login'>
-                            <FlatButton label='LogIn' backgroundColor='#000' labelStyle={styles.signInButtonLabelStyle} style={styles.signInButtonStyle}/></Link>
-                    </div>
-                    <div className='header'>
-                        <Link to='/Register'>
-                            <RaisedButton label='Sign up free' backgroundColor='#21254F' labelStyle={styles.signUpButtonLabelStyle} style={styles.signUpButtonStyle}/></Link>
+                    <a href='/auth/google'>
+                            <FlatButton backgroundColor='#000'
+                            labelStyle={styles.signInButtonLabelStyle}
+                            style={styles.signInButtonStyle} onTouchTap={this.handleGoogleAuth.bind(this)}><img src='../images/google_login.png' /></FlatButton>
+                    </a>
                     </div>
                 </div>
             );
