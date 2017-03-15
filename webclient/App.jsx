@@ -12,7 +12,7 @@ import Contact from './view/contactUs.js';
 injectTapEventPlugin();
 
 ReactDOM.render((
-    <Router history={hashHistory}>
+  <Router history={hashHistory}>
         <Route path="/" component={AppHeader}>
             <Route path="/Home" component={Introduction}/>
             <Route path="/Profile" component={Profile}/>
