@@ -2,20 +2,14 @@ const http = require('http');
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
-const _ = require('lodash');
 const bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-// const jwt = require('jsonwebtoken');
-
-const jsonServer = require('json-server');
-const jsonRouter = jsonServer.router(path.resolve(__dirname, '../webclient/data', 'users.json'));
-
-var mongoose = require('mongoose');
-var configDB = require('./services/config/database.js');
-var flash = require('connect-flash');
-mongoose.Promise = global.Promise;
-mongoose.connect(configDB.url);
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const mongoose = require('mongoose');
+const configDB = require('./services/config/database.js');
+const flash = require('connect-flash');
+    mongoose.Promise = global.Promise;
+    mongoose.connect(configDB.url);
 // passport
 const passport = require('passport');
 // const passportJWT = require('passport-jwt');
@@ -151,7 +145,6 @@ app.get('/Authenticate', isLoggedIn, function(req, res) {
 app.get('/userAvatar', isLoggedIn, function(req, res) {
 // console.log(req.user);
 });
-app.use(jsonRouter);
 
 app.use(function(req, res) {
     let err = new Error('Resource not found');
