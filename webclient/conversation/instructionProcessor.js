@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
 import {Container, Grid, Row, Col, ScreenClassRender} from 'react-grid-system';
+import StringDecoder from 'string_decoder';
 // import { BinaryClient } from '../assets/binary';
 // const session = {
 //         audio: true,
@@ -95,7 +96,7 @@ var session = {
     video: false
 };
 var Stream = null;
-
+const decoder= new StringDecoder('utf8');
 class InstructionProcessor extends React.Component
 {
     constructor()
@@ -120,7 +121,7 @@ class InstructionProcessor extends React.Component
 
       })
       client.on('stream',function(stream){
-        console.log(stream.toString('utf8'));
+        console.log(decoder.write(stream));
       })
 
     }
