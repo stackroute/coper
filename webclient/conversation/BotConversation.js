@@ -1,5 +1,6 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
+import ConversationMsgs from '../conversationRoutes/acknowledgementHandler.jsx'
 
 
 class PaperBot extends React.Component {
@@ -17,7 +18,8 @@ return(
 
 
 <Paper style={style} zDepth={5} >
-<h1>This is conversation timeline</h1>
+<ConversationMsgs/>
+
 </Paper>
 	);
 }

@@ -1,13 +1,16 @@
 import React from 'react';
 
-class Conversation extends React.Component {
+class ConversationMsgs extends React.Component {
   constructor()
   {
     super();
   }
   render() {
    const style={
-     textAlign: 'center',
+     height: auto,
+      width: auto,
+      maxWidth: '50%',
+      display: 'inline-block',
    };
 
    return(
@@ -19,4 +22,4 @@ class Conversation extends React.Component {
 
  }
 }
-export default Conversation;
+export default ConversationMsgs;

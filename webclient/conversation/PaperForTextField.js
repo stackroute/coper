@@ -1,6 +1,5 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import TextFieldarea from './myCompo.js';
 class PaperText extends React.Component {
 
 render()
@@ -18,7 +17,7 @@ const style = {
 return(
 
 
- <Paper style={style} zDepth={5} children={<TextFieldarea/>}/>
+ <Paper style={style} zDepth={5}/>
 
 	);
 }

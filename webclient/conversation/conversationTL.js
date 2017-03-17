@@ -11,14 +11,14 @@ class ConversationView extends React.Component
 				if (screenClass === 'xl')
 						return { height: '95vh',
 											width: '100vw',
-											// marginLeft: '20%',
+											 marginLeft: '20%',
 											textAlign: 'center',
 											display: 'inline-block',
 						};
 				if (screenClass === 'lg')
 						return { height: '95vh',
 											width: '100vw',
-											// marginLeft: '20%',
+											marginLeft: '20%',
 											textAlign: 'center',
 											display: 'inline-block',
 						};
