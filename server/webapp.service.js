@@ -6,7 +6,7 @@ const _ = require('lodash');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-//const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
 const jsonServer = require('json-server');
 const jsonRouter = jsonServer.router(path.resolve(__dirname, '../webclient/data', 'users.json'));
@@ -16,37 +16,37 @@ var configDB = require('./services/config/database.js');
 var flash = require('connect-flash');
 mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url);
-//passport
+// passport
 const passport = require('passport');
-//const passportJWT = require('passport-jwt');
+// const passportJWT = require('passport-jwt');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const User = require('./services/app/models/user');
 const configAuth = {
 
-    'googleAuth': {
-        'clientID': '212833991044-l102mt5bjeqtmqap3kj976me3km8jr5i.apps.googleusercontent.com',
-        'clientSecret': 'aHR-3D-AvSDgeU3ne8BjIz6q',
-        'callbackURL': '/auth/google/callback'
+    googleAuth: {
+        clientID: '212833991044-l102mt5bjeqtmqap3kj976me3km8jr5i.apps.googleusercontent.com',
+        clientSecret: 'aHR-3D-AvSDgeU3ne8BjIz6q',
+        callbackURL: '/auth/google/callback'
     }
-}
-// used to serialize the user for the session
+};
+//  used to serialize the user for the session
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
-// used to deserialize the user
+//  used to deserialize the user
 passport.deserializeUser(function(id, done) {
     User.findById(id, function(err, user) {
         done(err, user);
     });
 });
 
-// Google Strategy
+//  Google Strategy
 passport.use(new GoogleStrategy({
     clientID: configAuth.googleAuth.clientID,
     clientSecret: configAuth.googleAuth.clientSecret,
     callbackURL: configAuth.googleAuth.callbackURL
 }, function(token, refreshToken, profile, done) {
-    console.log(profile);
+    // console.log(profile);
     process.nextTick(function() {
         User.findOne({
             'google.id': profile.id
@@ -71,39 +71,38 @@ passport.use(new GoogleStrategy({
             return done(null, false);
         });
     });
-
 }));
-//passport end
-// Create App
+// passport end
+//  Create App
 const app = express();
 
-// const ExtractJwt = passportJWT.ExtractJwt;
-// const JwtStrategy = passportJWT.Strategy;
+//  const ExtractJwt = passportJWT.ExtractJwt;
+//  const JwtStrategy = passportJWT.Strategy;
 
-//  For logging each incoming requests
+//   For logging each incoming requests
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-// const jwtOptions = {};
-// jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeader();
-// jwtOptions.secretOrKey = 'lucy';
+//  const jwtOptions = {};
+//  jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeader();
+//  jwtOptions.secretOrKey = 'lucy';
 
 app.use(session({secret: '7march2017', resave: true, saveUninitialized: true}));
-// defined a strategy for Passport JWT
-// const strategy = new JwtStrategy(jwtOptions, function(jwtPayload, next) {
-//   // payload acknowledgement
-//   console.log('payload received', jwtPayload);
-//   // database call
-//   const user = users[_.findIndex(users, {id: jwtPayload.id})];
-//   if (user) {
-//     next(null, user);
-//   } else {
-//     next(null, false);
-//   }
-// });
+//  defined a strategy for Passport JWT
+//  const strategy = new JwtStrategy(jwtOptions, function(jwtPayload, next) {
+//    //  payload acknowledgement
+//    console.log('payload received', jwtPayload);
+//    //  database call
+//    const user = users[_.findIndex(users, {id: jwtPayload.id})];
+//    if (user) {
+//      next(null, user);
+//    } else {
+//      next(null, false);
+//    }
+//  });
 
-//passport.use(strategy);
+// passport.use(strategy);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -116,7 +115,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../webpack.config.js');
 const webpackCompiler = webpack(webpackConfig);
 
-// setup middlewares
+//  setup middlewares
 app.use(webpackDevMiddleware(webpackCompiler, {
     noInfo: true,
     publicPath: webpackConfig.output.publicPath
@@ -136,7 +135,7 @@ app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/#/Home');
 });
-//gmail authentication
+// gmail authentication
 app.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email']
 }));
@@ -144,13 +143,13 @@ app.get('/auth/google/callback', passport.authenticate('google', {
     successRedirect: '/#/UserHome',
     failureRedirect: '/#/Home'
 }));
-//gmail authentication end
-//get user avatar
-app.get('/Authenticate',isLoggedIn,function(req,res){
+// gmail authentication end
+// get user avatar
+app.get('/Authenticate', isLoggedIn, function(req, res) {
   res.status(200).send();
 });
-app.get('/userAvatar',isLoggedIn,function(req,res){
-console.log(req.user);
+app.get('/userAvatar', isLoggedIn, function(req, res) {
+// console.log(req.user);
 });
 app.use(jsonRouter);
 
@@ -164,13 +163,13 @@ app.use(function(err, req, res) {
     logger.error('Internal error in watch processor: ', err);
     return res.status(err.status || 500).json({error: err.message});
 });
-// route middleware
+//  route middleware
 function isLoggedIn(req, res, next) {
-  console.log('check log status');
-    console.log(req.isAuthenticated());
+  // console.log('check log status');
+    // console.log(req.isAuthenticated());
     if (req.isAuthenticated() === true)
         return next();
-    console.log('false');
+    // console.log('false');
     res.status(201).send('');
     return 1;
 }

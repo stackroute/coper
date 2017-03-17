@@ -1,3 +1,3 @@
-import Conversation from './conversation.js';
+import ConversationView from './conversationTL.js';
 
-export default Conversation;
+export default ConversationView;

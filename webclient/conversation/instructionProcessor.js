@@ -105,7 +105,7 @@ class InstructionProcessor extends React.Component
             text: '',
             recorderOpen: false,
             paperColor: '#EEF3F2',
-            iconColor: '#fff',
+            iconColor: '#ccc',
             micColor: '#CCCCCC'
         }
     }
@@ -159,11 +159,11 @@ class InstructionProcessor extends React.Component
     }
     handleFocus()
     {
-        this.setState({paperColor: '#FFFFFF', iconColor: '#ccc'});
+        this.setState({paperColor: '#FFFFFF'});
     }
     handleBlur()
     {
-        this.setState({paperColor: '#EEF3F2', iconColor: '#fff'});
+        this.setState({paperColor: '#EEF3F2'});
     }
     handleRecord()
     {
@@ -227,8 +227,8 @@ class InstructionProcessor extends React.Component
         if (this.state.text === '') {
             icons = (
                 <span className='input-group-btn'>
-                    <IconButton style={this.state.micColor} onTouchTap={this.handleRecord.bind(this)}>
-                        <svg fill={this.state.iconColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                    <IconButton style={this.state.iconButtonStyle} onTouchTap={this.handleRecord.bind(this)}>
+                        <svg fill={this.state.micColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
                             <path d="M0 0h24v24H0z" fill="none"/>
                         </svg>
@@ -257,7 +257,7 @@ class InstructionProcessor extends React.Component
             <div>
                 <Row>
                     <Col xs={12} sm={12} md={12} lg={12}>
-                        <Paper style={styles.paperStyle}>
+                        <Paper style={styles.paperStyle} zDepth={2}>
                             <div className='input-group'>
                                 <TextField fullWidth={true} name='searchtext' value={this.state.text} multiLine={true} rowsMax={4} underlineShow={false} hintText='Write something..' onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} onKeyPress={this.handleKeyPress.bind(this)}/> {icons}
                             </div>
