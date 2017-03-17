@@ -1,7 +1,7 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 
-class AcknowledgementResponse extends React.Component {
+class ActionResponse extends React.Component {
   constructor()
   {
     super();
@@ -18,14 +18,11 @@ class AcknowledgementResponse extends React.Component {
    return(
 
 <Paper style={style} zDepth={5} >
-    <b>Let your conversation begin... hsadga uatdsi jagdiag ua dgi adiga
-    adhgjagd
-    shjgjhsgjgs
-    sdhfjgs
-    sfgkjg</b>
+    <b>
+    </b>
     </Paper>
     );
 
  }
 }
-export default AcknowledgementResponse;
+export default ActionResponse;

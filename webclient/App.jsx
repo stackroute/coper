@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, hashHistory} from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import AppHeader from './view/welcome';
-import {ChangePassword, Profile, AccountSettings} from './userProfile/index.js';
-import {Notification} from './notifications/index.js';
-import ConversationView from './conversation/index.js';
-import {Introduction} from './home/index.js';
-import About from './view/aboutUs.js';
-import Contact from './view/contactUs.js';
+import AppHeader from './view/welcome.jsx';
+import {ChangePassword, Profile, AccountSettings} from './userProfile/index.jsx';
+import {Notification} from './notifications/index.jsx';
+import ConversationView from './conversation/index.jsx';
+import {Introduction} from './home/index.jsx';
+import About from './view/aboutUs.jsx';
+import Contact from './view/contactUs.jsx';
 injectTapEventPlugin();
 
 ReactDOM.render((

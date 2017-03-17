@@ -6,8 +6,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {Introduction, Navbar} from '../home/index.js';
-import CustomMenu from '../home/menu.js';
+import {Introduction, Navbar} from '../home/index.jsx';
+import CustomMenu from '../home/menu.jsx';
 import cookie from 'react-cookie';
 
 class AppHeader extends React.Component {
