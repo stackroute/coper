@@ -16,7 +16,6 @@ class Introduction extends React.Component
     }
     updateDimensions()
     {
-        console.log("updating dimension" + window.innerWidth);
         this.setState({height: window.innerHeight, width: window.innerWidth});
     }
     componentDidMount()
@@ -125,13 +124,15 @@ class Introduction extends React.Component
                     <Row style={{
                         width: '100%'
                     }}>
+                        <Col md={3} lg={3}></Col>
                         <Col xs={12} sm={12} md={6} lg={6}>
                             <Paper style={style} zDepth={0}>
                                 <h1>Conversational User Experience Platform.<br/>
                                     Now we are talking.</h1><br/>
                                 <h3>Build brand-unique, natural language interactions<br/>
                                     for bots, applications, services, and devices.<br/></h3>
-                                <Link to='/Register'><RaisedButton label="GET STARTED FREE" labelStyle={labelStyle} backgroundColor='#EC5509' style={buttonStyle}/></Link>
+                                <a href='/auth/google'><RaisedButton label="GET STARTED FREE" labelStyle={labelStyle} backgroundColor='#EC5509'
+                                 style={buttonStyle}/></a>
                             </Paper>
                         </Col>
                     </Row>
