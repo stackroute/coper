@@ -12,7 +12,7 @@ import Popover from 'material-ui/Popover';
 import Drawer from 'material-ui/Drawer';
 import {Menu, MenuItem} from 'material-ui/Menu';
 
-import CustomMenu from './menu';
+import CustomMenu from './menu.jsx';
 
 let styles = {
     signInButtonStyle: {

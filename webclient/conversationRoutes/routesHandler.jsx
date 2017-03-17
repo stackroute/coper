@@ -1,7 +1,7 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 
-class AcknowledgementResponse extends React.Component {
+class ConversationMsgs extends React.Component {
   constructor()
   {
     super();
@@ -28,4 +28,4 @@ class AcknowledgementResponse extends React.Component {
 
  }
 }
-export default AcknowledgementResponse;
+export default ConversationMsgs;
