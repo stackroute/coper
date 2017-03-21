@@ -10,8 +10,6 @@ var jwtDecode = require('jwt-decode');
 var config = require('./config');
 var app = express();
 app.set('superSecret', config.secret); // secret variable
-const jsonServer = require('json-server');
-const jsonRouter = jsonServer.router(path.resolve(__dirname, '../webclient/data', 'users.json'));
 
 var mongoose = require('mongoose');
 var configDB = require('./services/config/database.js');
@@ -23,7 +21,6 @@ app.use(morgan('dev'));
 //app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-
 const compression = require('compression');
 app.use(compression());
 const webpack = require('webpack');
