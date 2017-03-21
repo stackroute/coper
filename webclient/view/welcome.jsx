@@ -28,17 +28,25 @@ class AppHeader extends React.Component {
         this.localUserAuthentication = this.localUserAuthentication.bind(this);
     }
     componentDidMount() {
+      let url='';
+      try{
+        url=window.location.hash.split('?')[1].split('=')[1];
+        localStorage.setItem('lucytoken',url);
+      }catch(ex)
+      {
+        url=''
+      }
       console.log(window.location.hash);
-      this.localUserAuthentication(window.location.hash.split('?')[1].split('=')[1]);
+      this.localUserAuthentication(url);
       console.log(window.location.search)
     }
     localUserAuthentication(url) {
 
-      console.log('local');
+      var token=localStorage.getItem('lucytoken') || '';
         var that = this;
         axios({
             method: 'post',
-            url: '/Authenticate/'+url,
+            url: '/Authenticate/'+token,
         }).then(function(res){
         console.log(window.location);
           if(res.status === 200)
@@ -74,7 +82,7 @@ class AppHeader extends React.Component {
             <MuiThemeProvider>
                 <div>
                     <div>
-                        <Navbar loggedin={true} handleLogoutUser={this.handleLogoutUser.bind(this)}/>
+                        <Navbar loggedin={this.state.loggedin} handleLogoutUser={this.handleLogoutUser.bind(this)}/>
                         <div id="fake"></div>
                         <Snackbar open={this.state.openSnackbar} message={this.state.message} autoHideDuration={2000}/>
                     </div>

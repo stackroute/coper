@@ -107,13 +107,14 @@ class Navbar extends React.Component {
     }
     fetchNotification()
     {
-        let numberOfNotifications = 0;
-        let that = this;
-        let userDetails = JSON.parse(localStorage.getItem('cognitiveUser'));
-        axios.get('/notifications/' + userDetails.user.username).then(function(response) {
-            numberOfNotifications = response.data.notifications.length;
-            that.setState({numberOfNotifications});
-        })
+        // let numberOfNotifications = 0;
+        // let that = this;
+        // let userDetails = JSON.parse(localStorage.getItem('cognitiveUser'));
+        // axios.get('/notifications/' + userDetails.user.username).then(function(response) {
+        //     numberOfNotifications = response.data.notifications.length;
+        //     that.setState({numberOfNotifications});
+        // })
+        this.setState({numberOfNotifications:0});
     }
     fetchProfilePic() {
         let that = this;

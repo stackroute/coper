@@ -1,7 +1,6 @@
 [{
-    "id": 1232132132323,
     "userid": 13332423423423,
-    "requests": [{"text":"what is the weather"}],
+    "requests": [{"text":"show me the "}],
     "responses": [],
     "intent": "",
     "entities": [{}],
@@ -10,7 +9,6 @@
     "isCompleted": "false",
     "timestamp": ""
 }, {
-    "id": 1232132132323,
     "userid": 13332423423423,
     "requests": [],
     "responses": [],

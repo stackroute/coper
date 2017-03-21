@@ -9,6 +9,20 @@ const jwt = require('jsonwebtoken');
 var jwtDecode = require('jwt-decode');
 var config = require('./config');
 var app = express();
+// //google-speech
+// var binaryServer = require('binaryjs').BinaryServer;
+// var wav = require('wav');
+// const StreamBodyParser = require('stream-body-parser'),
+//     Transcoder = require('stream-transcoder');
+// const fs = require('fs');
+// const Speech = require('@google-cloud/speech');
+// const projectId = 'gothic-depth-160205';
+// const speechClient = Speech({
+//   projectId: projectId,
+//   keyFilename: './key.json'
+// });
+// //end
+
 app.set('superSecret', config.secret); // secret variable
 
 var mongoose = require('mongoose');
@@ -76,7 +90,7 @@ passport.use(new GoogleStrategy({
     console.log(profile);
     process.nextTick(function() {
         User.findOne({
-            email: profile.email
+            username: profile.id
         }, function(err, user) {
             if (err)
                 return done(err);
@@ -84,11 +98,11 @@ passport.use(new GoogleStrategy({
                 return done(null, user);
             }
             var newUser = new User();
-            newUser.google.id = profile.id;
-            newUser.google.token = token;
-            newUser.google.name = profile.displayName;
-            newUser.google.email = profile.emails[0].value;
-            newUser.google.avatar = profile.photos[0].value;
+            newUser.username= profile.id;
+            newUser.token = token;
+            newUser.name = profile.displayName;
+            newUser.email = profile.emails[0].value;
+            newUser.avatar = profile.photos[0].value;
             console.log(token);
             newUser.save(function(err) {
                 if (err)
@@ -124,9 +138,9 @@ app.get( '/auth/google/callback',
             , session: false
         }),
         function(req, res) {
-            // console.log(req.user.google);
+            //console.log(req.user);
             //var token = jwt.encode(req.user);
-            var token = jwt.sign(req.user.google, app.get('superSecret'), {
+            var token = jwt.sign(req.user, app.get('superSecret'), {
         });
             console.log(token);
             var decoded = jwtDecode(token);
