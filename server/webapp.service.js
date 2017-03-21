@@ -2,23 +2,19 @@ const http = require('http');
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
-<<<<<<< HEAD
-//const _ = require('lodash');
 const bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-//var session = require('express-session');
+const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
+const configDB = require('./services/config/database.js');
 const jwt = require('jsonwebtoken');
 var jwtDecode = require('jwt-decode');
 var config = require('./config');
 var app = express();
 app.set('superSecret', config.secret); // secret variable
 
-const jsonServer = require('json-server');
-const jsonRouter = jsonServer.router(path.resolve(__dirname, '../webclient/data', 'users.json'));
-
 var mongoose = require('mongoose');
 var configDB = require('./services/config/database.js');
-var flash = require('connect-flash');
+
 mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url);
 
@@ -51,8 +47,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // passport.use(strategy);
 
-
-app.use(flash());
 const compression = require('compression');
 app.use(compression());
 const webpack = require('webpack');
@@ -77,17 +71,6 @@ app.get('/', function(req, res) {
     res.sendFile(path.resolve(__dirname, '../', 'webclient', 'assets', 'index.html', 'client'));
 });
 
-
-=======
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const mongoose = require('mongoose');
-const configDB = require('./services/config/database.js');
-const flash = require('connect-flash');
-    mongoose.Promise = global.Promise;
-    mongoose.connect(configDB.url);
->>>>>>> f39f717a2f29d35a90a04be3b28998ea26ef6106
 // passport
 const passport = require('passport');
 // const passportJWT = require('passport-jwt');
