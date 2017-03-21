@@ -2,13 +2,23 @@ const http = require('http');
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
-const _ = require('lodash');
+<<<<<<< HEAD
+//const _ = require('lodash');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+<<<<<<< HEAD
 var session = require('express-session');
 // const jwt = require('jsonwebtoken');
 const users= require('./users');
 
+=======
+//var session = require('express-session');
+const jwt = require('jsonwebtoken');
+var jwtDecode = require('jwt-decode');
+var config = require('./config');
+var app = express();
+app.set('superSecret', config.secret); // secret variable
+>>>>>>> f673c870851957a9b57e880a843ae7a0da064340
 
 const jsonServer = require('json-server');
 const jsonRouter = jsonServer.router(path.resolve(__dirname, '../webclient/data', 'users.json'));
@@ -19,13 +29,79 @@ var configDB = require('./services/config/database.js');
 var flash = require('connect-flash');
 mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url);
+
+
+//  const ExtractJwt = passportJWT.ExtractJwt;
+//  const JwtStrategy = passportJWT.Strategy;
+
+//   For logging each incoming requests
+app.use(morgan('dev'));
+//app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+//  const jwtOptions = {};
+//  jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeader();
+//  jwtOptions.secretOrKey = 'lucy';
+
+//app.use(session({secret: 'lucy', resave: true, saveUninitialized: true}));
+//  defined a strategy for Passport JWT
+//  const strategy = new JwtStrategy(jwtOptions, function(jwtPayload, next) {
+//    //  payload acknowledgement
+//    console.log('payload received', jwtPayload);
+//    //  database call
+//    const user = users[_.findIndex(users, {id: jwtPayload.id})];
+//    if (user) {
+//      next(null, user);
+//    } else {
+//      next(null, false);
+//    }
+//  });
+
+// passport.use(strategy);
+
+
+app.use(flash());
+const compression = require('compression');
+app.use(compression());
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackConfig = require('../webpack.config.js');
+const webpackCompiler = webpack(webpackConfig);
+
+//  setup middlewares
+app.use(webpackDevMiddleware(webpackCompiler, {
+    noInfo: true,
+    publicPath: webpackConfig.output.publicPath
+}));
+app.use(webpackHotMiddleware(webpackCompiler, {
+    path: '/__webpack_hmr',
+    heartbeat: 10 * 1000
+}));
+function authorize(token) {}
+app.use(express.static(path.resolve(__dirname, '../', 'webclient')));
+
+app.get('/', function(req, res) {
+    res.sendFile(path.resolve(__dirname, '../', 'webclient', 'assets', 'index.html', 'client'));
+});
+
+
+=======
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const mongoose = require('mongoose');
+const configDB = require('./services/config/database.js');
+const flash = require('connect-flash');
+    mongoose.Promise = global.Promise;
+    mongoose.connect(configDB.url);
+>>>>>>> f39f717a2f29d35a90a04be3b28998ea26ef6106
 // passport
 const passport = require('passport');
 // const passportJWT = require('passport-jwt');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const User = require('./users/users.entity');
 const configAuth = {
-
     googleAuth: {
         clientID: '212833991044-l102mt5bjeqtmqap3kj976me3km8jr5i.apps.googleusercontent.com',
         clientSecret: 'aHR-3D-AvSDgeU3ne8BjIz6q',
@@ -49,7 +125,7 @@ passport.use(new GoogleStrategy({
     clientSecret: configAuth.googleAuth.clientSecret,
     callbackURL: configAuth.googleAuth.callbackURL
 }, function(token, refreshToken, profile, done) {
-    // console.log(profile);
+    console.log(profile);
     process.nextTick(function() {
         User.findOne({
             email: profile.email
@@ -60,11 +136,20 @@ passport.use(new GoogleStrategy({
                 return done(null, user);
             }
             var newUser = new User();
+<<<<<<< HEAD
             newUser.username = profile.id;
             newUser.token = token;
             newUser.name = profile.displayName;
             newUser.email = profile.emails[0].value;
             newUser.profilePic = profile.photos[0].value;
+=======
+            newUser.google.id = profile.id;
+            newUser.google.token = token;
+            newUser.google.name = profile.displayName;
+            newUser.google.email = profile.emails[0].value;
+            newUser.google.avatar = profile.photos[0].value;
+            console.log(token);
+>>>>>>> f673c870851957a9b57e880a843ae7a0da064340
             newUser.save(function(err) {
                 if (err)
                     return done(err);
@@ -75,40 +160,9 @@ passport.use(new GoogleStrategy({
         });
     });
 }));
-// passport end
-//  Create App
-const app = express();
-
-//  const ExtractJwt = passportJWT.ExtractJwt;
-//  const JwtStrategy = passportJWT.Strategy;
-
-//   For logging each incoming requests
-app.use(morgan('dev'));
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-//  const jwtOptions = {};
-//  jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeader();
-//  jwtOptions.secretOrKey = 'lucy';
-
-app.use(session({secret: '7march2017', resave: true, saveUninitialized: true}));
-//  defined a strategy for Passport JWT
-//  const strategy = new JwtStrategy(jwtOptions, function(jwtPayload, next) {
-//    //  payload acknowledgement
-//    console.log('payload received', jwtPayload);
-//    //  database call
-//    const user = users[_.findIndex(users, {id: jwtPayload.id})];
-//    if (user) {
-//      next(null, user);
-//    } else {
-//      next(null, false);
-//    }
-//  });
-
-// passport.use(strategy);
-
 app.use(passport.initialize());
 app.use(passport.session());
+<<<<<<< HEAD
 app.use(flash());
 const compression = require('compression');
 app.use(compression());
@@ -134,6 +188,9 @@ app.get('/', function(req, res) {
     res.sendFile(path.resolve(__dirname, '../', 'webclient', 'assets', 'index.html', 'client'));
 });
 app.use('/users',users);
+=======
+// passport end
+>>>>>>> f673c870851957a9b57e880a843ae7a0da064340
 app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/#/Home');
@@ -142,19 +199,58 @@ app.get('/logout', function(req, res) {
 app.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email']
 }));
-app.get('/auth/google/callback', passport.authenticate('google', {
-    successRedirect: '/#/UserHome',
-    failureRedirect: '/#/Home'
-}));
+
+// app.get('/auth/google/callback', passport.authenticate('google', {
+//     successRedirect: '/#/UserHome',
+//     failureRedirect: '/#/Home'
+// }));
+app.get( '/auth/google/callback',
+        passport.authenticate('google', {
+            //successRedirect: '/',
+            failureRedirect: '/#/Home'
+            , session: false
+        }),
+        function(req, res) {
+            // console.log(req.user.google);
+            //var token = jwt.encode(req.user);
+            var token = jwt.sign(req.user.google, app.get('superSecret'), {
+        });
+            console.log(token);
+            var decoded = jwtDecode(token);
+            console.log(decoded);
+            res.redirect("/#/UserHome?token=" + token);
+        });
+
 // gmail authentication end
 // get user avatar
-app.get('/Authenticate', isLoggedIn, function(req, res) {
-  res.status(200).send();
+function handleNewToken(token) {
+        if (!token)
+            return;
+
+        localStorageService.set('token', token);
+        // Fetch activeUser
+       $http.get("/Authenticate/" + token)
+           .then(function (result) {
+               setActiveUser(result.data);
+       });
+   }
+app.post('/Authenticate/:token', function(req, res) {
+  try{
+    console.log(req.params.token);
+    if(req.params.token)
+    res.status(200).send();
+    else {
+      res.status(500).send();
+    }
+  }catch(ex)
+  {
+    console.log(ex);
+  }
+
 });
 app.get('/userAvatar', isLoggedIn, function(req, res) {
 // console.log(req.user);
 });
-app.use(jsonRouter);
 
 app.use(function(req, res) {
     let err = new Error('Resource not found');
@@ -167,14 +263,11 @@ app.use(function(err, req, res) {
     return res.status(err.status || 500).json({error: err.message});
 });
 //  route middleware
-function isLoggedIn(req, res, next) {
-  // console.log('check log status');
-    // console.log(req.isAuthenticated());
-    if (req.isAuthenticated() === true)
-        return next();
-    // console.log('false');
-    res.status(201).send('');
-    return 1;
+ function isLoggedIn(req, res, next) {
+     if (req.isAuthenticated() === true)
+         return next();
+     res.status(201).send('');
+     return 1;
 }
 
 module.exports = app;

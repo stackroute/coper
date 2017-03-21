@@ -28,15 +28,23 @@ class AppHeader extends React.Component {
         this.localUserAuthentication = this.localUserAuthentication.bind(this);
     }
     componentDidMount() {
+<<<<<<< HEAD
       //this.localUserAuthentication();
+=======
+    console.log(window.location.hash);
+      this.localUserAuthentication(window.location.hash.split('?')[1].split('=')[1]);
+      console.log(window.location.search)
+>>>>>>> f673c870851957a9b57e880a843ae7a0da064340
     }
-    localUserAuthentication() {
+    localUserAuthentication(url) {
+
       console.log('local');
         var that = this;
         axios({
-            method: 'get',
-            url: '/Authenticate',
+            method: 'post',
+            url: '/Authenticate/'+url,
         }).then(function(res){
+        console.log(window.location);
           if(res.status === 200)
           {
             console.log('loggedin');
@@ -48,6 +56,9 @@ class AppHeader extends React.Component {
             that.setState({loggedin: false});
             hashHistory.push('/Home');
           }
+        },function(err){
+        console.log('asa')
+        hashHistory.push('/Home');
         })
     }
     handleLogoutUser() {
