@@ -2,65 +2,28 @@ const http = require('http');
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
-<<<<<<< HEAD
-//const _ = require('lodash');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-<<<<<<< HEAD
-var session = require('express-session');
-// const jwt = require('jsonwebtoken');
 const users= require('./users');
-
-=======
-//var session = require('express-session');
 const jwt = require('jsonwebtoken');
 var jwtDecode = require('jwt-decode');
 var config = require('./config');
 var app = express();
 app.set('superSecret', config.secret); // secret variable
->>>>>>> f673c870851957a9b57e880a843ae7a0da064340
-
 const jsonServer = require('json-server');
 const jsonRouter = jsonServer.router(path.resolve(__dirname, '../webclient/data', 'users.json'));
 
-var mongoose = require
-('mongoose');
+var mongoose = require('mongoose');
 var configDB = require('./services/config/database.js');
-var flash = require('connect-flash');
 mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url);
-
-
-//  const ExtractJwt = passportJWT.ExtractJwt;
-//  const JwtStrategy = passportJWT.Strategy;
 
 //   For logging each incoming requests
 app.use(morgan('dev'));
 //app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-//  const jwtOptions = {};
-//  jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeader();
-//  jwtOptions.secretOrKey = 'lucy';
 
-//app.use(session({secret: 'lucy', resave: true, saveUninitialized: true}));
-//  defined a strategy for Passport JWT
-//  const strategy = new JwtStrategy(jwtOptions, function(jwtPayload, next) {
-//    //  payload acknowledgement
-//    console.log('payload received', jwtPayload);
-//    //  database call
-//    const user = users[_.findIndex(users, {id: jwtPayload.id})];
-//    if (user) {
-//      next(null, user);
-//    } else {
-//      next(null, false);
-//    }
-//  });
-
-// passport.use(strategy);
-
-
-app.use(flash());
 const compression = require('compression');
 app.use(compression());
 const webpack = require('webpack');
@@ -84,18 +47,6 @@ app.use(express.static(path.resolve(__dirname, '../', 'webclient')));
 app.get('/', function(req, res) {
     res.sendFile(path.resolve(__dirname, '../', 'webclient', 'assets', 'index.html', 'client'));
 });
-
-
-=======
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const mongoose = require('mongoose');
-const configDB = require('./services/config/database.js');
-const flash = require('connect-flash');
-    mongoose.Promise = global.Promise;
-    mongoose.connect(configDB.url);
->>>>>>> f39f717a2f29d35a90a04be3b28998ea26ef6106
 // passport
 const passport = require('passport');
 // const passportJWT = require('passport-jwt');
@@ -136,20 +87,12 @@ passport.use(new GoogleStrategy({
                 return done(null, user);
             }
             var newUser = new User();
-<<<<<<< HEAD
-            newUser.username = profile.id;
-            newUser.token = token;
-            newUser.name = profile.displayName;
-            newUser.email = profile.emails[0].value;
-            newUser.profilePic = profile.photos[0].value;
-=======
             newUser.google.id = profile.id;
             newUser.google.token = token;
             newUser.google.name = profile.displayName;
             newUser.google.email = profile.emails[0].value;
             newUser.google.avatar = profile.photos[0].value;
             console.log(token);
->>>>>>> f673c870851957a9b57e880a843ae7a0da064340
             newUser.save(function(err) {
                 if (err)
                     return done(err);
@@ -162,35 +105,8 @@ passport.use(new GoogleStrategy({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-<<<<<<< HEAD
-app.use(flash());
-const compression = require('compression');
-app.use(compression());
-const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const webpackConfig = require('../webpack.config.js');
-const webpackCompiler = webpack(webpackConfig);
 
-//  setup middlewares
-app.use(webpackDevMiddleware(webpackCompiler, {
-    noInfo: true,
-    publicPath: webpackConfig.output.publicPath
-}));
-app.use(webpackHotMiddleware(webpackCompiler, {
-    path: '/__webpack_hmr',
-    heartbeat: 10 * 1000
-}));
-function authorize(token) {}
-app.use(express.static(path.resolve(__dirname, '../', 'webclient')));
-
-app.get('/', function(req, res) {
-    res.sendFile(path.resolve(__dirname, '../', 'webclient', 'assets', 'index.html', 'client'));
-});
 app.use('/users',users);
-=======
-// passport end
->>>>>>> f673c870851957a9b57e880a843ae7a0da064340
 app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/#/Home');
@@ -223,17 +139,6 @@ app.get( '/auth/google/callback',
 
 // gmail authentication end
 // get user avatar
-function handleNewToken(token) {
-        if (!token)
-            return;
-
-        localStorageService.set('token', token);
-        // Fetch activeUser
-       $http.get("/Authenticate/" + token)
-           .then(function (result) {
-               setActiveUser(result.data);
-       });
-   }
 app.post('/Authenticate/:token', function(req, res) {
   try{
     console.log(req.params.token);

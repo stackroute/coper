@@ -28,13 +28,9 @@ class AppHeader extends React.Component {
         this.localUserAuthentication = this.localUserAuthentication.bind(this);
     }
     componentDidMount() {
-<<<<<<< HEAD
-      //this.localUserAuthentication();
-=======
-    console.log(window.location.hash);
+      console.log(window.location.hash);
       this.localUserAuthentication(window.location.hash.split('?')[1].split('=')[1]);
       console.log(window.location.search)
->>>>>>> f673c870851957a9b57e880a843ae7a0da064340
     }
     localUserAuthentication(url) {
 
