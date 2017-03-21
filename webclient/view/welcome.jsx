@@ -28,7 +28,7 @@ class AppHeader extends React.Component {
         this.localUserAuthentication = this.localUserAuthentication.bind(this);
     }
     componentDidMount() {
-      this.localUserAuthentication();
+      //this.localUserAuthentication();
     }
     localUserAuthentication() {
       console.log('local');
@@ -67,7 +67,7 @@ class AppHeader extends React.Component {
             <MuiThemeProvider>
                 <div>
                     <div>
-                        <Navbar loggedin={this.state.loggedin} handleLogoutUser={this.handleLogoutUser.bind(this)}/>
+                        <Navbar loggedin={true} handleLogoutUser={this.handleLogoutUser.bind(this)}/>
                         <div id="fake"></div>
                         <Snackbar open={this.state.openSnackbar} message={this.state.message} autoHideDuration={2000}/>
                     </div>

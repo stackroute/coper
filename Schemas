@@ -1,0 +1,10 @@
+1. Users
+- is used for all user related queries such as profile,user actions,accout settings
+2. Authentication
+- is used to authenticate and validate user
+3. Notifications
+- is used for all notification related queries
+4. Services
+- is used for all services , each service will have its own entity
+5. Conversations
+- is used to display and store any conversation

@@ -7,11 +7,14 @@ const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 // const jwt = require('jsonwebtoken');
+const users= require('./users');
+
 
 const jsonServer = require('json-server');
 const jsonRouter = jsonServer.router(path.resolve(__dirname, '../webclient/data', 'users.json'));
 
-var mongoose = require('mongoose');
+var mongoose = require
+('mongoose');
 var configDB = require('./services/config/database.js');
 var flash = require('connect-flash');
 mongoose.Promise = global.Promise;
@@ -20,7 +23,7 @@ mongoose.connect(configDB.url);
 const passport = require('passport');
 // const passportJWT = require('passport-jwt');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const User = require('./services/app/models/user');
+const User = require('./users/users.entity');
 const configAuth = {
 
     googleAuth: {
@@ -49,7 +52,7 @@ passport.use(new GoogleStrategy({
     // console.log(profile);
     process.nextTick(function() {
         User.findOne({
-            'google.id': profile.id
+            email: profile.email
         }, function(err, user) {
             if (err)
                 return done(err);
@@ -57,11 +60,11 @@ passport.use(new GoogleStrategy({
                 return done(null, user);
             }
             var newUser = new User();
-            newUser.google.id = profile.id;
-            newUser.google.token = token;
-            newUser.google.name = profile.displayName;
-            newUser.google.email = profile.emails[0].value;
-            newUser.google.avatar = profile.photos[0].value;
+            newUser.username = profile.id;
+            newUser.token = token;
+            newUser.name = profile.displayName;
+            newUser.email = profile.emails[0].value;
+            newUser.profilePic = profile.photos[0].value;
             newUser.save(function(err) {
                 if (err)
                     return done(err);
@@ -130,7 +133,7 @@ app.use(express.static(path.resolve(__dirname, '../', 'webclient')));
 app.get('/', function(req, res) {
     res.sendFile(path.resolve(__dirname, '../', 'webclient', 'assets', 'index.html', 'client'));
 });
-
+app.use('/users',users);
 app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/#/Home');

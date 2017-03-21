@@ -119,9 +119,9 @@ class Navbar extends React.Component {
         let that = this;
         let userImage = '';
         let userDetails = JSON.parse(localStorage.getItem('cognitiveUser'));
-        axios.get('/userAvatar').then(function(response) {
+        axios.get('/users/123').then(function(response) {
             console.log(response);
-            // userImage = response.data[0].image;
+            userImage = response.data.user.profilePic;
             that.setState({userImage});
         })
     }

@@ -43,28 +43,28 @@ import StringDecoder from 'string_decoder';
 // const onError= ()=> function(){
 //   console.log('error');
 // }
-/*var client = new BinaryClient('ws://localhost:9001');
+var client = new BinaryClient('ws://localhost:9001');
 var session = {
     audio: true,
     video: false
 };
 var Stream = null;
 var x = 0;
-const convertFloat32ToInt16 = (buffer) => function() {
-    l = buffer.length;
-    buf = new Int16Array(l);
+const convertFloat32ToInt16 = function(buffer) {
+    let l = buffer.length;
+    let buf = new Int16Array(l);
     while (l--) {
         buf[l] = Math.min(1, buffer[l]) * 0x7FFF;
     }
     return buf.buffer;
 }
 
-const recorderProcess = (e) => function() {
+const recorderProcess = function(e) {
     var left = e.inputBuffer.getChannelData(0);
     console.log('fff');
     Stream.write(convertFloat32ToInt16(left));
 }
-const initializeRecorder = (stream) => function() {
+const initializeRecorder =function(stream) {
     var audioContext = window.AudioContext || window.webkitAudioContext;
     var context = new audioContext();
     var audioInput = context.createMediaStreamSource(stream);
@@ -89,14 +89,8 @@ client.on('open', function() {
         console.log('paused');
     })
 });
-*/
-var x = 0;
-var session = {
-    audio: true,
-    video: false
-};
-var Stream = null;
-const decoder= new StringDecoder('utf8');
+
+// const decoder= StringDecoder('utf8');
 class InstructionProcessor extends React.Component
 {
     constructor()
@@ -114,15 +108,16 @@ class InstructionProcessor extends React.Component
     {
       client.on('open', function() {
           // for the sake of this example let's put the stream in the window
+          console.log('xsresr');
           Stream = client.createStream();
           Stream.on('pause', function(){
             console.log('paused');
           })
 
       })
-      client.on('stream',function(stream){
-        console.log(decoder.write(stream));
-      })
+      // client.on('stream',function(stream){
+      //   console.log(decoder.write(stream));
+      // })
 
     }
      initializeRecorder(stream) {
