@@ -2,6 +2,7 @@ const http = require('http');
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
+<<<<<<< HEAD
 //const _ = require('lodash');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -77,6 +78,16 @@ app.get('/', function(req, res) {
 });
 
 
+=======
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const mongoose = require('mongoose');
+const configDB = require('./services/config/database.js');
+const flash = require('connect-flash');
+    mongoose.Promise = global.Promise;
+    mongoose.connect(configDB.url);
+>>>>>>> f39f717a2f29d35a90a04be3b28998ea26ef6106
 // passport
 const passport = require('passport');
 // const passportJWT = require('passport-jwt');
@@ -196,7 +207,6 @@ app.post('/Authenticate/:token', function(req, res) {
 app.get('/userAvatar', isLoggedIn, function(req, res) {
 // console.log(req.user);
 });
-app.use(jsonRouter);
 
 app.use(function(req, res) {
     let err = new Error('Resource not found');
