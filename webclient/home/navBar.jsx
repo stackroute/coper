@@ -119,12 +119,29 @@ class Navbar extends React.Component {
     fetchProfilePic() {
         let that = this;
         let userImage = '';
-        let userDetails = localStorage.getItem('lucytoken');
-        axios.get('/users/123').then(function(response) {
-            console.log(response);
-            userImage = response.data.user.profilePic;
-            that.setState({userImage});
+        let token = localStorage.getItem('lucytoken');
+        axios({
+            method: 'post',
+            url: '/auth/'+token,
+        }).then(function(res){
+        console.log(res.data);
+          if(res.status === 200)
+          {
+            axios.get('/users/'+res.data.username).then(function(response) {
+                console.log(response);
+                userImage = response.data.user.profilePic;
+                that.setState({userImage});
+            })
+          }
+          else {
+            console.log('not loggedin');
+            that.props.handleLogoutUser();
+          }
+        },function(err){
+        console.log('asa')
+        that.props.handleLogoutUser();
         })
+
     }
 
     fetchMenu() {

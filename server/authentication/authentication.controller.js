@@ -6,15 +6,17 @@ const jwtDecode = require('jwt-decode');
 const superSecret = require('./config/configJwt');
 const googleCallback = function (user){
   const token = jwt.sign(user, superSecret.secret);
-  // console.log(token);
-  // const decoded = jwtDecode(token);
+
+  const decoded = jwtDecode(token);
+  console.log(decoded);
   return token;
 }
 
 const authenticatePage = function(token){
   const user = jwtDecode(token);
-  const promise= new Promise(function(reject,resolve){
-    users.findOne({username: user.username},function(err,user){
+  console.log(user._doc);
+  const promise= new Promise(function(resolve , reject){
+    users.findOne({username: user._doc.username},function(err,user){
       if(err)
       {
         reject(err);
@@ -23,6 +25,7 @@ const authenticatePage = function(token){
       {
         reject({error: ''})
       }
+
       resolve(user);
     })
   })

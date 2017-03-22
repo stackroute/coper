@@ -22,7 +22,7 @@ router.get('/google/callback', passport.authenticate('google', {
 router.post('/:token', function(req, res) {
     try {
         authController.authenticatePage(req.params.token).then(function(user) {
-            res.status(200).send();
+            res.status(200).send({username: user.username});
         }, function(err) {
             res.status(500).send({error: 'Failed to complete operation...!'});
         })

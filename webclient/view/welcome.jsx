@@ -37,10 +37,10 @@ class AppHeader extends React.Component {
         url=''
       }
       console.log(window.location.hash);
-      this.localUserAuthentication(url);
+      this.localUserAuthentication();
       console.log(window.location.search)
     }
-    localUserAuthentication(url) {
+    localUserAuthentication() {
 
       var token=localStorage.getItem('lucytoken') || '';
 

@@ -17,12 +17,12 @@ passport.use(new GoogleStrategy({
             if (user) {
                 return done(null, user);
             }
-            var newUser = new User();
+            var newUser = new users();
             newUser.username = profile.id;
             newUser.token = token;
             newUser.name = profile.displayName;
             newUser.email = profile.emails[0].value;
-            newUser.avatar = profile.photos[0].value;
+            newUser.profilePic = profile.photos[0].value;
             console.log(token);
             newUser.save(function(err) {
                 if (err)
