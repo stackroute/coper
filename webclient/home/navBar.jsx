@@ -119,7 +119,7 @@ class Navbar extends React.Component {
     fetchProfilePic() {
         let that = this;
         let userImage = '';
-        let userDetails = JSON.parse(localStorage.getItem('cognitiveUser'));
+        let userDetails = localStorage.getItem('lucytoken');
         axios.get('/users/123').then(function(response) {
             console.log(response);
             userImage = response.data.user.profilePic;
@@ -227,7 +227,7 @@ class Navbar extends React.Component {
                             <MenuItem primaryText='Refresh'/>
                             <MenuItem primaryText='Help &amp; feedback'/>
                             <MenuItem primaryText='Settings'/>
-                            <a href='/logout'><MenuItem primaryText='Sign out'/></a>
+                            <MenuItem primaryText='Sign out' onTouchTap={this.props.handleLogoutUser}/>
                         </Menu>
                     </Popover>
                 </div>

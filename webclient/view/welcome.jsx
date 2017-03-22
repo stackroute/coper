@@ -27,7 +27,7 @@ class AppHeader extends React.Component {
         };
         this.localUserAuthentication = this.localUserAuthentication.bind(this);
     }
-    componentDidMount() {
+    componentWillMount() {
       let url='';
       try{
         url=window.location.hash.split('?')[1].split('=')[1];
@@ -43,10 +43,11 @@ class AppHeader extends React.Component {
     localUserAuthentication(url) {
 
       var token=localStorage.getItem('lucytoken') || '';
+
         var that = this;
         axios({
             method: 'post',
-            url: '/Authenticate/'+token,
+            url: '/auth/'+token,
         }).then(function(res){
         console.log(window.location);
           if(res.status === 200)
@@ -66,9 +67,8 @@ class AppHeader extends React.Component {
         })
     }
     handleLogoutUser() {
-        localStorage.setItem('cognitiveUser', JSON.stringify({user: {}, loggedin: false}));
-        localStorage.removeItem('cognitiveUserToken');
-        this.setState({loggedin: false, openPopover: false, openDrawer: false});
+        localStorage.removeItem('lucytoken');
+        this.setState({loggedin: false});
         hashHistory.push('/Home');
     }
     render() {

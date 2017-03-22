@@ -11,8 +11,7 @@ const findUser = function(username) {
             if (err)
                 reject(err);
             if (!user) {
-
-                reject({error: 'Null domain object created in mongo..!'});
+                reject({error: 'No user found in mongo..!'});
             }
             resolve(user);
         })
