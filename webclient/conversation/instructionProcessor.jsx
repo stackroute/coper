@@ -83,6 +83,7 @@ const onError = () => function() {
     console.log('error');
 }
 client.on('open', function() {
+  console.log('client open');
     Stream = client.createStream();
     console.log('aas');
     Stream.on('pause', function() {
@@ -106,10 +107,12 @@ class InstructionProcessor extends React.Component
     }
     componentDidMount()
     {
+      var that=this;
       client.on('open', function() {
           // for the sake of this example let's put the stream in the window
           console.log('xsresr');
           Stream = client.createStream();
+          that.handleRecord();
           Stream.on('pause', function(){
             console.log('paused');
           })
@@ -222,7 +225,7 @@ class InstructionProcessor extends React.Component
         var icons = null;
         if (this.state.text === '') {
             icons = (
-                <span className='input-group-btn'>
+                <span>
                     <IconButton style={this.state.iconButtonStyle} onTouchTap={this.handleRecord.bind(this)}>
                         <svg fill={this.state.micColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
@@ -239,7 +242,7 @@ class InstructionProcessor extends React.Component
             );
         } else {
             icons = (
-                <span className='input-group-btn'>
+                <span >
                     <IconButton style={styles.sendIconButtonStyle} onTouchTap={this.handleSend.bind(this)}>
                         <svg fill="#1CAB98" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -254,8 +257,11 @@ class InstructionProcessor extends React.Component
                 <Row>
                     <Col xs={12} sm={12} md={12} lg={12}>
                         <Paper style={styles.paperStyle} zDepth={2}>
-                            <div className='input-group'>
-                                <TextField fullWidth={true} name='searchtext' value={this.state.text} multiLine={true} rowsMax={4} underlineShow={false} hintText='Write something..' onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} onKeyPress={this.handleKeyPress.bind(this)}/> {icons}
+                            <div>
+                                <TextField fullWidth={true} name='searchtext' value={this.state.text} multiLine={true}
+                                rowsMax={4} underlineShow={false} hintText='Write something..'
+                                onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)}
+                                onBlur={this.handleBlur.bind(this)} onKeyPress={this.handleKeyPress.bind(this)}/> {icons}
                             </div>
                         </Paper>
                     </Col>
