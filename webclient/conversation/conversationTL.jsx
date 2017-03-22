@@ -52,7 +52,7 @@ return(
 </Hidden>
 <Col xs={12} sm={12} md={10} lg={10} style={{height: '100vh'}}>
 <Row>
-<Col xs={12} sm={12} md={12} lg={12} style={{height: '90vh'}}></Col>
+<Col xs={12} sm={12} md={12} lg={12} style={{height: '90vh'}}><PaperBot/></Col>
 <Col xs={12} sm={12} md={12} lg={12}><InstructionProcessor/></Col>
 </Row>
 </Col>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import ConversationMsgs from '../conversationRoutes/acknowledgementHandler.jsx'
+import ConversationMsgs from '../conversationRoutes/acknowledgementHandler.jsx';
+import DefaultResponse from '../conversationRoutes/defaultResponseHandler.jsx';
 
 
 class PaperBot extends React.Component {
@@ -8,19 +9,26 @@ class PaperBot extends React.Component {
 render()
 {
 const style = {
-  height: '88%',
+  height: '95%',
   width: '99%',
   marginTop: '1%',
   textAlign: 'center',
   display: 'inline-block',
+  backgroundColor: '#EEF3F2',
 };
+// const divstyle = {
+//   padding : '5px;',
+//   marginTop: '10px',
+// }
 return(
 
 
-<Paper style={style} zDepth={1} >
-<ConversationMsgs/>
+<div style={style}>
+<div><ConversationMsgs/>
+<DefaultResponse/></div>
 
-</Paper>
+
+</div>
 	);
 }
 
