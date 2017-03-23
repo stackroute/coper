@@ -13,16 +13,19 @@ class DefaultResponse extends React.Component {
       width: 'auto',
       maxWidth: '50%',
       display: 'inline-block',
+      paddingLeft : '5px',
+      paddingRight : '5px',
+      paddingTop : '10px',
+      paddingBottom : '10px',
+      marginLeft: '10px',
+      float: 'left',
+      backgroundColor: '#FFBF00',
    };
 
    return(
 
 <Paper style={style} zDepth={5} >
-    <b>Let your conversation begin... hsadga uatdsi jagdiag ua dgi adiga
-    adhgjagd
-    shjgjhsgjgs
-    sdhfjgs
-    sfgkjg</b>
+    <b>I want to know the traffic today in my area, Can you help me with That?</b>
     </Paper>
     );
 

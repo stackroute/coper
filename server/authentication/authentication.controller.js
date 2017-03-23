@@ -35,7 +35,6 @@ const authenticatePage = function(token) {
     });
     return promise;
 };
-
 module.exports = {
     googleCallback: googleCallback,
     authenticatePage: authenticatePage
