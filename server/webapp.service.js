@@ -4,8 +4,8 @@ const path = require('path');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-const users= require('./users');
-const auth= require('./authentication');
+const users = require('./users');
+const auth = require('./authentication');
 // const jwt = require('jsonwebtoken');
 // var jwtDecode = require('jwt-decode');
 var config = require('./config');
@@ -24,16 +24,16 @@ var app = express();
 // });
 // //end
 
-app.set('superSecret', config.secret); // secret variable
+// secret variable
+app.set('superSecret', config.secret);
 
 var mongoose = require('mongoose');
 var configDB = require('./services/config/database.js');
 mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url);
 
-//   For logging each incoming requests
+// For logging each incoming requests
 app.use(morgan('dev'));
-//app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 const compression = require('compression');
@@ -115,8 +115,8 @@ app.get('/', function(req, res) {
 // }));
 // app.use(passport.initialize());
 // app.use(passport.session());
-app.use('/auth',auth);
-app.use('/users',users);
+app.use('/auth', auth);
+app.use('/users', users);
 // app.get('/logout', function(req, res) {
 //     req.logout();
 //     res.redirect('/#/Home');
@@ -166,7 +166,7 @@ app.use('/users',users);
 //
 // });
 app.get('/userAvatar', isLoggedIn, function(req, res) {
-// console.log(req.user);
+    // console.log(req.user);
 });
 
 app.use(function(req, res) {
@@ -180,11 +180,11 @@ app.use(function(err, req, res) {
     return res.status(err.status || 500).json({error: err.message});
 });
 //  route middleware
- function isLoggedIn(req, res, next) {
-     if (req.isAuthenticated() === true)
-         return next();
-     res.status(201).send('');
-     return 1;
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated() === true)
+        return next();
+    res.status(201).send('');
+    return 1;
 }
 
 module.exports = app;

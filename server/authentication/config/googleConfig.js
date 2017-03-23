@@ -8,4 +8,4 @@ const configAuth = {
 
 module.exports = {
     googleConfig: configAuth
-}
+};
