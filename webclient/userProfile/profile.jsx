@@ -16,7 +16,7 @@ class Profile extends React.Component {
     <br/>
     <br/>
     <br/>
-    <h1 style = {style}>Hey handsome :)</h1>
+    <h1 style = {style}>Hey there :)</h1>
    </div>
    );
 

@@ -1,5 +1,6 @@
 const user = require('./users.entity');
 
+// this function is to find or check for the existence of user details in our database
 const findUser = function(username) {
     let promise = new Promise(function(resolve, reject) {
         user.findOne({

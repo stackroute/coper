@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+
+// defining template (mongoose schema) for storing user credentials in our database
 var userSchema = mongoose.Schema({
     username: {
         type: String,
@@ -24,3 +26,4 @@ var userSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model('User', userSchema, 'users');
+// 'users' is the name of our collection in database 'lucy'
