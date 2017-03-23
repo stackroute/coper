@@ -27,7 +27,7 @@ const authenticatePage = function(token){
       }
 
       resolve(user);
-    })
+    });
   })
   return promise;
 }
