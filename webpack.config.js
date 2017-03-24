@@ -17,7 +17,7 @@ module.exports = {
         rules: [
             {
                 test: /\.json$/,
-                loader: 'json'
+                loader: 'json-loader'
             }, {
                 test: /\.jsx?$/,
                 loader: 'babel-loader',

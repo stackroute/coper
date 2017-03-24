@@ -1,5 +1,6 @@
 const path = require('path');
 const gulp = require('gulp');
+const gulpIgnore = require('gulp-ignore');
 const usemin = require('gulp-usemin');
 const minifyHtml = require('gulp-minify-html');
 const uglify = require('gulp-uglify');
@@ -56,15 +57,16 @@ gulp.task('clean', function() {
     })
     .pipe(clean());
 });
-
+const condition = './key.json';
 gulp.task('eslint', function() {
   return gulp.src([
       '!gulpfile.js', 'webpack.config.js', '.eslintrc.js',
-      'server/**/*',
+      'server/webscokets/key.json',
       'webclient/*.jsx', '!dist/**/*'
     ])
     .pipe(eslint())
     .pipe(eslint.format())
+    .pipe(gulpIgnore.exclude(condition))
     .pipe(eslint.failAfterError())
     .pipe(eslint.result(result => {
       // Called for each ESLint result.

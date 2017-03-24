@@ -128,7 +128,6 @@ class Navbar extends React.Component {
           if(res.status === 200)
           {
             axios.get('/users/'+res.data.username).then(function(response) {
-                console.log(response);
                 userImage = response.data.user.profilePic;
                 that.setState({userImage});
             })

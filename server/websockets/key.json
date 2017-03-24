@@ -1,0 +1,12 @@
+{
+    "type": "service_account",
+    "project_id": "gothic-depth-160205",
+    "private_key_id": "fd0606fe3d26c878a65335557a0b9c52df814f10",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDDvcfbXtAPejrw\nu8PVRfWqVL4tn4gYL60+C0x0uP0xk1yfFEf7vQKEtqIbSA6vNflI1H9ABa9kiTWa\n513r51f+NKqT8tNkBr8Dmj3wJF4y5TMeEllZx+0X5CJ3oBCU/NBQRX4LqQBryYFk\nSh+HrjZQR6caoa/SiIm3S+cm11WHT1uIP0oAFC96H46egCXYaZAH1AubHzMwERzc\n2jo2DiAMmJeoN9NKKRMsxai1aRxNHCbOo4aNaqDYRa7BpCFtHFXkfgI7tRJ24NKg\nEL03al7YLPRXaRlZfD74Oawdm1NL9SiCZZLRCPhzByZ7fa0qHs//bIWxm7oOCCQD\n8e0F1CxZAgMBAAECggEBAJ5eTfUPIQdkvYtIX4mOsNS++5+uE05+RIyOV62YfkI+\nGBIdNqBWrFLz8PRhuH/KC4cBZnNGJkIRQW2zBCp5YpgpxFkvfhjP3Hvtr287/Xrw\nNgt+jQw21X0e90QSHVhts50+nFySv+R1hFrAHgKI0Sji0DCb4MVV8xZ6MusaDfkK\nsGCZDVkOshTlergZ2gUZRojcurASdu3S1Ra+LttdHMlfennUc8skIm/ZBEnygCAR\nnjwqEniNuExKs1cQhK4Y+14CNX5d/bwNAhL5fwGo5dgC5CRLsIb/RQj1oo0Vspxq\n1nFOYKY16H2QqsJixex8E7qoBayoESatFt7NJ2s7UAECgYEA84GgV6LOCsEeW/gj\nwhd9iig7SM9w7ZLOVHHSBYoNKvYS6JdzMTZsaIa0YMX3bcN3f6DK5lTbZnn2b3F6\nUcFWlqIdJXt7xjfjEN4adY2L8fegVjY/tzrAmkEDOOavUCqaokbB0o7AMGBijIkH\nNpaYEGMUGyNv1fPIoACf5BrsvQkCgYEAzcjG5NX0XHp5eZNCMT0LLMvOMw1uvYB6\nO6A9etghv5ncpYTgh/gfA9nYe9TqS2qA+P7W2xI+WF6apKdvWuDuLewG2feYBdMZ\n4ls+V8Eo2y7WLSiAQ5gXM5W2eMNlcpbIbztOsQTXJ+u+NR+qLeOzPgiDXVLHUx0x\nKM2JUHxtGNECgYBrBdn3KnLsfxxcx57Pu4tNoYkM4z966z8MFkp8bMSE0UpWN9pF\nEupqtmmo7tlkwLhQu9bxjPIxBAGv0Ww1aogoBHBS/QbVg9Kkozl12RRc8Lzjp0wx\nt/zWzyQfaiQ7U75K/FZLuLn3iSVHJyKod1+2NBWuJ9ELc+4FhMDBfKP4IQKBgA4V\nMG9WqQtvIkMMrdn6yHn/VJQv1iVH1pWgCLUQd3bKS8xUBJ2pgE3eKa+HyaTxm/Pu\nVLvXSsb3anPcNYWtoP8piOp/xDqZ0Mqp3eFZibc+RFAA1o5JqUTReRRYoueto/fg\nwijhIOxNeM3f5eCQFaMoJ/1J/fQVKlkVf9EvQrQRAoGBAOnwT26sHUPSts8Ofe/S\nsscJiYP2FnIaWw/tdgKwHxGuzYyF91Q1ZaVJY2bCjl8K1Iql+2fm2EsCmkgs42Us\nEawGuZF5DEv1NYpV+YjE5pfF9PEAcMDq8xjzK7EojuMtsP6KQffczxP6WdDb2Dxv\nbF25ChV+T9QxssTwNo632wke\n-----END PRIVATE KEY-----\n",
+    "client_email": "cognitiveassistant@gothic-depth-160205.iam.gserviceaccount.com",
+    "client_id": "100387600665068460561",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://accounts.google.com/o/oauth2/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cognitiveassistant%40gothic-depth-160205.iam.gserviceaccount.com"
+}

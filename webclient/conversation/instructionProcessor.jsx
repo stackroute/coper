@@ -2,54 +2,48 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
-import {Container, Grid, Row, Col, ScreenClassRender} from 'react-grid-system';
-import StringDecoder from 'string_decoder';
-// import { BinaryClient } from '../assets/binary';
-// const session = {
-//         audio: true,
-//         video: false
-//       };
-// const client = new BinaryClient('ws://localhost:9001');
-// client.on('open', function() {
-//         // for the sake of this example let's put the stream in the window
-//         window.Stream = client.createStream();
-//       });
-// const convertFloat32ToInt16 = (buffer)=> function(){
-//   l = buffer.length;
-//         buf = new Int16Array(l);
-//         while (l--) {
-//           buf[l] = Math.min(1, buffer[l])*0x7FFF;
-//         }
-//         return buf.buffer;
-// }
-// const recorderProcess = (e) => function(){
-//   var left = e.inputBuffer.getChannelData(0);
-//   window.Stream.write(convertFloat32ToInt16(left));
-// }
-// const initializeRecorder= (stream) => function(){
-//   var audioContext = window.AudioContext || window.webkitAudioContext;
-//         var context = new audioContext();
-//         var audioInput = context.createMediaStreamSource(stream);
-//         var bufferSize = 2048;
-//         // create a javascript node
-//         var recorder = context.createScriptProcessor(bufferSize, 1, 1);
-//         // specify the processing function
-//         recorder.onaudioprocess = recorderProcess;
-//         // connect stream to our recorder
-//         audioInput.connect(recorder);
-//         // connect our recorder to the previous destination
-//         recorder.connect(context.destination);
-// };
-// const onError= ()=> function(){
-//   console.log('error');
-// }
-var client = new BinaryClient('ws://localhost:9001');
-var session = {
+import {
+    Container,
+    Grid,
+    Row,
+    Col,
+    ScreenClassRender,
+    ClearFix
+} from 'react-grid-system';
+const styles = {
+    paperStyle: {
+        backgroundColor: '',
+        width: 'auto',
+        padding: '0px 20px 0px 20px',
+        borderRadius: '4px'
+    },
+    textFieldStyle: {
+        backgroundColor: '#fff',
+        borderRadius: '4px',
+        width: 'auto'
+    },
+    iconButtonStyle: {
+        height: '28px',
+        width: '28px',
+        padding: '0px'
+    },
+    sendIconButtonStyle: {
+        height: '40px',
+        width: '40px',
+        padding: '0px',
+        backgroundColor: '#FFFFFF',
+        borderRadius: '30px'
+    }
+}
+
+
+const client = new BinaryClient('ws://localhost:8080');
+const session = {
     audio: true,
     video: false
 };
-var Stream = null;
-var x = 0;
+let Stream = null;
+let x = 0;
 const convertFloat32ToInt16 = function(buffer) {
     let l = buffer.length;
     let buf = new Int16Array(l);
@@ -60,17 +54,17 @@ const convertFloat32ToInt16 = function(buffer) {
 }
 
 const recorderProcess = function(e) {
-    var left = e.inputBuffer.getChannelData(0);
+    const left = e.inputBuffer.getChannelData(0);
     console.log('fff');
     Stream.write(convertFloat32ToInt16(left));
 }
-const initializeRecorder =function(stream) {
-    var audioContext = window.AudioContext || window.webkitAudioContext;
-    var context = new audioContext();
-    var audioInput = context.createMediaStreamSource(stream);
-    var bufferSize = 2048;
+const initializeRecorder = function(stream) {
+    const audioContext = window.AudioContext || window.webkitAudioContext;
+    const context = new audioContext();
+    const audioInput = context.createMediaStreamSource(stream);
+    const bufferSize = 2048;
     // create a javascript node
-    var recorder = context.createScriptProcessor(bufferSize, 1, 1);
+    const recorder = context.createScriptProcessor(bufferSize, 1, 1);
     // specify the processing function
     recorder.onaudioprocess = recorderProcess;
     // connect stream to our recorder
@@ -79,19 +73,19 @@ const initializeRecorder =function(stream) {
     recorder.connect(context.destination);
 }
 
-const onError = () => function() {
+const onError = function() {
     console.log('error');
 }
-client.on('open', function() {
-  console.log('client open');
-    Stream = client.createStream();
-    console.log('aas');
-    Stream.on('pause', function() {
-        console.log('paused');
-    })
-});
+// client.on('open', function() {
+//     console.log('client open');
+//     Stream = client.createStream();
+//     console.log('aas');
+//     Stream.on('pause', function() {
+//         console.log('paused');
+//     })
+// });
 
-// const decoder= StringDecoder('utf8');
+let decoder = null;
 class InstructionProcessor extends React.Component
 {
     constructor()
@@ -107,51 +101,38 @@ class InstructionProcessor extends React.Component
     }
     componentDidMount()
     {
-      var that=this;
-      client.on('open', function() {
-          // for the sake of this example let's put the stream in the window
-          console.log('xsresr');
-          Stream = client.createStream();
-          that.handleRecord();
-          Stream.on('pause', function(){
-            console.log('paused');
-          })
+         const that = this;
+        this.socket = new WebSocket('ws://localhost:8081/');
 
-      })
-      // client.on('stream',function(stream){
-      //   console.log(decoder.write(stream));
-      // })
+        this.socket.addEventListener('open', (e) => {
+            this.socket.send('sending from client@browser', function(err) {
+                if (err) {
+                    console.log('Error: ', err);
+                    this.setState({error: err});
+                }
+                console.log('Send message');
+            });
+        });
 
-    }
-     initializeRecorder(stream) {
-        var audioContext = window.AudioContext || window.webkitAudioContext;
-        var context = new audioContext();
-        audioInput = context.createMediaStreamSource(stream);
-        var bufferSize = 2048;
-        // create a javascript node
-        var recorder = context.createScriptProcessor(bufferSize, 1, 1);
-        // specify the processing function
-        recorder.onaudioprocess = recorderProcess;
-        // connect stream to our recorder
-        audioInput.connect(recorder);
-        // connect our recorder to the previous destination
-        recorder.connect(context.destination);
+        this.socket.addEventListener('message', (newMsg) => {
+          if(newMsg.data.length > 0 )
+          {
+            console.log(newMsg.data);
+            that.setState({text : newMsg.data});
+          }
+        });
+        client.on('open', function() {
+            console.log('kkk');
+            // for the sake of this example let's put the stream in the window
+            Stream = client.createStream();
+            that.handleRecord();
+            Stream.on('pause', function() {
+                console.log('paused');
+            })
 
-    }
-    recorderProcess(e) {
-        var left = e.inputBuffer.getChannelData(0);
-        console.log('recorderProcess');
-        Stream.write(convertFloat32ToInt16(left));
+        })
     }
 
-    convertFloat32ToInt16(buffer) {
-        l = buffer.length;
-        buf = new Int16Array(l);
-        while (l--) {
-            buf[l] = Math.min(1, buffer[l]) * 0x7FFF;
-        }
-        return buf.buffer;
-    }
     handleChange(event)
     {
         this.setState({text: event.target.value});
@@ -166,6 +147,7 @@ class InstructionProcessor extends React.Component
     }
     handleRecord()
     {
+
         console.log('recording');
         this.setState({
             recorderOpen: !this.state.recorderOpen
@@ -198,35 +180,12 @@ class InstructionProcessor extends React.Component
     }
     render()
     {
-        var styles = {
-            paperStyle: {
-                backgroundColor: this.state.paperColor,
-                width: 'auto',
-                padding: '0px 20px 0px 20px'
-            },
-            textFieldStyle: {
-                backgroundColor: '#fff',
-                borderRadius: '4px',
-                width: 'auto'
-            },
-            iconButtonStyle: {
-                height: '28px',
-                width: '28px',
-                padding: '0px'
-            },
-            sendIconButtonStyle: {
-                height: '40px',
-                width: '40px',
-                padding: '0px',
-                backgroundColor: '#FFFFFF',
-                borderRadius: '30px'
-            }
-        }
-        var icons = null;
+        styles.paperStyle.backgroundColor = this.state.paperColor;
+        let icons = null;
         if (this.state.text === '') {
             icons = (
                 <span>
-                    <IconButton style={this.state.iconButtonStyle} onTouchTap={this.handleRecord.bind(this)}>
+                    <IconButton style={styles.iconButtonStyle} onTouchTap={this.handleRecord.bind(this)}>
                         <svg fill={this.state.micColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
                             <path d="M0 0h24v24H0z" fill="none"/>
@@ -258,10 +217,8 @@ class InstructionProcessor extends React.Component
                     <Col xs={12} sm={12} md={12} lg={12}>
                         <Paper style={styles.paperStyle} zDepth={2}>
                             <div>
-                                <TextField fullWidth={true} name='searchtext' value={this.state.text} multiLine={true}
-                                rowsMax={4} underlineShow={false} hintText='Write something..'
-                                onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)}
-                                onBlur={this.handleBlur.bind(this)} onKeyPress={this.handleKeyPress.bind(this)}/> {icons}
+                                <TextField fullWidth={true} name='searchtext' value={this.state.text} multiLine={true} rowsMax={4} hintText='Write something..' onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} onKeyPress={this.handleKeyPress.bind(this)}/> {icons}
+                                <ClearFix/>
                             </div>
                         </Paper>
                     </Col>
