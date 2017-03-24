@@ -13,16 +13,19 @@ class AcknowledgementResponse extends React.Component {
       width: 'auto',
       maxWidth: '50%',
       display: 'inline-block',
+      float: 'right',
+      paddingTop: '10px',
+      paddingLeft: '5px',
+      paddingRight: '5px',
+      marginRight: '10px',
+      paddingBottom : '10px',
+      backgroundColor: '#FD8800',
    };
 
    return(
 
 <Paper style={style} zDepth={5} >
-    <b>Let your conversation begin... hsadga uatdsi jagdiag ua dgi adiga
-    adhgjagd
-    shjgjhsgjgs
-    sdhfjgs
-    sfgkjg</b>
+    <b>Hi There ! I am Lucy Your Personal Assistant, How may I help You....</b>
     </Paper>
     );
 

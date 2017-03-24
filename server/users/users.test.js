@@ -1,5 +1,6 @@
 const chai = require('chai');
-const expect = chai.expect; // we are using the 'expect' style of Chai
+// we are using the "expect" style of Chai
+const expect = chai.expect;
 const userController = require('./users.controller');
 const user = {
     username: 'abcd1234567',
@@ -27,3 +28,4 @@ describe('userController.user', function() {
 //             return user
 //         }).to.equal(user)});
 // });
+};

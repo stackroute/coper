@@ -6,33 +6,36 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const users = require('./users');
 const auth = require('./authentication');
-const config = require('./config');
+const configJwt = require('./authentication/config/configJwt');
 const app = express();
-
-app.set('superSecret', config.secret); // secret constiable
-
 const mongoose = require('mongoose');
-const configDB = require('./services/config/database.js');
+const configDB = require('../config/database.js');
+
+// setting secret variable for JWT encode and decode
+app.set('superSecret', configJwt.secret);
 mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url);
 
-//   For logging each incoming requests
+// using morgan for logging each incoming requests
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 const compression = require('compression');
 app.use(compression());
+
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../webpack.config.js');
 const webpackCompiler = webpack(webpackConfig);
 
-//  setup middlewares
+// setting up webpack developement middlewares
 app.use(webpackDevMiddleware(webpackCompiler, {
     noInfo: true,
     publicPath: webpackConfig.output.publicPath
 }));
+
+// setting up webpack hot middlewares
 app.use(webpackHotMiddleware(webpackCompiler, {
     path: '/__webpack_hmr',
     heartbeat: 10 * 1000
@@ -55,6 +58,7 @@ app.use(function(err, req, res) {
     logger.error('Internal error in watch processor: ', err);
     return res.status(err.status || 500).json({error: err.message});
 });
+
 //  route middleware
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated() === true)
