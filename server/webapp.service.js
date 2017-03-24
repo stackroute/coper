@@ -3,171 +3,54 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-const users= require('./users');
-const auth= require('./authentication');
-// const jwt = require('jsonwebtoken');
-// var jwtDecode = require('jwt-decode');
-var config = require('./config');
-var app = express();
-// //google-speech
-// var binaryServer = require('binaryjs').BinaryServer;
-// var wav = require('wav');
-// const StreamBodyParser = require('stream-body-parser'),
-//     Transcoder = require('stream-transcoder');
-// const fs = require('fs');
-// const Speech = require('@google-cloud/speech');
-// const projectId = 'gothic-depth-160205';
-// const speechClient = Speech({
-//   projectId: projectId,
-//   keyFilename: './key.json'
-// });
-// //end
+const cookieParser = require('cookie-parser');
+const users = require('./users');
+const auth = require('./authentication');
+const configJwt = require('./authentication/config/configJwt');
+const app = express();
+const mongoose = require('mongoose');
+const configDB = require('../config/database.js');
 
-app.set('superSecret', config.secret); // secret variable
+// setting secret variable for JWT encode and decode
+app.set('superSecret', configJwt.secret);
 
-var mongoose = require('mongoose');
-var configDB = require('./services/config/database.js');
 mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url);
 
-//   For logging each incoming requests
+// using morgan for logging each incoming requests
 app.use(morgan('dev'));
-//app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 const compression = require('compression');
 app.use(compression());
+
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../webpack.config.js');
 const webpackCompiler = webpack(webpackConfig);
 
-//  setup middlewares
+// setting up webpack developement middlewares
 app.use(webpackDevMiddleware(webpackCompiler, {
     noInfo: true,
     publicPath: webpackConfig.output.publicPath
 }));
+
+// setting up webpack hot middlewares
 app.use(webpackHotMiddleware(webpackCompiler, {
     path: '/__webpack_hmr',
     heartbeat: 10 * 1000
 }));
 app.use(express.static(path.resolve(__dirname, '../', 'webclient')));
 
-app.get('/', function(req, res) {
-    res.sendFile(path.resolve(__dirname, '../', 'webclient', 'assets', 'index.html', 'client'));
-});
-// passport
-// const passport = require('passport');
-// const passportJWT = require('passport-jwt');
-// const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;//
-// const configAuth = {
-//     googleAuth: {
-//         clientID: '212833991044-l102mt5bjeqtmqap3kj976me3km8jr5i.apps.googleusercontent.com',
-//         clientSecret: 'aHR-3D-AvSDgeU3ne8BjIz6q',
-//         callbackURL: '/auth/google/callback'
-//     }
-// };
-// //  used to serialize the user for the session
-// passport.serializeUser(function(user, done) {
-//     done(null, user.id);
-// });
-// //  used to deserialize the user
-// passport.deserializeUser(function(id, done) {
-//     User.findById(id, function(err, user) {
-//         done(err, user);
-//     });
+// app.get('/', function(req, res) {
+//     res.sendFile(path.resolve(__dirname, '../', 'webclient', 'assets', 'index.html', 'client'));
 // });
 
-//  Google Strategy
-// passport.use(new GoogleStrategy({//
-//     clientID: configAuth.googleAuth.clientID,
-//     clientSecret: configAuth.googleAuth.clientSecret,
-//     callbackURL: configAuth.googleAuth.callbackURL
-// }, function(token, refreshToken, profile, done) {
-//     console.log(profile);
-//     process.nextTick(function() {
-//         User.findOne({
-//             username: profile.id
-//         }, function(err, user) {
-//             if (err)
-//                 return done(err);
-//             if (user) {
-//                 return done(null, user);
-//             }
-//             var newUser = new User();
-//             newUser.username= profile.id;
-//             newUser.token = token;
-//             newUser.name = profile.displayName;
-//             newUser.email = profile.emails[0].value;
-//             newUser.avatar = profile.photos[0].value;
-//             console.log(token);
-//             newUser.save(function(err) {
-//                 if (err)
-//                     return done(err);
-//                 return done(null, newUser);
-//             });
-//
-//             return done(null, false);
-//         });
-//     });
-// }));
-// app.use(passport.initialize());
-// app.use(passport.session());
-app.use('/auth',auth);
-app.use('/users',users);
-// app.get('/logout', function(req, res) {
-//     req.logout();
-//     res.redirect('/#/Home');
-// });
-// gmail authentication
-// app.get('/auth/google', passport.authenticate('google', {
-//     scope: ['profile', 'email']
-// }));
-//
-// // app.get('/auth/google/callback', passport.authenticate('google', {
-// //     successRedirect: '/#/UserHome',
-// //     failureRedirect: '/#/Home'
-// // }));
-// app.get( '/auth/google/callback',
-//         passport.authenticate('google', {
-//             //successRedirect: '/',
-//             failureRedirect: '/#/Home'
-//             , session: false
-//         }),
-//         function(req, res) {
-//             //console.log(req.user);
-//             //var token = jwt.encode(req.user);
-//             var token = jwt.sign(req.user, app.get('superSecret'), {
-//         });
-//             console.log(token);
-//             var decoded = jwtDecode(token);
-//             console.log(decoded);
-//             res.redirect("/#/UserHome?token=" + token);
-//         });
-//
-// // gmail authentication end
-// // get user avatar
-// app.post('/Authenticate/:token', function(req, res) {
-//   try{
-//     console.log(req.params.token);
-//     var user= jwtDecode(req.params.token);
-//
-//     if(req.params.token)
-//     res.status(200).send();
-//     else {
-//       res.status(500).send();
-//     }
-//   }catch(ex)
-//   {
-//     console.log(ex);
-//   }
-//
-// });
-app.get('/userAvatar', isLoggedIn, function(req, res) {
-// console.log(req.user);
-});
+app.use('/auth', auth);
+app.use('/users', users);
+
+app.get('/userAvatar', isLoggedIn, function(req, res) {});
 
 app.use(function(req, res) {
     let err = new Error('Resource not found');
@@ -179,12 +62,13 @@ app.use(function(err, req, res) {
     logger.error('Internal error in watch processor: ', err);
     return res.status(err.status || 500).json({error: err.message});
 });
+
 //  route middleware
- function isLoggedIn(req, res, next) {
-     if (req.isAuthenticated() === true)
-         return next();
-     res.status(201).send('');
-     return 1;
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated() === true)
+        return next();
+    res.status(201).send('');
+    return 1;
 }
 
 module.exports = app;
