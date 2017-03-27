@@ -2,7 +2,7 @@ import React from 'react';
 import ResponseViewContextUtil from  './ResponseViewContextUtil.jsx';
 import ShortTextResponse from './ShortTextResponse.jsx';
 
-export default ActionResponseHandler extends React.Component {
+export default class DefaultResponseHandler extends React.Component {
   constructor() {
     super();
 
@@ -10,7 +10,7 @@ export default ActionResponseHandler extends React.Component {
       responses: [
         {
           contentType: 'shorttext',
-          content:'# This is a header\n\nAnd this is a paragraph'
+          content:'# This is a header\n\nAnd this is a defaultresponse'
         }
       ],
       error: ''

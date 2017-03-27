@@ -58,10 +58,7 @@ class ConversationView extends React.Component
 								</Row>
 								</Col>
 								</Row>
-
-
 								</Container>
-
 								);
 						}
 					}
