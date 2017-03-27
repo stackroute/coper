@@ -1,7 +1,6 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import ConversationMsgs from '../conversationRoutes/acknowledgementHandler.jsx';
-import DefaultResponse from '../conversationRoutes/defaultResponseHandler.jsx';
+import DefaultResponse from '../conversationRoutes/DefaultResponseHandler.jsx';
 
 
 class PaperBot extends React.Component {
