@@ -26,14 +26,14 @@ class Introduction extends React.Component
     {
         const styleFunction = (screenClass) => {
             if (screenClass === 'xl')
-                return {fontSize: '20px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'100vh'};
+                return {fontSize: '20px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'85vh'};
             if (screenClass === 'lg')
-                return {fontSize: '20px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'100vh'};
+                return {fontSize: '20px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'85vh'};
             if (screenClass === 'md')
-                return {fontSize: '18px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'100vh'};
+                return {fontSize: '18px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'85vh'};
             if (screenClass === 'sm')
-                return {fontSize: '15px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'contain',height:'100vh'};
-            return {fontSize: '10px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'contain',height:'100vh'};
+                return {fontSize: '15px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'85vh'};
+            return {fontSize: '10px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'85vh'};
         };
 
         var style = {
@@ -68,45 +68,15 @@ class Introduction extends React.Component
                 paddingRight: '8%',
                 textAlign: 'center'
             },
-            styleRowGrey: {
-                paddingTop: '40px',
-                paddingBottom: '40px',
-                paddingLeft: '8%',
-                paddingRight: '8%',
-                textAlign: 'center',
-                backgroundColor: '#efefef'
-            },
-            styleRowGreyCenter: {
-                paddingTop: '40px',
-                paddingBottom: '40px',
-                paddingLeft: '260px',
-                paddingRight: '260px',
-                textAlign: 'center',
-                backgroundColor: '#efefef'
-            },
-            styleRowGreyCenter2: {
-                paddingTop: '40px',
-                paddingBottom: '40px',
-                paddingLeft: '40px',
-                paddingRight: '40px',
-                textAlign: 'center',
-                backgroundColor: '#efefef'
-            },
-            styleRowFooter1: {
-                paddingBottom: '20px',
-                paddingLeft: '60px',
-                paddingRight: '60px',
-                textAlign: 'justify',
-                backgroundColor: '#c6c6c6'
-            },
-            styleRowFooter2: {
+            styleRowFooter: {
                 paddingTop: '10px',
                 paddingBottom: '10px',
-                paddingLeft: '60px',
-                paddingRight: '60px',
+                // paddingLeft: '60px',
+                // paddingRight: '60px',
                 textAlign: 'justify',
                 backgroundColor: '#444444',
-                color: 'white'
+                color: 'white',
+                // float: 'right'
             },
             imgAdjusment: {
                 maxWidth: '400px',
@@ -131,7 +101,7 @@ class Introduction extends React.Component
                                 <h1>Conversational User Experience Platform.<br/>
                                     Now we are talking.</h1><br/>
                                 <h3>Build brand-unique, natural language interactions<br/>
-                                    for bots, applications, services, and devices.<br/></h3>
+                                    for bots, applications, services, and devices.<br/><br/><br/></h3>
                                 <a href='/auth/google'><RaisedButton label="GET STARTED FREE" labelStyle={labelStyle} backgroundColor='#F44141'
                                  style={buttonStyle}/></a>
                             </Paper>
@@ -140,12 +110,12 @@ class Introduction extends React.Component
                 </ScreenClassRender>
 
 
-                <Row style={styles.styleRowFooter2}>
+                <Row style={styles.styleRowFooter}>
                     <Col xs={12} sm={12} md={3} lg={3}>
-                        <span>© 2017 Lucy.ai</span>
+                        <span>© 2017 Lucy</span>
                     </Col>
-                    <Col xs={12} sm={12} md={4} lg={4}>
-                        <span>Third-party and open-source licenses | Terms of Use and Privacy Policy</span>
+                    <Col xs={12} sm={12} md={9} lg={9}>
+                        <span style={{float: 'right'}}>Third-party and open-source licenses | Terms of Use and Privacy Policy</span>
                     </Col>
                 </Row>
             </Container>

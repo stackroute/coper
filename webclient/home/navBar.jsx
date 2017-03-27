@@ -16,8 +16,9 @@ import CustomMenu from './menu.jsx';
 
 let styles = {
     signInButtonStyle: {
-        margin: '10px',
-        border: '0px solid black'
+        margin: '2px',
+        border: '0px',
+        height: '46px'
     },
     signUpButtonStyle: {
         margin: '10px'
@@ -280,7 +281,7 @@ class Navbar extends React.Component {
                 <div>
                     <div className='header'>
                     <a href='/auth/google'>
-                            <FlatButton backgroundColor='#000'
+                            <FlatButton backgroundColor='#F44141'
                             labelStyle={styles.signInButtonLabelStyle}
                             style={styles.signInButtonStyle} onTouchTap={this.handleGoogleAuth.bind(this)}><img src='../images/google_login.png' /></FlatButton>
                     </a>
