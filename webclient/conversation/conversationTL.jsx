@@ -47,12 +47,12 @@ class ConversationView extends React.Component
 							return(
 								<Container fluid>
 								<Row>
-								<InteractionTimeLine />
 								<Hidden xs sm>
 								<Col md={2} lg={2} style={{height: '100vh'}}></Col>
 								</Hidden>
 								<Col xs={12} sm={12} md={10} lg={10} style={{height: '100vh'}}>
 								<Row>
+								<InteractionTimeLine />
 								<Col xs={12} sm={12} md={12} lg={12} style={{height: '90vh'}}></Col>
 								<Col xs={12} sm={12} md={12} lg={12}><InstructionProcessor/></Col>
 								</Row>

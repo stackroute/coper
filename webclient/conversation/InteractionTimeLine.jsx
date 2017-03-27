@@ -3,20 +3,16 @@ import AcknowledgementHandler from '../conversationRoutes/AcknowledgementHandler
 import './ChatBubble.css';
 
 export default class InteractionTimeLine extends React.Component {
-    constructor() {
-      super();
-    }
+	constructor() {
+		super();
+	}
 
-    render() {
-      console.log("inside it");
-      let bubbleClass = 'you';
-      let bubbleDirection = "bubble-direction-reverse";
-      return (
-      <div className={`bubble-container ${bubbleDirection}`}>
-      <div className={`bubble ${bubbleClass}`}>
-        <AcknowledgementHandler />
-        </div>
-      </div>
-      )
-    }
+	render() {
+		console.log("inside it");
+	return (
+			<div>
+			<AcknowledgementHandler />
+			</div>
+			)
+	}
 }

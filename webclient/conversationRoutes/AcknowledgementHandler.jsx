@@ -3,45 +3,45 @@ import ResponseViewContextUtil from  './ResponseViewContextUtil.jsx';
 import ShortTextResponse from './ShortTextResponse.jsx';
 
 export default class AcknowledgementHandler extends React.Component {
-  constructor() {
-    super();
+	constructor() {
+		super();
 
-    this.state = {
-      responses: [
-        {
-          contentType: 'shorttext',
-          content:'# This is a header\n\nAnd this is a paragraph'
-        }
-      ],
-      error: ''
-    };
-  }
-  getResponseRendererMap() {
-    return {
-      shorttext: <ShortTextResponse/>,
-    };
-  }
+		this.state = {
+			responses: [
+			{
+				contentType: 'shorttext',
+				content:'# This is a header\n\nAnd this is a paragraph'
+			}
+			],
+			error: ''
+		};
+	}
+	getResponseRendererMap() {
+		return {
+			shorttext: <ShortTextResponse/>,
+		};
+	}
 
-  render() {
-    console.log("inside");
-    return (
-      <div>
-        {
-          this.state.responses.map((respObj) => {
-            return (
-              <div key={respObj.contentType}>
-              <ResponseViewContextUtil response={respObj}>
-                {
-                  this.getResponseRendererMap()[respObj.contentType]
-                }
-              </ResponseViewContextUtil>
-              </div>
-            )
-          })
-        }
-      </div>
-    );
-  }
+	render() {
+		console.log("inside");
+		return (
+			<div>
+			{
+				this.state.responses.map((respObj) => {
+					return (
+						<div key={respObj.contentType}>
+						<ResponseViewContextUtil response={respObj}>
+						{
+							this.getResponseRendererMap()[respObj.contentType]
+						}
+						</ResponseViewContextUtil>
+						</div>
+						)
+				})
+			}
+			</div>
+			);
+	}
 }
 
 
