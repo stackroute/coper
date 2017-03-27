@@ -63,7 +63,9 @@ let styles = {
     appbarStyle: {
         backgroundColor: '#000',
         position: 'fixed',
-        width: '100%'
+        width: '100%',
+        top:'0px',
+        left:'0px'
     },
     linkStyle: {
         textDecoration: 'none',
