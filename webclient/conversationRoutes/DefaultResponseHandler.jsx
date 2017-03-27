@@ -1,34 +1,48 @@
 import React from 'react';
-import Paper from 'material-ui/Paper';
+import ResponseViewContextUtil from  './ResponseViewContextUtil.jsx';
+import ShortTextResponse from './ShortTextResponse.jsx';
 
-class DefaultResponse extends React.Component {
-  constructor()
-  {
+export default ActionResponseHandler extends React.Component {
+  constructor() {
     super();
+
+    this.state = {
+      responses: [
+        {
+          contentType: 'shorttext',
+          content:'# This is a header\n\nAnd this is a paragraph'
+        }
+      ],
+      error: ''
+    };
   }
+  getResponseRendererMap() {
+    return {
+      shorttext: <ShortTextResponse/>,
+    };
+  }
+
   render() {
-    console.log('me hun andaar');
-   const style={
-     height: 'auto',
-      width: 'auto',
-      maxWidth: '50%',
-      display: 'inline-block',
-      paddingLeft : '5px',
-      paddingRight : '5px',
-      paddingTop : '10px',
-      paddingBottom : '10px',
-      marginLeft: '10px',
-      float: 'left',
-      backgroundColor: '#FFBF00',
-   };
-
-   return(
-
-<Paper style={style} zDepth={5} >
-    <b>I want to know the traffic today in my area, Can you help me with That?</b>
-    </Paper>
+    console.log("inside");
+    return (
+      <div>
+        {
+          this.state.responses.map((respObj) => {
+            return (
+              <div key={respObj.contentType}>
+              <ResponseViewContextUtil response={respObj}>
+                {
+                  this.getResponseRendererMap()[respObj.contentType]
+                }
+              </ResponseViewContextUtil>
+              </div>
+            )
+          })
+        }
+      </div>
     );
-
- }
+  }
 }
-export default DefaultResponse;
+
+
+
