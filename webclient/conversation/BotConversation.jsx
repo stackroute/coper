@@ -1,10 +1,18 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import ConversationMsgs from '../conversationRoutes/acknowledgementHandler.jsx';
-import DefaultResponse from '../conversationRoutes/defaultResponseHandler.jsx';
+import DefaultResponse from '../conversationRoutes/DefaultResponseHandler.jsx';
+import InstructionProcessor from './instructionProcessor.jsx';
+
 
 
 class PaperBot extends React.Component {
+constructor(props) {
+	super(props);
+}
+
+handleMesage(msg){
+console.log(msg);
+}
 
 render()
 {
@@ -24,7 +32,7 @@ return(
 
 
 <div style={style}>
-<div><ConversationMsgs/>
+<div><InstructionProcessor handleMesage={this.handleMesage.bind(this)}/>
 <DefaultResponse/></div>
 
 

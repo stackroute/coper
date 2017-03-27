@@ -153,6 +153,7 @@ class InstructionProcessor extends React.Component
             this.handleSend();
             this.setState({text: ''});
         }
+        this.props.handleMessage(this.state.text);
     }
     render()
     {
