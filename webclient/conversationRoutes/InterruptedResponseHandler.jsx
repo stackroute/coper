@@ -18,11 +18,7 @@ class InterruptedResponse extends React.Component {
    return(
 
 <Paper style={style} zDepth={5} >
-    <b>Let your conversation begin... hsadga uatdsi jagdiag ua dgi adiga
-    adhgjagd
-    shjgjhsgjgs
-    sdhfjgs
-    sfgkjg</b>
+    <b>Lorem ipsum Ea minim id sunt aliqua consectetur consequat elit veniam proident eiusmod dolore laboris nostrud Ut commodo sint ut voluptate.</b>
     </Paper>
     );
 

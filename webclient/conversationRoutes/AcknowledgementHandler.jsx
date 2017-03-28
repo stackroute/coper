@@ -22,11 +22,12 @@ export default class AcknowledgementHandler extends React.Component {
 		};
 	}
 
-	render() {
+		render() {
 		console.log("inside");
 		return (
 			<div>
 			{
+
 				this.state.responses.map((respObj) => {
 					return (
 						<div key={respObj.contentType}>

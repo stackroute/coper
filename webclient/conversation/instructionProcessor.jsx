@@ -36,7 +36,6 @@ const styles = {
     }
 }
 
-
 const client = new BinaryClient('ws://localhost:8080');
 const session = {
     audio: true,
@@ -44,6 +43,7 @@ const session = {
 };
 let Stream = null;
 let x = 0;
+let f=false;
 const convertFloat32ToInt16 = function(buffer) {
     let l = buffer.length;
     let buf = new Int16Array(l);
@@ -76,16 +76,6 @@ const initializeRecorder = function(stream) {
 const onError = function() {
     console.log('error');
 }
-// client.on('open', function() {
-//     console.log('client open');
-//     Stream = client.createStream();
-//     console.log('aas');
-//     Stream.on('pause', function() {
-//         console.log('paused');
-//     })
-// });
-
-let decoder = null;
 class InstructionProcessor extends React.Component
 {
     constructor()
@@ -101,38 +91,25 @@ class InstructionProcessor extends React.Component
     }
     componentDidMount()
     {
-         const that = this;
-        this.socket = new WebSocket('ws://localhost:8081/');
-
-        this.socket.addEventListener('open', (e) => {
-            this.socket.send('sending from client@browser', function(err) {
-                if (err) {
-                    console.log('Error: ', err);
-                    this.setState({error: err});
-                }
-                console.log('Send message');
-            });
-        });
-
-        this.socket.addEventListener('message', (newMsg) => {
-          if(newMsg.data.length > 0 )
-          {
-            console.log(newMsg.data);
-            that.setState({text : newMsg.data});
-          }
-        });
+        const that = this;
         client.on('open', function() {
             console.log('kkk');
-            // for the sake of this example let's put the stream in the window
+            client.on('stream',function(stream,meta){
+              stream.on('data',function(data){
+                if(f === false && data.data.split(' ').includes('Lucy'))
+                {
+                  f = true;
+                }
+                if(f === true && that.state.recorderOpen === true)
+                that.setState({text:data.data});
+              })
+            });
             Stream = client.createStream();
-            that.handleRecord();
             Stream.on('pause', function() {
                 console.log('paused');
-            })
-
-        })
+            });
+        });
     }
-
     handleChange(event)
     {
         this.setState({text: event.target.value});
@@ -147,7 +124,6 @@ class InstructionProcessor extends React.Component
     }
     handleRecord()
     {
-
         console.log('recording');
         this.setState({
             recorderOpen: !this.state.recorderOpen

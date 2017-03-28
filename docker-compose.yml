@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: '2'
 services:
   webapp:
@@ -24,3 +25,25 @@ mongodb:
       - 27017
     ports:
       - "27017:27017"
+=======
+version: '2'
+services:
+  webapp:
+    image: mhart/alpine-node-auto
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: host
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mvertes/alpine-mongo
+    network_mode: host
+    expose:
+      - 27017
+    ports:
+      - "27017:27017"
+>>>>>>> 10741b337a4588ef81b015190d104cf35f1df809
