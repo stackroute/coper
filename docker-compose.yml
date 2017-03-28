@@ -1,35 +1,7 @@
-<<<<<<< HEAD
 version: '2'
 services:
   webapp:
-    image: mhart/alpine-node-auto
-    build: .
-    network_mode: host
-    restart: always
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mongodb
-    entrypoint:
-      - /bin/sh
-      - -c
-      - 'npm run www'
-
-mongodb:
-    image: mvertes/alpine-mongo
-    network_mode: host
-    restart: always
-    volumes:
-      - /data:/data/db
-    expose:
-      - 27017
-    ports:
-      - "27017:27017"
-=======
-version: '2'
-services:
-  webapp:
-    image: mhart/alpine-node-auto
+    image: coper/coper-webapp:v1.0.0
     build:
       context: .
       dockerfile: Dockerfile
@@ -46,4 +18,3 @@ services:
       - 27017
     ports:
       - "27017:27017"
->>>>>>> 10741b337a4588ef81b015190d104cf35f1df809
