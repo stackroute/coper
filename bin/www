@@ -6,7 +6,7 @@
 
 //Create instance of express based web app
 var app = require('../server/webapp.service');
-var binaryServer = require('../server/websockets/binaryServer');
+var wsService = require('../server/websockets/websocket.server');
 var debug = require('debug')('dataDisplayApp:server');
 var http = require('http');
 
@@ -19,7 +19,7 @@ var port = normalizePort(process.env.PORT || '8080');
  * Create HTTP server.
  */
 var server = http.createServer(app);
-binaryServer(server);
+wsService(server);
 /**
  * Listen on provided port, on all network interfaces.
  */

@@ -10,6 +10,11 @@ import {
     ScreenClassRender,
     ClearFix
 } from 'react-grid-system';
+//const BinaryClient = require('binaryjs').BinaryClient;
+
+import io from 'socket.io-client';
+import ss from 'socket.io-stream';
+
 const styles = {
     paperStyle: {
         backgroundColor: '',
@@ -36,14 +41,15 @@ const styles = {
     }
 }
 
-const client = new BinaryClient('ws://localhost:8080');
+//const client = new BinaryClient('/');
 const session = {
     audio: true,
     video: false
 };
-let Stream = null;
+//let Stream = null;
+let stream = null;
 let x = 0;
-let f=false;
+let f = false;
 const convertFloat32ToInt16 = function(buffer) {
     let l = buffer.length;
     let buf = new Int16Array(l);
@@ -56,7 +62,8 @@ const convertFloat32ToInt16 = function(buffer) {
 const recorderProcess = function(e) {
     const left = e.inputBuffer.getChannelData(0);
     console.log('fff');
-    Stream.write(convertFloat32ToInt16(left));
+    //Stream.write(convertFloat32ToInt16(left));
+    stream._write(convertFloat32ToInt16(left), 'LINEAR16', function() {});
 }
 const initializeRecorder = function(stream) {
     const audioContext = window.AudioContext || window.webkitAudioContext;
@@ -83,6 +90,12 @@ class InstructionProcessor extends React.Component
         super();
         this.state = {
             text: '',
+            utterance: {
+                token: '',
+                timestamp: '',
+                context: '',
+                text: ''
+            },
             recorderOpen: false,
             paperColor: '#EEF3F2',
             iconColor: '#ccc',
@@ -91,57 +104,74 @@ class InstructionProcessor extends React.Component
     }
     componentDidMount()
     {
-        const that = this;
-        client.on('open', function() {
-            console.log('kkk');
-            client.on('stream',function(stream,meta){
-              stream.on('data',function(data){
-                if(f === false && data.data.split(' ').includes('Lucy'))
-                {
-                  f = true;
-                }
-                if(f === true && that.state.recorderOpen === true)
-                that.setState({text:data.data});
-              })
-            });
-            Stream = client.createStream();
-            Stream.on('pause', function() {
-                console.log('paused');
-            });
+        this.socket = io();
+        this.timeout = null;
+        const utterance = this.state.utterance;
+        utterance.token = localStorage.getItem('lucytoken');
+        this.setState({
+          utterance: utterance
         });
+        const that = this;
+        this.socket.on('send::text', (newText) => {
+            if (newText.trim() !== '') {
+                utterance.text = newText;
+                this.setState({
+                  utterance: utterance
+                });
+                window.clearTimeout(this.timeout);
+                console.log(this.timeout);
+                this.timeout = setTimeout(function() {
+                    that.sendUtterance();
+                }, 2000);
+            }
+        })
     }
-    handleChange(event)
-    {
+    sendUtterance() {
+        this.props.setNewMessage(this.state.utterance);
+        if (stream != null)
+            stream.end();
+        stream = ss.createStream();
+        ss(this.socket).emit('stream::speech', stream);
+        this.socket.emit('utterance', this.state.utterance);
+    }
+
+    handleChange(event) {
         this.setState({text: event.target.value});
     }
-    handleFocus()
-    {
+
+    handleFocus() {
         this.setState({paperColor: '#FFFFFF'});
     }
-    handleBlur()
-    {
+
+    handleBlur() {
         this.setState({paperColor: '#EEF3F2'});
     }
-    handleRecord()
-    {
+
+    handleRecord() {
         console.log('recording');
         this.setState({
             recorderOpen: !this.state.recorderOpen
         });
         if (x % 2 == 0) {
-            Stream = client.createStream();
+            // Stream = client.createStream();
+            // navigator.getUserMedia(session, initializeRecorder, onError);
+            stream = ss.createStream();
+            ss(this.socket).emit('stream::speech', stream);
             navigator.getUserMedia(session, initializeRecorder, onError);
+
             this.setState({micColor: '#F7A808'});
         } else {
-            Stream.end();
+            stream.end();
             this.setState({micColor: '#CCCCCC'});
         }
         x++;
     }
-    handleSend()
-    {
+    handleSend() {
         console.log('sending');
-        this.setState({text: ''});
+        const utterance = this.state.utterance;
+        utterance.text = this.state.text;
+        this.setState({utterance: utterance,text: ''});
+        this.sendUtterance();
     }
     handleAttachment()
     {
@@ -153,10 +183,10 @@ class InstructionProcessor extends React.Component
             this.handleSend();
             this.setState({text: ''});
         }
-        this.props.handleMessage(this.state.text);
     }
     render()
     {
+
         styles.paperStyle.backgroundColor = this.state.paperColor;
         let icons = null;
         if (this.state.text === '') {
