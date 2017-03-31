@@ -1,7 +1,7 @@
 version: '2'
 services:
   webapp:
-    image: mhart/alpine-node-auto
+    image: coper/coper-webapp:v1.0.0
     build:
       context: .
       dockerfile: Dockerfile
