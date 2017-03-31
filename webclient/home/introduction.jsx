@@ -26,14 +26,14 @@ class Introduction extends React.Component
     {
         const styleFunction = (screenClass) => {
             if (screenClass === 'xl')
-                return {fontSize: '20px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'85vh'};
+                return {fontSize: '20px', backgroundImage: `url(${ '../images/intro-back.jpg'})`, backgroundSize: 'cover',height:'85vh'};
             if (screenClass === 'lg')
-                return {fontSize: '20px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'85vh'};
+                return {fontSize: '20px', backgroundImage: `url(${ '../images/intro-back.jpg'})`, backgroundSize: 'cover',height:'85vh'};
             if (screenClass === 'md')
-                return {fontSize: '18px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'85vh'};
+                return {fontSize: '18px', backgroundImage: `url(${ '../images/intro-back.jpg'})`, backgroundSize: 'cover',height:'85vh'};
             if (screenClass === 'sm')
-                return {fontSize: '15px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'85vh'};
-            return {fontSize: '10px', backgroundImage: `url(${ '../images/contact_us.jpg'})`, backgroundSize: 'cover',height:'85vh'};
+                return {fontSize: '15px', backgroundImage: `url(${ '../images/intro-back.jpg'})`, backgroundSize: 'cover',height:'85vh'};
+            return {fontSize: '10px', backgroundImage: `url(${ '../images/intro-back.jpg'})`, backgroundSize: 'cover',height:'85vh'};
         };
 
         var style = {
