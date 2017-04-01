@@ -44,7 +44,7 @@ request(options, function(error, response, body) {
 /*
  * API to list project by slug
  */
- var options = {
+var options = {
     method: 'GET',
     url: 'https://api.taiga.io/api/v1/projects/by_slug',
     qs: {

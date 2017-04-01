@@ -24,7 +24,7 @@ request(options, function(error, response, body) {
 /*
  * API to list user stories
  */
- var options = {
+var options = {
     method: 'GET',
     url: 'https://api.taiga.io/api/v1/userstories',
     qs: {
