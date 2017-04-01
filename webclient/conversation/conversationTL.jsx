@@ -1,12 +1,28 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
+import Avatar from 'material-ui/Avatar';
 import InteractionTimeLine from './InteractionTimeLine.jsx';
 import InstructionProcessor from './instructionProcessor.jsx';
 import {Container, Grid, Row, Col, ScreenClassRender, Hidden } from 'react-grid-system';
+import './interaction.css';
+const style={
+	avatar:{
+		display:'inline-block',
+		float:'left'
+	},
+	paperStyle:{
+		backgroundcolor: '#154726'
+	}
+}
 class ConversationView extends React.Component
 {
 	render()
 	{
+		let avatar=(
+			<span style={style.avatar}>
+			<Avatar src="../images/prem.jpg" />
+			</span>
+			);
 		console.log("inside cv");
 		const styleFunction = (screenClass) => {
 			if (screenClass === 'xl')
@@ -46,6 +62,9 @@ class ConversationView extends React.Component
 							};
 							return(
 								<Container fluid>
+								<div className='chat-title'>
+								{avatar}<h1>Interaction Timeline</h1>
+								</div>
 								<Row>
 								<Hidden xs sm>
 								<Col md={2} lg={2} style={{height: '100vh'}}></Col>

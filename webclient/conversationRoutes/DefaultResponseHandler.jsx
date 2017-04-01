@@ -1,7 +1,6 @@
 import React from 'react';
 import ResponseViewContextUtil from  './ResponseViewContextUtil.jsx';
 import ShortTextResponse from './ShortTextResponse.jsx';
-
 export default class DefaultResponseHandler extends React.Component {
   constructor() {
     super();

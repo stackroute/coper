@@ -4,7 +4,7 @@ import AcknowledgementHandler from '../conversationRoutes/AcknowledgementHandler
 import ActionResponseHandler from '../conversationRoutes/ActionResponseHandler.jsx';
 import DefaultResponseHandler from  '../conversationRoutes/DefaultResponseHandler.jsx';
 import InterruptedResponseHandler from '../conversationRoutes/InterruptedResponseHandler.jsx';
-
+import './interaction.css';
 export default class InteractionTimeLine extends React.Component {
     constructor() {
         super();
