@@ -1,4 +1,4 @@
-const recastConfig = require('../config/textToIntent.js');
+const recastConfig = require('../../config/textToIntent');
 const superAgent = require('superagent');
 
 const analyzeIntent = function(conversationObj, utteranceText, callback) {
@@ -49,7 +49,7 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
     let replyType = resolveReplytype(recastAnalysisResult, seekEntities);
     let reply = resolveReply(recastAnalysisResult);
     let analysisStatus = resolveAnalysisStatus(recastAnalysisResult, replyType);
-
+    
     parsedResponse.utterance = recastAnalysisResult.source;
     parsedResponse.activity = conversationObj.activity;
     parsedResponse.language = recastAnalysisResult.language;
@@ -65,6 +65,16 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
             type: replyType
           }
         ],
+
+        nextreplies: [
+            {
+              
+              reply: recastAnalysisResult.next_actions[0].reply,
+              type: replyType
+            }
+        ],
+
+
         entities: resolveEntities(recastAnalysisResult)
     }
 
