@@ -71,7 +71,7 @@ const initializeRecorder = function(stream) {
     const audioInput = context.createMediaStreamSource(stream);
     const bufferSize = 2048;
     // create a javascript node
-    const recorder = context.createScriptProcessor(bufferSize, 1, 1);
+    const recorder = context.createScriptProcessors(bufferSize, 1, 1);
     // specify the processing function
     recorder.onaudioprocess = recorderProcess;
     // connect stream to our recorder
@@ -90,33 +90,42 @@ class InstructionProcessor extends React.Component
         super();
         this.state = {
             text: '',
-            utterance: {
-                token: '',
-                timestamp: '',
-                context: '',
-                text: ''
+            conversation: { userToken: '',
+              startTime: ''
             },
+            utterance: '',
             recorderOpen: false,
             paperColor: '#EEF3F2',
             iconColor: '#ccc',
             micColor: '#CCCCCC'
         }
     }
+
+    onConversationStart(convObj) {
+      this.setState({
+        conversation: { startTime: convObj.startTime }
+      });
+    }
+
+    onConversationEnd() {
+        this.resetConversation();
+    }
+
+    resetConversation() {
+      this.setState({
+        conversation: { startTime: '' }
+      });
+    }
+
     componentDidMount()
     {
         this.socket = io();
         this.timeout = null;
-        const utterance = this.state.utterance;
-        utterance.token = localStorage.getItem('lucytoken');
-        this.setState({
-          utterance: utterance
-        });
         const that = this;
         this.socket.on('send::text', (newText) => {
             if (newText.trim() !== '') {
-                utterance.text = newText;
                 this.setState({
-                  utterance: utterance
+                  utterance: newText
                 });
                 window.clearTimeout(this.timeout);
                 console.log(this.timeout);
@@ -124,15 +133,38 @@ class InstructionProcessor extends React.Component
                     that.sendUtterance();
                 }, 2000);
             }
-        })
+        });
+        this.socket.emit('send::userToken',localStorage.getItem('lucytoken'));
+        this.socket.on('conversation::start',(convObj) => {
+          this.onConversationStart(convObj);
+        });
+        this.socket.on('conversation::start',(convObj) => {
+          this.onConversationEnd();
+        });
     }
+
     sendUtterance() {
+        // As the time pause elaspses, a new uttarance has to start, hence reset current stream
+        this.resetAudioStream();
+
+        //Communicate to parent about the new utterance
         this.props.setNewMessage(this.state.utterance);
-        if (stream != null)
-            stream.end();
-        stream = ss.createStream();
-        ss(this.socket).emit('stream::speech', stream);
-        this.socket.emit('utterance', this.state.utterance);
+
+        //Send the uttarance to server too
+        //On server update the utterance timestamp, accoridng to Server's time settings, so that it is consistent
+        this.socket.emit('utterance::new', {
+          conversation: this.state.conversation,
+          utterance: this.state.utterance
+        });
+    }
+
+    resetAudioStream() {
+      if (stream != null)
+          stream.end();
+
+      stream = ss.createStream();
+
+      ss(this.socket).emit('stream::speech', stream);
     }
 
     handleChange(event) {
@@ -168,9 +200,9 @@ class InstructionProcessor extends React.Component
     }
     handleSend() {
         console.log('sending');
-        const utterance = this.state.utterance;
+        const message = this.state.message;
         utterance.text = this.state.text;
-        this.setState({utterance: utterance,text: ''});
+        this.setState({message: message,text: ''});
         this.sendUtterance();
     }
     handleAttachment()
