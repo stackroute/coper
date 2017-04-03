@@ -78,7 +78,8 @@ it('Testing for text refering to adding of tasks', function(done){
             done(err);
         });
     });
-it('Testing for processing an out of context utterence', function(done){
+
+it('Testing for processing a incomplete Utterance Text', function(done){
         this.timeout(6000);
         const analyzer = require('./');
         let conversation = {
@@ -90,14 +91,12 @@ it('Testing for processing an out of context utterence', function(done){
             expect('object').to.equal(typeof analysisRes.result);
             expect(utteranceText).to.equal(analysisRes.result.utterance);
             expect('object').to.equal(typeof analysisRes.result.intention);
-            expect('no-intent').to.equal(typeof analysisRes.result.intention.intent);
+            expect('undefined').to.equal(typeof analysisRes.result.action);
             done(err);
         });
-    });
 
 
 
 
-
-
+});
 });
