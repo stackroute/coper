@@ -1,18 +1,23 @@
 var request = require("request");
 
-var options = {
-    method: 'POST',
-    url: 'https://api.taiga.io/api/v1/auth',
-    formData: {
-        username: 'lucywave16',
-        password: 'lucy@123',
-        type: 'normal'
-    }
+const taigaAuth = function() {
+  var options = {
+      method: 'POST',
+      url: 'https://api.taiga.io/api/v1/auth',
+      formData: {
+          username: 'lucywave16',
+          password: 'lucy@123',
+          type: 'normal'
+      }
+  };
+    let promise = new Promise(function(resolve, reject) {
+        request(options, function(error, response, body) {
+            if (error)
+                reject(error);
+            resolve(body);
+        });
+    });
+    return promise;
 };
 
-request(options, function(error, response, body) {
-    if (error)
-        throw new Error(error);
-
-    console.log(JSON.parse(body));
-});
+module.exports = taigaAuth;
