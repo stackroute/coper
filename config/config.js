@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   KAFKA_TOPICS: {
     UTTERANCES: 'LUCY_UTTERANCES',
     INTENTS: 'LUCY_INTENTS',
@@ -6,6 +6,10 @@ module.exports = {
   KAFKA_CONSUMER_GROUPS: {
     INTENT_ANALYSER: 'CG_INTENT_ANALYZERS',
     ACTION_HANDLERS: 'CG_ACTION_HANDLERS',
+  },
+  ZOOKEEPER:{
+    HOST:'127.0.0.1',
+    PORT:'2181'
   },
   MONGO: {
     URL: 'mongodb://localhost:27017/lucy'
@@ -21,7 +25,7 @@ module.exports = {
       interimResults: true
     },
     projectId: 'gothic-depth-160205',
-    keyFilepath: './server/speechToText/googleKey.json';
+    keyFilepath: './server/speechToText/googleKey.json'
   },
    WATSON_SPEECH_TO_TEXT: {
     'username': 'c011d12a-080e-466c-97d8-28a3d2bffc95',
@@ -37,3 +41,7 @@ module.exports = {
     secret: 'lucy'
   }
 };
+
+config.ZOOKEEPER['URL'] = config.ZOOKEEPER.HOST + ":" + config.ZOOKEEPER.PORT;
+
+module.exports = config;

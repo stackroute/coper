@@ -3,7 +3,7 @@ const messagePublisher = require('./KafkaHighLevelProducer');
 
 const publishMessageToTopic = function() {
 
-  let publisher = messagePublisher();
+  let publisher = publishMessageToTopic(topicName,messagePayload);
   return publisher
 }
 module.exports = publishMessageToTopic;
