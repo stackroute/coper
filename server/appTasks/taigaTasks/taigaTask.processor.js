@@ -1,14 +1,14 @@
 var request = require("request");
-const configTaiga = require('../config/taiga.js');
+const configTaiga = require('../../../config/config.js');
 /*
  * API to add task
  */
 const addTask = function(projectId, taskSubject, userStoryId) {
     var options = {
         method: 'POST',
-        url: configTaiga.apiUrlTask,
+        url: configTaiga.TAIGA.apiUrlTask,
         headers: {
-            authorization: configTaiga.token
+            authorization: configTaiga.TAIGA.token
         },
         formData: {
             project: projectId,
@@ -43,12 +43,12 @@ const addTask = function(projectId, taskSubject, userStoryId) {
 const listTask = function(projectId) {
     var options = {
         method: 'GET',
-        url: configTaiga.apiUrlTask,
+        url: configTaiga.TAIGA.apiUrlTask,
         qs: {
             project: projectId
         },
         headers: {
-            authorization: configTaiga.token
+            authorization: configTaiga.TAIGA.token
         }
     };
     let promise = new Promise(function(resolve, reject) {
@@ -78,9 +78,9 @@ const listTask = function(projectId) {
 const listTaskById = function(taskId) {
     var options = {
         method: 'GET',
-        url: configTaiga.apiUrlTask + '/' + taskId,
+        url: configTaiga.TAIGA.apiUrlTask + '/' + taskId,
         headers: {
-            authorization: configTaiga.token
+            authorization: configTaiga.TAIGA.token
         }
     };
     let promise = new Promise(function(resolve, reject) {

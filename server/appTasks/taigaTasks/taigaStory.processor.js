@@ -1,14 +1,14 @@
 const request = require("request");
-const configTaiga = require('../config/taiga.js');
+const configTaiga = require('../../../config/config.js');
 /*
  * API to add user story
  */
 const addUserStory = function(projectId, userStorySubject) {
     var options = {
         method: 'POST',
-        url: configTaiga.apiUrlUserStories,
+        url: configTaiga.TAIGA.apiUrlUserStories,
         headers: {
-            authorization: configTaiga.token
+            authorization: configTaiga.TAIGA.token
         },
         formData: {
             project: projectId,
@@ -40,12 +40,12 @@ const addUserStory = function(projectId, userStorySubject) {
 const listUserStories = function(projectId) {
     var options = {
         method: 'GET',
-        url: configTaiga.apiUrlUserStories,
+        url: configTaiga.TAIGA.apiUrlUserStories,
         qs: {
             project: projectId
         },
         headers: {
-            authorization: configTaiga.token
+            authorization: configTaiga.TAIGA.token
         }
     };
     let promise = new Promise(function(resolve, reject) {

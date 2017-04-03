@@ -1,14 +1,14 @@
 const request = require("request");
-const configTaiga = require('../config/taiga.js');
+const configTaiga = require('../../../config/config.js');
 /*
 * API to create project
 */
 const createProject = function(projectName) {
     var options = {
         method: 'POST',
-        url: configTaiga.apiUrlProject,
+        url: configTaiga.TAIGA.apiUrlProject,
         headers: {
-            authorization: configTaiga.token
+            authorization: configTaiga.TAIGA.token
         },
         formData: {
             name: projectName,
@@ -33,9 +33,9 @@ const createProject = function(projectName) {
 const listProject = function(projectId) {
     var options = {
         method: 'GET',
-        url: configTaiga.apiUrlProject + '/' + projectId,
+        url: configTaiga.TAIGA.apiUrlProject + '/' + projectId,
         headers: {
-            authorization: configTaiga.token
+            authorization: configTaiga.TAIGA.token
         }
     };
     let promise = new Promise(function(resolve, reject) {
@@ -54,12 +54,12 @@ const listProject = function(projectId) {
 const listProjectBySlug = function(projectSlug) {
     var options = {
         method: 'GET',
-        url: configTaiga.apiUrlProject + '/by_slug',
+        url: configTaiga.TAIGA.apiUrlProject + '/by_slug',
         qs: {
             slug: projectSlug //'lucywave16-my-project'
         },
         headers: {
-            authorization: configTaiga.token
+            authorization: configTaiga.TAIGA.token
         }
     };
     let promise = new Promise(function(resolve, reject) {

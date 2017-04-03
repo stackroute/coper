@@ -1,13 +1,13 @@
 var request = require("request");
-const configTaiga = require('../config/taiga.js');
+const configTaiga = require('../config/config.js');
 
 const taigaAuth = function() {
   var options = {
       method: 'POST',
-      url: configTaiga.apiUrlAuth,
+      url: configTaiga.TAIGA.apiUrlAuth,
       formData: {
-          username: configTaiga.userName,
-          password: configTaiga.password,
+          username: configTaiga.TAIGA.userName,
+          password: configTaiga.TAIGA.password,
           type: 'normal'
       }
   };

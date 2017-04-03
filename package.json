@@ -7,7 +7,8 @@
     "start": "node bin/www",
     "build": "gulp build",
     "lint": "gulp lint",
-    "clean": "gulp clean"
+    "clean": "gulp clean",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",

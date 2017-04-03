@@ -1,5 +1,4 @@
 import React from 'react';
-
 export default class ImageListResponse extends React.Component {
   constructor() {
     super();
@@ -11,8 +10,8 @@ export default class ImageListResponse extends React.Component {
 
   render() {
     return (
-      <div>
-        <img style={{height: '300px'}} src={this.context.response.image} />
+      <div className='message'>
+        <img style={{height:'200px'}} src={this.context.response.image} />
       </div>
     )
   }

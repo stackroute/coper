@@ -1,14 +1,14 @@
 const request = require("request");
-const configTaiga = require('../config/taiga.js');
+const configTaiga = require('../../../config/config.js');
 /*
  * API to add members
  */
 const addMember = function(projectId, userName) {
     var options = {
         method: 'POST',
-        url: configTaiga.apiUrlMember,
+        url: configTaiga.TAIGA.apiUrlMember,
         headers: {
-            authorization: configTaiga.token
+            authorization: configTaiga.TAIGA.token
         },
         formData: {
             project: projectId,
@@ -32,12 +32,12 @@ const addMember = function(projectId, userName) {
 const listMembers = function(projectId) {
     var options = {
         method: 'GET',
-        url: configTaiga.apiUrlMember,
+        url: configTaiga.TAIGA.apiUrlMember,
         qs: {
             project: projectId
         },
         headers: {
-            authorization: configTaiga.token
+            authorization: configTaiga.TAIGA.token
         }
     };
     let promise = new Promise(function(resolve, reject) {
@@ -56,9 +56,9 @@ const listMembers = function(projectId) {
 const listMemberById = function(memberId) {
     var options = {
         method: 'GET',
-        url: configTaiga.apiUrlMember + '/' + memberId,
+        url: configTaiga.TAIGA.apiUrlMember + '/' + memberId,
         headers: {
-            authorization: configTaiga.token
+            authorization: configTaiga.TAIGA.token
         }
     };
     let promise = new Promise(function(resolve, reject) {
@@ -77,9 +77,9 @@ const listMemberById = function(memberId) {
 const deleteMember = function(memberId) {
     var options = {
         method: 'DELETE',
-        url: configTaiga.apiUrlMember + '/' + memberId,
+        url: configTaiga.TAIGA.apiUrlMember + '/' + memberId,
         headers: {
-            authorization: configTaiga.token
+            authorization: configTaiga.TAIGA.token
         }
     };
     let promise = new Promise(function(resolve, reject) {
