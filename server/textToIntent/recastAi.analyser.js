@@ -1,4 +1,4 @@
-const recastConfig = require('../../config/textToIntent');
+const recastConfig = require('../../config/config.js');
 const superAgent = require('superagent');
 
 const analyzeIntent = function(conversationObj, utteranceText, callback) {
@@ -27,7 +27,7 @@ const requestRecast = function(utteranceText, callback) {
     // let recastBaseURL = config.RECASTAI_API_BASE_URL;
     // let authToken = config.recast.authToken;
 
-    let authToken = recastConfig.token;
+    let authToken = recastConfig.RECAST.token;
     let recastBaseURL = 'https://api.recast.ai/v2';
 
     superAgent
@@ -68,7 +68,7 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
 
         nextreplies: [
             {
-              
+
               reply: recastAnalysisResult.next_actions[0].reply,
               type: replyType
             }

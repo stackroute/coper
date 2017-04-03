@@ -6,15 +6,15 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const users = require('./users');
 const auth = require('./authentication');
-const configJwt = require('./authentication/config/configJwt');
+const configJwt = require('../config/config.js');
 const app = express();
 const mongoose = require('mongoose');
-const configDB = require('../config/database.js');
+const configDB = require('../config/config.js');
 
 // setting secret variable for JWT encode and decode
-app.set('superSecret', configJwt.secret);
+app.set('superSecret', configJwt.JWT_AUTH.secret);
 mongoose.Promise = global.Promise;
-mongoose.connect(configDB.url);
+mongoose.connect(configDB.MONGO.url);
 
 // using morgan for logging each incoming requests
 app.use(morgan('dev'));
