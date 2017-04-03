@@ -28,42 +28,33 @@ class AppHeader extends React.Component {
         this.localUserAuthentication = this.localUserAuthentication.bind(this);
     }
     componentWillMount() {
-      let url='';
-      try{
-        url=window.location.hash.split('?')[1].split('=')[1];
-        localStorage.setItem('lucytoken',url);
-      }catch(ex)
-      {
-        url=''
-      }
-      console.log(window.location.hash);
-      this.localUserAuthentication();
-      console.log(window.location.search)
+        let url = '';
+        try {
+            url = window.location.hash.split('?')[1].split('=')[1];
+            localStorage.setItem('lucytoken', url);
+        } catch (ex) {
+            url = ''
+        }
+        this.localUserAuthentication();
     }
     localUserAuthentication() {
 
-      var token=localStorage.getItem('lucytoken') || '';
+        var token = localStorage.getItem('lucytoken') || '';
 
         var that = this;
         axios({
             method: 'post',
-            url: '/auth/'+token,
-        }).then(function(res){
-        console.log(window.location);
-          if(res.status === 200)
-          {
-            console.log('loggedin');
-            that.setState({loggedin: true});
-            hashHistory.push('/UserHome');
-          }
-          else {
-            console.log('not loggedin');
-            that.setState({loggedin: false});
+            url: '/auth/' + token
+        }).then(function(res) {
+            if (res.status === 200) {
+                that.setState({loggedin: true});
+                // hashHistory.push('/UserHome');
+            } else {
+                that.setState({loggedin: false});
+                hashHistory.push('/Home');
+            }
+        }, function(err) {
             hashHistory.push('/Home');
-          }
-        },function(err){
-        console.log('asa')
-        hashHistory.push('/Home');
         })
     }
     handleLogoutUser() {

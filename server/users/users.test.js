@@ -19,13 +19,4 @@ describe('userController.user', function() {
         })).to.equal(null);
     });
 });
-
-// describe('userController.user', function() {
-//     it('findUser() should return user', function(done) {
-//         expect(userController.findUser('abcd1234567').then(function(err) {
-//             return err
-//         }, function(user) {
-//             return user
-//         }).to.equal(user)});
-// });
 };
