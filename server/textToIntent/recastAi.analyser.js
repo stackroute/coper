@@ -68,7 +68,7 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
 
         nextreplies: [
             {
-
+              intent: recastAnalysisResult.next_actions[0].slug,
               reply: recastAnalysisResult.next_actions[0].reply,
               type: replyType
             }
