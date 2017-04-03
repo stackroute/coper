@@ -1,93 +1,138 @@
+const recastConfig = require('../config/textToIntent.js');
+const superAgent = require('superagent');
 
-  var recastConfig   = require('./config.js');
+const analyzeIntent = function(conversationObj, utteranceText, callback) {
+    let start = new Date();
+    requestRecast(utteranceText, function(err, res) {
+        console.log('Recast result: ', JSON.stringify(res.body));
 
+        let errors = [];
+        if (err) {
+            errors.push(err);
+        };
 
-var intentJson = require('superagent');
-intentJson
-.post('https://api.recast.ai/v2/converse')
-.send({
-	text:'create project lucy with member jesica',
-	language:'en'
-       })
+        let result = {
+            result: parseRecastResponse(conversationObj, res.body.results),
+            "start": start,
+            "end": new Date(),
+            "errors": errors
+        }
 
-.set('Authorization', recastConfig.token)
-	
- .end(function(err, res) {
-  //  console.log(res.text);
+        callback(err, result);
+    });
+}
 
-    var json = JSON.parse(res.text);
-    
-   // // console.log(json);
-    var filterObj = {
-    	responseAction:{
-    		intent: '',
-    		status: false,
-    		reply:''
-           },
-           nextAction:[{
-             intent:'',
-             status:false,
-             reply:''
+const requestRecast = function(utteranceText, callback) {
+    console.log('Got utterance ', utteranceText, ' for analysis');
+    // let recastBaseURL = config.RECASTAI_API_BASE_URL;
+    // let authToken = config.recast.authToken;
 
-           }],
+    let authToken = recastConfig.token;
+    let recastBaseURL = 'https://api.recast.ai/v2';
 
-           botMemory:{
-           	'storyName':'',
-           	'sprintName':'',
-           	'wishing':'',
-           	
-            'greeting':'',
+    superAgent
+        .post((recastBaseURL + '/converse'))
+        .send({
+            text: utteranceText,
+            language: 'en'
+        })
+        .set('Authorization', authToken)
+        .end(callback);
+}
 
+// Parses, recast.ai response to the required format of Lucy
+const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
+    let parsedResponse = {};
 
-            'projectName':{confidence:0.0 ,  value :''},
-            'memberName' :{confidence:0.0 ,  value :''}
- 
-           },
+    let slugIntent = resolveIntentAction(recastAnalysisResult);
+    let seekEntities = resolveEntities(recastAnalysisResult);
+    let replyType = resolveReplytype(recastAnalysisResult, seekEntities);
+    let reply = resolveReply(recastAnalysisResult);
+    let analysisStatus = resolveAnalysisStatus(recastAnalysisResult, replyType);
 
+    parsedResponse.utterance = recastAnalysisResult.source;
+    parsedResponse.activity = conversationObj.activity;
+    parsedResponse.language = recastAnalysisResult.language;
+    parsedResponse.found = (recastAnalysisResult.action.slug !== '' || recastAnalysisResult.action.slug !== null);
 
-           mainIntent :[{confidence : 0, intent :''}]
-           
+    parsedResponse['intention'] = {
+        intent: slugIntent.slug,
+        confidence: slugIntent.confidence, 
+        status: analysisStatus,
+        replies: [
+          {
+            reply: recastAnalysisResult.action.reply,
+            type: replyType
+          }
+        ],
+        entities: resolveEntities(recastAnalysisResult)
+    }
 
+    return parsedResponse;
+}
 
-    };
-       //responseAction
-      filterObj.responseAction.intent = json.results.action.slug;
-      filterObj.responseAction.status = json.results.action.done;
-      filterObj.responseAction.reply = json.results.action.reply;
+const resolveIntentAction = function(recastAnalysisResult) {
+  let slugIntent = recastAnalysisResult.intents.find(function(intent){
+    return (intent.slug == recastAnalysisResult.action.slug);
+  });
+  
+  return slugIntent;  
+}
 
-     //for nextAction
-     filterObj.nextAction[0].intent = json.results.next_actions[0].slug;
-     filterObj.nextAction[0].status = json.results.next_actions[0].done;
-     filterObj.nextAction[0].reply = json.results.next_actions[0].reply;
-
-    // bot memory
-     filterObj.botMemory.storyName = json.results.memory["story-name"];
-     filterObj.botMemory.sprintName = json.results.memory["sprint-name"];
-     filterObj.botMemory.wishing = json.results.memory.wishing;
-     filterObj.botMemory.greeting = json.results.memory.greeting;
-     filterObj.botMemory.projectName.confidence = json.results.memory["project-name"].confidence;
-     filterObj.botMemory.projectName.value = json.results.memory["project-name"].value;
-
-    filterObj.botMemory.memberName.confidence = json.results.memory["member-name"].confidence;
-    filterObj.botMemory.memberName.value = json.results.memory["member-name"].value;
-    
-
-
-
-  //mainIntent
-
-   filterObj.mainIntent[0].confidence =  json.results.intents[0].confidence;
-   filterObj.mainIntent[0].intent =  json.results.intents[0].slug;
-
-
-
-
-
-
-
-
-console.log(filterObj);
+const findMissingEntities = function(seekEntities) {
+  let missingEntities = seekEntities.map(function(entity){
+    if(entity.value === null) {
+      return entity;
+    }
   });
 
+  console.log('Missing entities ', missingEntities);
 
- module.exports = intentJson;
+  return missingEntities;
+}
+
+const resolveReplytype = function (recastAnalysisResult, seekEntities) {
+  let repType = '';
+
+  let missingEntities = findMissingEntities(seekEntities);
+
+  if(missingEntities.length > 0) {
+    repType = "missingInfo";
+  } else {
+    repType = "readyToAct";
+  }
+
+  return repType;
+}
+
+const resolveAnalysisStatus = function(recastAnalysisResult, replyType)  {
+  let status = '';
+
+  if(replyType == "missingInfo") {
+    status = 'incomplete';
+  } else {
+    status = 'complete';
+  }
+
+  return status;
+}
+
+const resolveEntities = function(recastAnalysisResult) {
+  let entities = Object.keys(recastAnalysisResult.memory).map(function(key){
+    return {
+      name: key,
+      value: recastAnalysisResult.memory[key]
+    };
+  });
+
+  return entities;
+}
+
+const resolveReply = function(recastAnalysisResult) {
+  recastAnalysisResult;
+  return {}
+}
+
+module.exports = {
+    analyzeIntent: analyzeIntent
+}
