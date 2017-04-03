@@ -1251,7 +1251,6 @@ BinaryStream.prototype._onError = function(error){
 
 BinaryStream.prototype._onPause = function() {
   // Emit pause event
-  console.log('pause');
   this.paused = true;
   this.emit('pause');
 };

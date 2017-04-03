@@ -7,7 +7,8 @@
     "start": "node bin/www",
     "build": "gulp build",
     "lint": "gulp lint",
-    "clean": "gulp clean"
+    "clean": "gulp clean",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,6 @@
     "axios": "^0.15.3",
     "binaryjs": "^0.2.1",
     "body-parser": "^1.16.1",
-    "bufferutil": "^3.0.0",
     "chai": "^3.5.0",
     "compression": "^1.6.2",
     "connect-flash": "^0.1.1",
@@ -38,6 +38,7 @@
     "gulpfile": "^1.0.2",
     "jsonwebtoken": "^7.3.0",
     "jwt-decode": "^2.2.0",
+    "log4js": "^1.1.1",
     "material-ui": "^0.17.0",
     "mongoose": "^4.9.0",
     "morgan": "^1.8.1",
@@ -50,12 +51,14 @@
     "react-markdown": "^2.4.6",
     "react-router": "^3.0.2",
     "react-tap-event-plugin": "^2.0.1",
+    "request": "^2.81.0",
+    "socket.io": "^1.7.3",
+    "socket.io-stream": "^0.9.1",
     "string_decoder": "^0.10.31",
     "style-loader": "^0.15.0",
-    "utf-8-validate": "^3.0.1",
+    "superagent": "^3.5.2",
     "watson-developer-cloud": "^2.27.1",
-    "wav": "^1.0.1",
-    "ws": "^2.2.2"
+    "wav": "^1.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",

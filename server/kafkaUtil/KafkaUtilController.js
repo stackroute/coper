@@ -1,4 +1,9 @@
-const  msg = require('./KafkaHighLevelProducer');
-const topic = require('');
+const messagePublisher = require('./KafkaHighLevelProducer');
+//const topic = require('');
 
-const findTopic= function()
+const publishMessageToTopic = function() {
+
+  let publisher = messagePublisher();
+  return publisher
+}
+module.exports = publishMessageToTopic;
