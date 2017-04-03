@@ -1,13 +1,14 @@
 var request = require("request");
+const configTaiga = require('../config/taiga.js');
 /*
  * API to add task
  */
 const addTask = function(projectId, taskSubject, userStoryId) {
     var options = {
         method: 'POST',
-        url: 'https://api.taiga.io/api/v1/tasks',
+        url: configTaiga.apiUrlTask,
         headers: {
-            authorization: 'Bearer eyJ1c2VyX2F1dGhlbnRpY2F0aW9uX2lkIjoyMDg2MTF9:1ctGke:7wLPPqJ6RybMUqnxxqiGlW0_0sE'
+            authorization: configTaiga.token
         },
         formData: {
             project: projectId,
@@ -19,7 +20,18 @@ const addTask = function(projectId, taskSubject, userStoryId) {
         request(options, function(error, response, body) {
             if (error)
                 reject(error);
-            resolve(body);
+            var json = JSON.parse(body);
+            var filterAddTask = {
+                "projectId": "",
+                "userStorySubject": "",
+                "userStoryId": "",
+                "taskId": ""
+            }
+            filterAddTask.projectId = json.project;
+            filterAddTask.userStorySubject = json.subject;
+            filterAddTask.userStoryId = json.user_story;
+            filterAddTask.taskId = json.id;
+            resolve(filterAddTask);
         });
     });
     return promise;
@@ -31,19 +43,30 @@ const addTask = function(projectId, taskSubject, userStoryId) {
 const listTask = function(projectId) {
     var options = {
         method: 'GET',
-        url: 'https://api.taiga.io/api/v1/tasks',
+        url: configTaiga.apiUrlTask,
         qs: {
             project: projectId
         },
         headers: {
-            authorization: 'Bearer eyJ1c2VyX2F1dGhlbnRpY2F0aW9uX2lkIjoyMDg2MTF9:1ctGke:7wLPPqJ6RybMUqnxxqiGlW0_0sE'
+            authorization: configTaiga.token
         }
     };
     let promise = new Promise(function(resolve, reject) {
         request(options, function(error, response, body) {
             if (error)
                 reject(error);
-            resolve(body);
+            var json = JSON.parse(body);
+            var filterListTask = {
+                "projectId": "",
+                "taskSubject": "",
+                "userStoryId": "",
+                "taskId": ""
+            }
+            filterListTask.projectId = json[0].project;
+            filterListTask.taskSubject = json[0].subject;
+            filterListTask.userStoryId = json[0].user_story;
+            filterListTask.taskId = json[0].id;
+            resolve(filterListTask);
         });
     });
     return promise;
@@ -55,16 +78,27 @@ const listTask = function(projectId) {
 const listTaskById = function(taskId) {
     var options = {
         method: 'GET',
-        url: 'https://api.taiga.io/api/v1/tasks/' + taskId,
+        url: configTaiga.apiUrlTask + '/' + taskId,
         headers: {
-            authorization: 'Bearer eyJ1c2VyX2F1dGhlbnRpY2F0aW9uX2lkIjoyMDg2MTF9:1ctGke:7wLPPqJ6RybMUqnxxqiGlW0_0sE'
+            authorization: configTaiga.token
         }
     };
     let promise = new Promise(function(resolve, reject) {
         request(options, function(error, response, body) {
             if (error)
                 reject(error);
-            resolve(body);
+            var json = JSON.parse(body);
+            var filterListTaskById = {
+                "projectId": "",
+                "taskSubject": "",
+                "userStoryId": "",
+                "taskId": ""
+            }
+            filterListTaskById.projectId = json[0].project;
+            filterListTaskById.taskSubject = json[0].subject;
+            filterListTaskById.userStoryId = json[0].user_story;
+            filterListTaskById.taskId = json[0].id;
+            resolve(filterListTaskById);
         });
     });
     return promise;

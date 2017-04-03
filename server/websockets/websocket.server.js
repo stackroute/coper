@@ -1,6 +1,8 @@
 const socketIO = require('socket.io');
 const ss = require('socket.io-stream');
 
+const redis = require('redis');
+
 const speechToTextProcessor = require('../speechToText');
 
 const log4js = require('log4js');
@@ -8,6 +10,7 @@ log4js.loadAppender('console');
 //log4js.addAppender(log4js.appenders.file('./logs/binaryjs.log'), 'binaryServer');
 const logger = log4js.getLogger('wsService');
 
+const utteranceReceiver = require('../utteranceReceiver');
 const wsService = function(server) {
 
     const wsServer = socketIO(server);
@@ -23,7 +26,10 @@ const wsService = function(server) {
             // PONG is the event name
             clientSocket.emit('PONG', 'pong ping');
         });
-
+        let userToken = '';
+        clientSocket.on('send::userToken', function(uToken) {
+            userToken = uToken;
+        })
         ss(clientSocket).on('stream::speech', function(stream) {
             stream.pipe(speechToTextProcessor.getSpeechRecognizeStream()).on('error', function(err) {
                 //@TODO handle the error and communicate to client socket appropriately
@@ -49,14 +55,26 @@ const wsService = function(server) {
             stream.on('end', function() {
                 logger.debug('streaming end');
             });
-        })
-        clientSocket.on('utterance',function(utterance){
-          logger.debug('utterance : ',utterance);
-        })
-        clientSocket.on('disconnect', function() {
-            console.log('[*] Client socket disconnected ...!');
         });
+        clientSocket.on('utterance::new', function(message) {
+            logger.debug('utterance : ', message);
+            utteranceReceiver.processUtterance(message);
+        });
+        clientSocket.on('disconnect', function() {
+            logger.debug('[*] Client socket disconnected ...!');
+        });
+        const redisClient = redis.createClient();
+        redisClient.on('ready', function() {
+            redisClient.subscribe('conversation::new::' + userToken);
+        });
+        redisClient.on('message', function(channel, message) {
+            logger.debug('in conversation::new::');
+            if (channel === 'conversation::new::' + userToken) {
+                logger.debug('conversation::new::',message);
+                clientSocket.emit('conversation::start', JSON.parse(message));
 
+            }
+        })
     });
 }
 

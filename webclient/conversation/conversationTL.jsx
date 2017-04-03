@@ -24,12 +24,10 @@ class ConversationView extends React.Component
 		{
 			const messages = this.state.messages;
 			messages.push(msg);
-			console.log('from tl ',msg);
 			this.setState({messages});
 		}
     render()
     {
-        console.log("inside cv");
         const styleFunction = (screenClass) => {
             if (screenClass === 'xl')
                 return {height: '95vh', width: '100vw', marginLeft: '20%', textAlign: 'center', display: 'inline-block'};

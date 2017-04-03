@@ -1,13 +1,14 @@
-var request = require("request");
+const request = require("request");
+const configTaiga = require('../config/taiga.js');
 /*
  * API to add members
  */
 const addMember = function(projectId, userName) {
     var options = {
         method: 'POST',
-        url: 'https://api.taiga.io/api/v1/memberships',
+        url: configTaiga.apiUrlMember,
         headers: {
-            authorization: 'Bearer eyJ1c2VyX2F1dGhlbnRpY2F0aW9uX2lkIjoyMDg2MTF9:1ctGke:7wLPPqJ6RybMUqnxxqiGlW0_0sE'
+            authorization: configTaiga.token
         },
         formData: {
             project: projectId,
@@ -31,12 +32,12 @@ const addMember = function(projectId, userName) {
 const listMembers = function(projectId) {
     var options = {
         method: 'GET',
-        url: 'https://api.taiga.io/api/v1/memberships',
+        url: configTaiga.apiUrlMember,
         qs: {
             project: projectId
         },
         headers: {
-            authorization: 'Bearer eyJ1c2VyX2F1dGhlbnRpY2F0aW9uX2lkIjoyMDg2MTF9:1ctGke:7wLPPqJ6RybMUqnxxqiGlW0_0sE'
+            authorization: configTaiga.token
         }
     };
     let promise = new Promise(function(resolve, reject) {
@@ -55,9 +56,9 @@ const listMembers = function(projectId) {
 const listMemberById = function(memberId) {
     var options = {
         method: 'GET',
-        url: 'https://api.taiga.io/api/v1/memberships/' + memberId, //member id to be listed
+        url: configTaiga.apiUrlMember + '/' + memberId,
         headers: {
-            authorization: 'Bearer eyJ1c2VyX2F1dGhlbnRpY2F0aW9uX2lkIjoyMDg2MTF9:1ctGke:7wLPPqJ6RybMUqnxxqiGlW0_0sE'
+            authorization: configTaiga.token
         }
     };
     let promise = new Promise(function(resolve, reject) {
@@ -76,9 +77,9 @@ const listMemberById = function(memberId) {
 const deleteMember = function(memberId) {
     var options = {
         method: 'DELETE',
-        url: 'https://api.taiga.io/api/v1/memberships/' + memberId, //member id to be deleted
+        url: configTaiga.apiUrlMember + '/' + memberId,
         headers: {
-            authorization: 'Bearer eyJ1c2VyX2F1dGhlbnRpY2F0aW9uX2lkIjoyMDg2MTF9:1ctGke:7wLPPqJ6RybMUqnxxqiGlW0_0sE'
+            authorization: configTaiga.token
         }
     };
     let promise = new Promise(function(resolve, reject) {

@@ -10,6 +10,7 @@ services:
       - "8080:8080"
     depends_on:
       - mongo
+      - redis
 
   mongo:
     image: mvertes/alpine-mongo
@@ -18,3 +19,12 @@ services:
       - 27017
     ports:
       - "27017:27017"
+
+  redis:
+   image: smebberson/alpine-redis
+   network_mode: host
+   restart: always
+   expose:
+    - 6379
+   ports:
+    - "6379:6379"
