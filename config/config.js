@@ -65,5 +65,9 @@ module.exports = {
         apiUrlTask: 'https://api.taiga.io/api/v1/tasks',
 
         token: 'Bearer eyJ1c2VyX2F1dGhlbnRpY2F0aW9uX2lkIjoyMDg2MTF9:1ctGke:7wLPPqJ6RybMUqnxxqiGlW0_0sE'
+    },
+    REDIS_CLIENT: {
+      host: 'localhost',
+      port: 6379
     }
 };

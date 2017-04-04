@@ -79,7 +79,6 @@ class ConversationView extends React.Component
                         height: '100vh'
                     }}>
                         <Row>
-
                             <Col xs={12} sm={12} md={12} lg={12} style={{
                                 height: '70vh',
                                 overflowY : 'auto'
