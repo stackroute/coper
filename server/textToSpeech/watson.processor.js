@@ -1,9 +1,11 @@
 
 const textToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
-const watsonConfig = require('../../config/config.js').WATSON_SPEECH_TO_TEXT;
+
+const watsonConfig = require('../../config/config.js');
+
 const fs = require('fs');
 //This function is to convert the response text to speech.
-const watsonTextToSpeech = new textToSpeechV1(watsonConfig.auth);
+const watsonTextToSpeech = new textToSpeechV1(watsonConfig.WATSON_TEXT_TO_SPEECH);
 
 const params = watsonConfig.params;
 

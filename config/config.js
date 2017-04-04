@@ -27,7 +27,7 @@ module.exports = {
         keyFilepath: './server/speechToText/googleKey.json'
     },
 
-    WATSON_SPEECH_TO_TEXT: {
+    WATSON_TEXT_TO_SPEECH: {
         auth: {
             'username': 'c011d12a-080e-466c-97d8-28a3d2bffc95',
             'password': 'Y7pdB42Cb0cI'

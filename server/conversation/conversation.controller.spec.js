@@ -8,12 +8,12 @@ const conversationRouter = require('./conversation.router');
 
  var datetime = new Date();
         var dataModelValues = new conversation({
-           userName: "lalala",
+           userName: "lollol",
            userAgent: "chrome",
            startTime: datetime,
            endTime: datetime,
            context: {
-              intent: "Create Project",
+              activity: "Create Project",
               language: 'en',
               payload: ["asdasd"]
           },
@@ -58,7 +58,7 @@ describe('Test plan for conversation Analys', function() {
             //console.log("saveUserConversation result: ", JSON.stringify(analysisRes));
             expect(analysisRes).to.not.equal(null);
             expect(analysisRes).to.not.equal(undefined);
-            expect('lalala').to.equal(analysisRes.userName);
+            expect('lollol').to.equal(analysisRes.userName);
             // expect(utteranceText).to.equal(analysisRes.result.utterance);
             // expect('object').to.equal(typeof analysisRes.result.intention);
             // expect('create-project').to.equal(analysisRes.result.intention.intent);
@@ -71,12 +71,11 @@ describe('Test plan for conversation Analys', function() {
     });
     it ('Testing for find the a conversation', function(done){
       this.timeout(10000);
-      let strtdate = new Date('2017-04-03T15:30:16.997Z');
-      let userName = 'lalala';
+      let strtdate = new Date('2017-04-04T09:56:21.402Z');
+      let userName = 'lollol';
       const analyser = require('./conversation.controller');
       console.log(strtdate);
       analyser.findUserConversation(userName,strtdate).then(function(analysisRes){
-        console.log(analysisRes);
         expect(analysisRes).to.not.equal(null);
         expect(analysisRes).to.not.equal(undefined);
         expect('lalalal').to.not.equal(analysisRes.userName);
@@ -86,6 +85,24 @@ describe('Test plan for conversation Analys', function() {
       },function(err)
       {
         console.log(err);
+      });
+    });
+
+    it('testing for update the context of a converstaion', function(done){
+      this.timeout(10000);
+      let startdate= new Date('2017-04-04T09:56:21.402Z');
+      let userName = 'lollol';
+      const analyser = require('./conversation.controller');
+      let context={ activity: 'create project Luccyyy', language: 'en', payload: [ 'luccy' ] };
+      analyser.updateUserConversation(userName,startdate,context).then(function(analysisRes){
+        expect(analysisRes).to.not.equal(null);
+        expect(analysisRes).to.not.equal(undefined);
+        expect(analysisRes.nModified).to.not.equal(0);
+        done();
+      },function(err)
+      {
+        console.log(err);
+        throw err;
       });
     });
   });
