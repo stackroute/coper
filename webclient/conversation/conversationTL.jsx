@@ -83,7 +83,7 @@ class ConversationView extends React.Component
                             <Col xs={12} sm={12} md={12} lg={12} style={{
                                 height: '70vh',
                                 overflowY : 'auto'
-                            }} scrollTop={100}><div ><InteractionTimeLine responses={this.state.messages}/></div></Col>
+                            }}><div ><InteractionTimeLine responses={this.state.messages}/></div></Col>
                             <Col xs={12} sm={12} md={12} lg={12}>
                                 <InstructionProcessor setNewMessage={this.setNewMessage}/>
                             </Col>
