@@ -71,7 +71,7 @@ const initializeRecorder = function(stream) {
     const audioInput = context.createMediaStreamSource(stream);
     const bufferSize = 2048;
     // create a javascript node
-    const recorder = context.createScriptProcessors(bufferSize, 1, 1);
+    const recorder = context.createScriptProcessor(bufferSize, 1, 1);
     // specify the processing function
     recorder.onaudioprocess = recorderProcess;
     // connect stream to our recorder
@@ -122,6 +122,9 @@ class InstructionProcessor extends React.Component
         this.socket = io();
         this.timeout = null;
         const that = this;
+        const conv = this.state.conversation;
+        conv.userToken = localStorage.getItem('lucytoken');
+        this.setState({conversation: conv});
         this.socket.on('send::text', (newText) => {
             if (newText.trim() !== '') {
                 this.setState({
@@ -149,7 +152,7 @@ class InstructionProcessor extends React.Component
 
         //Communicate to parent about the new utterance
         this.props.setNewMessage(this.state.utterance);
-
+        console.log('utterance');
         //Send the uttarance to server too
         //On server update the utterance timestamp, accoridng to Server's time settings, so that it is consistent
         this.socket.emit('utterance::new', {

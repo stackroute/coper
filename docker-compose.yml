@@ -23,6 +23,7 @@ services:
   redis:
    image: smebberson/alpine-redis
    network_mode: host
+   restart: always
    expose:
     - 6379
    ports:

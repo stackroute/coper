@@ -26,9 +26,9 @@ const wsService = function(server) {
             // PONG is the event name
             clientSocket.emit('PONG', 'pong ping');
         });
-        const userToken = '';
-        clientSocket.on('send::userToken',function(uToken){
-          userToken = uToken;
+        let userToken = '';
+        clientSocket.on('send::userToken', function(uToken) {
+            userToken = uToken;
         })
         ss(clientSocket).on('stream::speech', function(stream) {
             stream.pipe(speechToTextProcessor.getSpeechRecognizeStream()).on('error', function(err) {
@@ -56,23 +56,24 @@ const wsService = function(server) {
                 logger.debug('streaming end');
             });
         });
-        clientSocket.on('utterance',function(message){
-          logger.debug('utterance : ',message);
-          utteranceReceiver.processUtterance(message);
+        clientSocket.on('utterance::new', function(message) {
+            logger.debug('utterance : ', message);
+            utteranceReceiver.processUtterance(message);
         });
         clientSocket.on('disconnect', function() {
             logger.debug('[*] Client socket disconnected ...!');
         });
         const redisClient = redis.createClient();
-        redisClient.on('ready', function(){
-          redisClient.subscribe('conversation::new::'+userToken);
+        redisClient.on('ready', function() {
+            redisClient.subscribe('conversation::new::' + userToken);
         });
-        redisClient.on('message',function(channel,message) {
-          if(channel === 'conversation::new::'+userToken)
-          {
-            logger.debug(message);
-            clientSocket.emit('conversation::start',message);
-          }
+        redisClient.on('message', function(channel, message) {
+            logger.debug('in conversation::new::');
+            if (channel === 'conversation::new::' + userToken) {
+                logger.debug('conversation::new::',message);
+                clientSocket.emit('conversation::start', JSON.parse(message));
+
+            }
         })
     });
 }

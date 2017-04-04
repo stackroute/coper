@@ -1,3 +1,3 @@
-const speechToText = require('./speechTotext.controller');
+const speechToText = require('./speechToText.controller');
 
 module.exports = speechToText;
