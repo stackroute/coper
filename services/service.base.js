@@ -52,7 +52,7 @@ function run(subscribeTopic, consumerGroup, kafkaHost, processPipeLine) {
         console.log("Error: ", err);
 
         push(err, null);
-        next();
+        // next();
       });
     }).map(function(messageObj) {
       //Temporarily keeping this map method, to intermediary log and verify if messages are coming from Kafka or not
