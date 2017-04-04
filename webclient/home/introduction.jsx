@@ -2,6 +2,9 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router';
+
+//import ActionAndroid from 'material-ui/svg-icons/communication/email';
+
 import {Container, Grid, Row, Col, ScreenClassRender} from 'react-grid-system';
 
 class Introduction extends React.Component
@@ -22,6 +25,8 @@ class Introduction extends React.Component
     {
         window.addEventListener('resize', this.updateDimensions);
     }
+    
+
     render()
     {
         const styleFunction = (screenClass) => {
@@ -35,7 +40,7 @@ class Introduction extends React.Component
                 return {fontSize: '15px', backgroundImage: `url(${ '../images/intro-back.jpg'})`, backgroundSize: 'cover',height:'85vh'};
             return {fontSize: '10px', backgroundImage: `url(${ '../images/intro-back.jpg'})`, backgroundSize: 'cover',height:'85vh'};
         };
-
+         
         var style = {
             minWidth: '200px',
             width: '100%',
@@ -52,10 +57,11 @@ class Introduction extends React.Component
             fontSize: '20px'
         };
         const buttonStyle = {
-            padding: '10px',
-            backgroundColor: '#F44141',
+            padding: '8px',
+            backgroundColor: '#2a7561',
             borderRadius: '4px'
         };
+
         var styles = {
             divRowStyle: {
                 backgroundImage: `url(${ '../images/intro-back.jpg'})`,
@@ -87,7 +93,17 @@ class Introduction extends React.Component
             },
             h4marginSet: {
                 margin: '4px'
-            }
+            },
+             signInButtonStyle: {
+        margin: '2px',
+        border: '0px',
+        height: '46px'
+    },
+    signInButtonLabelStyle: {
+        color: 'white',
+        fontWeight: 400
+    },
+
         };
         return (
             <Container fluid style={{paddingLeft: '0px',paddingRight: '0px',    marginTop: '-4px'}}>
@@ -102,7 +118,7 @@ class Introduction extends React.Component
                                     Now we are talking.</h1><br/>
                                 <h3>Build brand-unique, natural language interactions<br/>
                                     for bots, applications, services, and devices.<br/><br/><br/></h3>
-                                <a href='/auth/google'><RaisedButton label="GET STARTED FREE" labelStyle={labelStyle} backgroundColor='#F44141'
+                             <a href='/auth/google'><RaisedButton label="SIGN IN WITH GOOGLE" icon={<img src="../images/google_login.png" style={{height:'36px',width:'36px'}}/>} labelStyle={labelStyle} backgroundColor='#2a7561'
                                  style={buttonStyle}/></a>
                             </Paper>
                         </Col>
