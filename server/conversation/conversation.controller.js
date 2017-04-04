@@ -19,6 +19,7 @@ const findUserConversation = function(userName, startTime){
   });
   return promise;
 };
+
 // this function saves the conversation in database
 const saveUserConversation = function(objectTobeSaved){
    let promise = new Promise(function(resolve, reject){
@@ -57,10 +58,30 @@ const updateUserConversation = function(userName, startTime,modifiedObjToBeSaved
   return promise;
 };
 
+const findLastUserConversation = function(userName){
+  let promise = new Promise(function(resolve, reject){
+    conversation.find({
+      userName: userName
+    }).sort({startTime: -1}).limit(1).exec(function(err, conversation){
+      if (err)
+        reject(err);
+      if (!conversation){
+        reject({error: 'No conversation found in mongo..!'});
+      }
+      console.log(conversation);
+      resolve(conversation);
+
+    });
+  });
+  return promise;
+};
+
+
 module.exports = {
   findUserConversation: findUserConversation,
   saveUserConversation: saveUserConversation,
-  updateUserConversation:updateUserConversation
+  updateUserConversation:updateUserConversation,
+  findLastUserConversation:findLastUserConversation
 
 
 };
