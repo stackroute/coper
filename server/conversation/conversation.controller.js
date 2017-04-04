@@ -16,10 +16,10 @@ const startNewConversation = function(userName, utteranceText, activity) {
             }]
         });
 
-        convObj.save(function(err, savedConvObj){
-            if(err) {
-              logger.error('Error in saving new conversation object ', err);
-              reject(err);
+        convObj.save(function(err, savedConvObj) {
+            if (err) {
+                logger.error('Error in saving new conversation object ', err);
+                reject(err);
             }
             resolve(savedConvObj);
         });
@@ -44,11 +44,10 @@ const findUserConversation = function(userName, startTime) {
     });
     return promise;
 };
-
+// this function saves the conversation in database
 const saveUserConversation = function(objectTobeSaved) {
     let promise = new Promise(function(resolve, reject) {
         let data = new conversation(objectTobeSaved);
-
         data.save(function(err, objectTobeSaved) {
             if (err)
                 reject(err);
@@ -58,8 +57,31 @@ const saveUserConversation = function(objectTobeSaved) {
     return promise;
 };
 
+const updateUserConversation = function(userName, startTime, modifiedObjToBeSaved) {
+    let promise = new Promise(function(resolve, reject) {
+        console.log(userName);
+        conversation.update({
+            userName: userName,
+            startTime: startTime
+        }, { $set: { context: modifiedObjToBeSaved } }, function(err, conversation1) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(conversation1);
+                console.log(conversation1);
+
+            }
+
+
+        });
+    });
+    return promise;
+};
+
 module.exports = {
+
     findUserConversation: findUserConversation,
     saveUserConversation: saveUserConversation,
-    startNewConversation: startNewConversation
+    updateUserConversation: updateUserConversation
+
 };

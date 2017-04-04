@@ -62,7 +62,6 @@ const convertFloat32ToInt16 = function(buffer) {
 
 const recorderProcess = function(e) {
     const left = e.inputBuffer.getChannelData(0);
-    console.log('fff');
     //Stream.write(convertFloat32ToInt16(left));
     stream._write(convertFloat32ToInt16(left), 'LINEAR16', function() {});
 }
@@ -135,17 +134,21 @@ class InstructionProcessor extends React.Component
         // });
         const that = this;
         const conv = this.state.conversation;
+        let previous = '';
         conv.userToken = localStorage.getItem('lucytoken');
         this.setState({conversation: conv});
         this.socket.on('send::text', (newText) => {
             if (newText.trim() !== '') {
-                this.setState({utterance: newText});
-                window.clearTimeout(this.timeout);
-                console.log(this.timeout);
-                this.timeout = setTimeout(function() {
-                    that.sendUtterance();
-                }, 2000);
+                if (previous != newText) {
+                    this.setState({utterance: newText});
+                    window.clearTimeout(this.timeout);
+                    this.timeout = setTimeout(function() {
+                        that.sendUtterance();
+                    }, 2000);
+                    previous = newText;
+                }
             }
+
         });
         this.socket.emit('send::userToken', localStorage.getItem('lucytoken'));
         this.socket.on('conversation::start', (convObj) => {
@@ -155,23 +158,20 @@ class InstructionProcessor extends React.Component
             this.onConversationEnd();
         });
         ss(this.socket).on('stream::textToSpeech', (speechStream) => {
-            console.log('stream speech to text');
             //speechStream.pipe(this.speaker);
             speechStream.on('data', function(data) {
-                console.log(data);
+                //console.log(data);
             })
         });
-
 
     }
 
     sendUtterance() {
         // As the time pause elaspses, a new uttarance has to start, hence reset current stream
         this.resetAudioStream();
-
+        console.log({contentType: 'shorttext', content: this.state.utterance, purpose: 'Acknowledgement'});
         //Communicate to parent about the new utterance
-        this.props.setNewMessage(this.state.utterance);
-        console.log('utterance');
+        this.props.setNewMessage({contentType: 'shorttext', content: this.state.utterance, purpose: 'Acknowledgement'});
         //Send the uttarance to server too
         //On server update the utterance timestamp, accoridng to Server's time settings, so that it is consistent
         this.socket.emit('utterance::new', {
@@ -221,16 +221,14 @@ class InstructionProcessor extends React.Component
         x++;
     }
     handleSend() {
-        console.log('sending');
-        const message = this.state.message;
-        utterance.text = this.state.text;
-        this.setState({message: message, text: ''});
-        this.sendUtterance();
+        const that = this;
+        this.setState({utterance: this.state.text, text: ''});
+        setTimeout(function() {
+            that.sendUtterance();
+        }, 2000)
     }
     handleAttachment()
-    {
-        console.log('attachment');
-    }
+    {}
     handleKeyPress(event)
     {
         if (event.charCode === 13) {
@@ -240,7 +238,6 @@ class InstructionProcessor extends React.Component
     }
     render()
     {
-        console.log('InstructionProcessor render');
         styles.paperStyle.backgroundColor = this.state.paperColor;
         let icons = null;
         if (this.state.text === '') {

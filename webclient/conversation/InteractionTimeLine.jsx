@@ -1,40 +1,26 @@
 import React from 'react';
-import ResponseViewContextUtil from './ResponseHandlerContextUtil.jsx';
+import ResponseHandlerContextUtil from './ResponseHandlerContextUtil.jsx';
 import AcknowledgementHandler from '../conversationRoutes/AcknowledgementHandler.jsx';
 import ActionResponseHandler from '../conversationRoutes/ActionResponseHandler.jsx';
 import DefaultResponseHandler from '../conversationRoutes/DefaultResponseHandler.jsx';
 import InterruptedResponseHandler from '../conversationRoutes/InterruptedResponseHandler.jsx';
 import './interaction.css';
+
 export default class InteractionTimeLine extends React.Component {
+    static propTypes = {
+      responses: React.PropTypes.array
+    };
+
     constructor() {
         super();
-
         this.state = {
-            responses: [
-                {
-                    contentType: 'shorttext',
-                    content: '# This is a header\n\nAnd this is a paragraph',
-                    purpose: 'Acknowledgement'
-                }, {
-                    contentType: 'shorttext',
-                    content: '# This is a header\n\nAnd this is a actionresponse',
-                    purpose: 'Actionresponse'
-                }, {
-                    contentType: 'shorttext',
-                    content: '# This is a header\n\nAnd this is a defaultresponse',
-                    purpose: 'Defaultresponse'
-                }, {
-                    contentType: 'shorttext',
-                    content: '# This is a header\n\nAnd this is a Interruptedresponse',
-                    purpose: 'Interruptedresponse'
-                }
-            ],
-            error: ''
+                           error: ''
         };
     }
+
     getResponseRendererMap() {
         return {
-            Acknowledgement: <AcknowledgementHandler/>,
+            Acknowledgement: <AcknowledgementHandler />,
             Actionresponse: <ActionResponseHandler/>,
             Defaultresponse: <DefaultResponseHandler/>,
             Interruptedresponse: <InterruptedResponseHandler/>
@@ -43,12 +29,12 @@ export default class InteractionTimeLine extends React.Component {
     render() {
         return (
             <div>
-                {this.state.responses.map((respObj) => {
+                {this.props.responses.map((respObj, index) => {
                     return (
-                        <div key={respObj.purpose}>
-                            <ResponseViewContextUtil response={respObj}>
+                        <div key={index}>
+                            <ResponseHandlerContextUtil response={respObj}>
                                 {this.getResponseRendererMap()[respObj.purpose]}
-                            </ResponseViewContextUtil>
+                            </ResponseHandlerContextUtil>
                         </div>
                     )
                 })}
