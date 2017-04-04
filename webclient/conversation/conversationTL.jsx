@@ -34,8 +34,9 @@ class ConversationView extends React.Component
     setNewMessage(msg)
     {
         const messages = this.state.messages;
+        console.log('msg',msg);
         messages.push(msg);
-        this.setState({messages});
+        this.setState({messages:messages});
     }
     render()
     {
@@ -67,6 +68,7 @@ class ConversationView extends React.Component
         };
         return (
             <Container fluid>
+            <div id="fake"></div>
                 <Row>
                     <Hidden xs sm>
                         <Col md={2} lg={2} style={{
@@ -81,8 +83,10 @@ class ConversationView extends React.Component
                                 height: '90vh'
                             }}>
                             <Col xs={12} sm={12} md={12} lg={12} style={{
-                                height: '60vh'
-                            }}><InteractionTimeLine responses={this.state.messages}/></Col>
+
+                                height: '70vh',
+                                overflowY : 'auto'
+                            }}><div ><InteractionTimeLine responses={this.state.messages}/></div></Col>
                             <Col xs={12} sm={12} md={12} lg={12}>
                                 <InstructionProcessor setNewMessage={this.setNewMessage}/>
                             </Col>

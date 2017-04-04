@@ -8,37 +8,27 @@ export default class AcknowledgementHandler extends React.Component {
 		super();
 
 		this.state = {
-			responses: this.props.responses,
-			error: ''
+				error: ''
 		};
 	}
+
+	static get contextTypes() {
+      return { response: React.PropTypes.object.isRequired };
+  }
+
 	getResponseRendererMap() {
 		return {
 			shorttext: <ShortTextResponse/>,
 		};
 	}
 
-		render() {
-		console.log("inside");
+	render() {
 		return (
 			<div>
-			{
-
-				this.state.responses.map((respObj) => {
-					return (
-						<div key={respObj.contentType}>
-						<ResponseViewContextUtil response={respObj}>
-						{
-							this.getResponseRendererMap()[respObj.contentType]
-						}
-						</ResponseViewContextUtil>
-						</div>
-						)
-				})
-			}
+			<ResponseViewContextUtil response={this.context.response}>
+				{this.getResponseRendererMap()[this.context.response.contentType]}
+			</ResponseViewContextUtil>
 			</div>
 			);
 	}
 }
-
-
