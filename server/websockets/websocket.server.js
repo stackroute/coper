@@ -12,6 +12,8 @@ const utteranceReceiver = require('../utteranceReceiver');
 const speechToTextProcessor = require('../speechToText');
 const textToSpeech = require('../textToSpeech');
 
+const redisClient = redis.createClient();
+
 const wsService = function(server) {
 
     const wsServer = socketIO(server);
@@ -59,14 +61,14 @@ const wsService = function(server) {
                 logger.debug('streaming end');
             });
         });
-        clientSocket.on('utterance::new',function(message){
-          logger.debug('utterance : ',message);
-          utteranceReceiver.processUtterance(message);
+        clientSocket.on('utterance::new', function(message) {
+            logger.debug('utterance : ', message);
+            utteranceReceiver.processUtterance(message);
         });
         clientSocket.on('disconnect', function() {
             logger.debug('[*] Client socket disconnected ...!');
         });
-        const redisClient = redis.createClient();
+
         redisClient.on('ready', function(){
           logger.debug('ready');
 

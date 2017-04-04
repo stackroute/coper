@@ -134,12 +134,18 @@ class InstructionProcessor extends React.Component
             sampleRate: 44100 // 44,100 Hz sample rate
         });
         const that = this;
+<<<<<<< HEAD
         this.setState({
             conversation: {
                 userToken: localStorage.getItem('lucytoken'),
                 startTime: ''
             }
         })
+=======
+        const conv = this.state.conversation;
+        conv.userToken = localStorage.getItem('lucytoken');
+        this.setState({conversation: conv});
+>>>>>>> 5f15f44aaba0d71be222d93878ca30e24b0731ed
         this.socket.on('send::text', (newText) => {
             if (newText.trim() !== '') {
                 this.setState({utterance: newText});
@@ -174,7 +180,7 @@ class InstructionProcessor extends React.Component
 
         //Communicate to parent about the new utterance
         this.props.setNewMessage(this.state.utterance);
-
+        console.log('utterance');
         //Send the uttarance to server too
         //On server update the utterance timestamp, accoridng to Server's time settings, so that it is consistent
         this.socket.emit('utterance::new', {

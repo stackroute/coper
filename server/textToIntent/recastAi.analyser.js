@@ -1,4 +1,4 @@
-const recastConfig = require('../config/textToIntent.js');
+const recastConfig = require('../../config/config.js');
 const superAgent = require('superagent');
 
 const analyzeIntent = function(conversationObj, utteranceText, callback) {
@@ -27,7 +27,7 @@ const requestRecast = function(utteranceText, callback) {
     // let recastBaseURL = config.RECASTAI_API_BASE_URL;
     // let authToken = config.recast.authToken;
 
-    let authToken = recastConfig.token;
+    let authToken = recastConfig.RECAST.token;
     let recastBaseURL = 'https://api.recast.ai/v2';
 
     superAgent
@@ -57,7 +57,7 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
 
     parsedResponse['intention'] = {
         intent: slugIntent.slug,
-        confidence: slugIntent.confidence, 
+        confidence: slugIntent.confidence,
         status: analysisStatus,
         replies: [
           {
@@ -65,6 +65,16 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
             type: replyType
           }
         ],
+
+        nextreplies: [
+            {
+              intent: recastAnalysisResult.next_actions[0].slug,
+              reply: recastAnalysisResult.next_actions[0].reply,
+              type: replyType
+            }
+        ],
+
+
         entities: resolveEntities(recastAnalysisResult)
     }
 
@@ -75,8 +85,8 @@ const resolveIntentAction = function(recastAnalysisResult) {
   let slugIntent = recastAnalysisResult.intents.find(function(intent){
     return (intent.slug == recastAnalysisResult.action.slug);
   });
-  
-  return slugIntent;  
+
+  return slugIntent;
 }
 
 const findMissingEntities = function(seekEntities) {

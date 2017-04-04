@@ -1,13 +1,13 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const Users = require('./../../users/users.entity');
-const configAuth = require('./../config/googleConfig').googleConfig;
+const configAuth = require('../../../config/config.js');
 
 // defining google strategy for passport authentication
 passport.use(new GoogleStrategy({
-    clientID: configAuth.googleAuth.clientID,
-    clientSecret: configAuth.googleAuth.clientSecret,
-    callbackURL: configAuth.googleAuth.callbackURL
+    clientID: configAuth.GOOGLE_AUTH.clientID,
+    clientSecret: configAuth.GOOGLE_AUTH.clientSecret,
+    callbackURL: configAuth.GOOGLE_AUTH.callbackURL
 }, function(token, refreshToken, profile, done) {
     process.nextTick(function() {
       // checking for the existence of user details in database

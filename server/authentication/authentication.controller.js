@@ -6,11 +6,11 @@ const passport = require('passport');
 const users = require('../users/users.entity');
 const jwt = require('jsonwebtoken');
 const jwtDecode = require('jwt-decode');
-const superSecret = require('./config/configJwt');
+const superSecret = require('../../config/config.js');
 
 // this function is to encode the data provided by google into JWT using a secret keyword
 const googleCallback = function(user) {
-    const token = jwt.sign(user, superSecret.secret);
+    const token = jwt.sign(user, superSecret.JWT_AUTH.secret);
     return token;
 };
 

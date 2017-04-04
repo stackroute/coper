@@ -1,7 +1,7 @@
 import React from 'react';
 import ResponseViewContextUtil from  './ResponseViewContextUtil.jsx';
 import ShortTextResponse from './ShortTextResponse.jsx';
-
+import ImageListResponse from './ImageListResponse.jsx';
 export default class ActionResponseHandler extends React.Component {
 
   constructor() {
@@ -12,14 +12,19 @@ export default class ActionResponseHandler extends React.Component {
         {
           contentType: 'shorttext',
           content:'# This is a header\n\nAnd this is a actionresponse'
+        },
+        {
+          contentType: 'imagelist',
+          content:'./images/response.jpg'
         }
-      ],
+        ],
       error: ''
     };
   }
   getResponseRendererMap() {
     return {
       shorttext: <ShortTextResponse/>,
+      imagelist: <ImageListResponse/>
     };
   }
 
