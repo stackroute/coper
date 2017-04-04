@@ -69,4 +69,23 @@ describe('Test plan for conversation Analys', function() {
 
         });
     });
-        });
+    it ('Testing for find the a conversation', function(done){
+      this.timeout(10000);
+      let strtdate = new Date('2017-04-03T15:30:16.997Z');
+      let userName = 'lalala';
+      const analyser = require('./conversation.controller');
+      console.log(strtdate);
+      analyser.findUserConversation(userName,strtdate).then(function(analysisRes){
+        console.log(analysisRes);
+        expect(analysisRes).to.not.equal(null);
+        expect(analysisRes).to.not.equal(undefined);
+        expect('lalalal').to.not.equal(analysisRes.userName);
+        expect(strtdate).to.not.equal(analysisRes.startTime);
+        done();
+
+      },function(err)
+      {
+        console.log(err);
+      });
+    });
+  });

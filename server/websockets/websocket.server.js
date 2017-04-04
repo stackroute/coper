@@ -3,14 +3,17 @@ const ss = require('socket.io-stream');
 
 const redis = require('redis');
 
-const speechToTextProcessor = require('../speechToText');
-
 const log4js = require('log4js');
 log4js.loadAppender('console');
 //log4js.addAppender(log4js.appenders.file('./logs/binaryjs.log'), 'binaryServer');
 const logger = log4js.getLogger('wsService');
 
 const utteranceReceiver = require('../utteranceReceiver');
+const speechToTextProcessor = require('../speechToText');
+const textToSpeech = require('../textToSpeech');
+
+const redisClient = redis.createClient();
+
 const wsService = function(server) {
 
     const wsServer = socketIO(server);
@@ -27,9 +30,11 @@ const wsService = function(server) {
             clientSocket.emit('PONG', 'pong ping');
         });
         let userToken = '';
-        clientSocket.on('send::userToken', function(uToken) {
-            userToken = uToken;
+        clientSocket.on('send::userToken',function(uToken){
+          userToken = uToken;
+          redisClient.subscribe('conversation::new::'+userToken);
         })
+
         ss(clientSocket).on('stream::speech', function(stream) {
             stream.pipe(speechToTextProcessor.getSpeechRecognizeStream()).on('error', function(err) {
                 //@TODO handle the error and communicate to client socket appropriately
@@ -63,18 +68,33 @@ const wsService = function(server) {
         clientSocket.on('disconnect', function() {
             logger.debug('[*] Client socket disconnected ...!');
         });
-        const redisClient = redis.createClient();
-        redisClient.on('ready', function() {
-            redisClient.subscribe('conversation::new::' + userToken);
-        });
-        redisClient.on('message', function(channel, message) {
-            logger.debug('in conversation::new::');
-            if (channel === 'conversation::new::' + userToken) {
-                logger.debug('conversation::new::',message);
-                clientSocket.emit('conversation::start', JSON.parse(message));
 
-            }
-        })
+        redisClient.on('ready', function(){
+          logger.debug('ready');
+
+        });
+        const speechStream = ss.createStream();
+        ss(clientSocket).emit('stream::textToSpeech',speechStream);
+        redisClient.on('message',function(channel,message) {
+          logger.debug(message);
+          if(channel === 'conversation::new::'+userToken)
+          {
+            logger.debug(message);
+            clientSocket.emit('conversation::start',JSON.parse(message));
+            //Trial
+            let params = textToSpeech.params;
+            params.text = 'hey you';
+            textToSpeech.watsonTextToSpeech.synthesize(params).pipe(speechStream);
+
+          }
+          else if(channel === 'conversation::responseText::'+userToken)
+          {
+            // let params = textToSpeech.params;
+            // params.text = message.text;
+            // textToSpeech.watsonTextToSpeech.synthesize(params).pipe(speechStream);
+            // ss(clientSocket).emit('stream::textToSpeech',speechStream);
+          }
+        });
     });
 }
 

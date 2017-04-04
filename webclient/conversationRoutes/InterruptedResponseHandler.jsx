@@ -7,7 +7,6 @@ class InterruptedResponse extends React.Component {
     super();
   }
   render() {
-    console.log('me hun andaar');
    const style={
      height: 'auto',
       width: 'auto',
