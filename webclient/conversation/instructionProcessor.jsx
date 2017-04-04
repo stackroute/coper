@@ -14,7 +14,7 @@ import {
 
 import io from 'socket.io-client';
 import ss from 'socket.io-stream';
-import Speaker from 'speaker';
+//import Speaker from 'speaker';
 
 const styles = {
     paperStyle: {
@@ -128,24 +128,15 @@ class InstructionProcessor extends React.Component
     {
         this.socket = io();
         this.timeout = null;
-        this.speaker = new Speaker({
-            channels: 2, // 2 channels
-            bitDepth: 16, // 16-bit samples
-            sampleRate: 44100 // 44,100 Hz sample rate
-        });
+        // this.speaker = new Speaker({
+        //     channels: 2, // 2 channels
+        //     bitDepth: 16, // 16-bit samples
+        //     sampleRate: 44100 // 44,100 Hz sample rate
+        // });
         const that = this;
-<<<<<<< HEAD
-        this.setState({
-            conversation: {
-                userToken: localStorage.getItem('lucytoken'),
-                startTime: ''
-            }
-        })
-=======
         const conv = this.state.conversation;
         conv.userToken = localStorage.getItem('lucytoken');
         this.setState({conversation: conv});
->>>>>>> 5f15f44aaba0d71be222d93878ca30e24b0731ed
         this.socket.on('send::text', (newText) => {
             if (newText.trim() !== '') {
                 this.setState({utterance: newText});
@@ -165,7 +156,7 @@ class InstructionProcessor extends React.Component
         });
         ss(this.socket).on('stream::textToSpeech', (speechStream) => {
             console.log('stream speech to text');
-            speechStream.pipe(this.speaker);
+            //speechStream.pipe(this.speaker);
             speechStream.on('data', function(data) {
                 console.log(data);
             })
@@ -249,7 +240,7 @@ class InstructionProcessor extends React.Component
     }
     render()
     {
-
+        console.log('InstructionProcessor render');
         styles.paperStyle.backgroundColor = this.state.paperColor;
         let icons = null;
         if (this.state.text === '') {
