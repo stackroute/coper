@@ -59,14 +59,16 @@ let styles = {
         color: '#FFF'
     },
     drawerAppbarStyle: {
-        backgroundColor: '#000'
+        backgroundColor: '#2a7561',
+        opacity: 0.7
     },
     appbarStyle: {
         backgroundColor: '#000',
         position: 'fixed',
         width: '100%',
         top:'0px',
-        left:'0px'
+        left:'0px',
+        opacity: 0.5
     },
     linkStyle: {
         textDecoration: 'none',
@@ -268,10 +270,7 @@ class Navbar extends React.Component {
             anchorEl: event.currentTarget
         })
     }
-    handleGoogleAuth()
-    {
-
-    }
+  
     render() {
         let rightIcon = {};
         if (this.state.loggedin === true) {
@@ -280,11 +279,7 @@ class Navbar extends React.Component {
             rightIcon = (
                 <div>
                     <div className='header'>
-                    <a href='/auth/google'>
-                            <FlatButton backgroundColor='#F44141'
-                            labelStyle={styles.signInButtonLabelStyle}
-                            style={styles.signInButtonStyle} onTouchTap={this.handleGoogleAuth.bind(this)}><img src='../images/google_login.png' /></FlatButton>
-                    </a>
+                 
                     </div>
                 </div>
             );
