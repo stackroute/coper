@@ -23,15 +23,15 @@ function run(subscribeTopic, consumerGroup, kafkaHost, processPipeLine) {
   kafkaHost = kafkaHost || config.KAFKA_HOST;
   consumerGroup = consumerGroup || '';
 
+  let client = new kafka.Client(kafkaHost);
+
   highland(function(push, next) {
-      let client = new kafka.Client(kafkaHost);
       let topics = [{
         topic: subscribeTopic
       }];
-
       let options = {
         groupId: consumerGroup,
-        autoCommit: true // Have made autoCommit to true, so that message offset is moved after consumer consumes the message, have to re-check again
+        autoCommit: true //Making it autocommit so that message offset is moved after consuming the message
       }
 
       let consumer = new kafka.Consumer(client, topics, options);
@@ -45,14 +45,14 @@ function run(subscribeTopic, consumerGroup, kafkaHost, processPipeLine) {
         push(null, message);
 
         //Start calling the generator again for listening to next message
-        //next();
+        next(); //Commenting this as processing is currently slower than message producer
       });
 
       consumer.on('error', function(err) {
         console.log("Error: ", err);
 
         push(err, null);
-        // next();
+        next();
       });
     }).map(function(messageObj) {
       //Temporarily keeping this map method, to intermediary log and verify if messages are coming from Kafka or not
@@ -65,7 +65,7 @@ function run(subscribeTopic, consumerGroup, kafkaHost, processPipeLine) {
     .pipe(processPipeLine) //Assemble the calee's processing pipeline
     .errors(function(err) {
       //Listen to any error if happens
-      console.log('[*] Got errors: ', err);
+      console.log('Got errors: ', err);
       return err;
     })
     .each(function(messageObj) {
