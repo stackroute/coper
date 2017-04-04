@@ -1,54 +1,45 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
+const CONVERSATION_LANGUAGES = ['en', 'fr'];
+const CONVERSATION_REPLIES =['incomplete'];
 
-var Schema = mongoose.Schema;
-
- var dataModelSchema = new Schema({
-     userName:{
-     	type: String,
-     	required: true,
-     	unique: true
-     },
-     profileImage:{
-     	type: String
-     },
-   	 conversationID:{
-   	 	type: String,
-   	 	required: true,
-   	 },
-     userAgent:{
-     	type: String
-     },
-     startTime:{
-     	type: String
-     },
-     endTime:{
-     	type: String
-     },
+let schema = new mongoose.Schema({
+     userName: { type: String, required: true},
+     userAgent: { type: String },
+     startTime: { type: Date, default: Date.now(), required: true },
+     endTime: { type: Date, default: Date.now() },
      context: {
-     	type: {},
-     	intent: {
-     		type: String,
-     		required: true
-     	},
-     	payload: {
-     		type: [String]
-     	}
+          activity: { type: String },
+          language: { type: String, enum: CONVERSATION_LANGUAGES },
+          payload: []
      },
      interactions:[
      {
-     	uttarance: {
-     		type: String,
-     		required: true
-     	},
-     	response: {
-     		messages: []
-     	},
-     	action:[],
-     	intent: {
-     		type: String
-     	}
-     }]
- });
+          utterance : { type: String, required: true },
+          timestamp: { type: Date, default: Date.now, required: true},
+          intention: {
+               intent: { type: String},
+               status: { type: Boolean },
+               confidence: { type: Number }
+          },
+          replies: [
+          {
+               reply: { type: String },
+               type: { type: String, enum: CONVERSATION_REPLIES },
+               payload: []
+          }
+          ],
+          action: {
+               name: { type: String },
+               tasks: [
+               {
+                    topic: { type: String },
+                    payload: {},
+                    response: {}
+               }
+               ]
+          }
+     }
+     ]
+}, {collection: 'conversations'});
 
- module.exports = mongoose.model('Conversation', dataModelSchema, 'conversations');
- // 'conversations' is the name of our collection in database 'lucy'
+module.exports = mongoose.model('Conversations', schema, 'conversations');

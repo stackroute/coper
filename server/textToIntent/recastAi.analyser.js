@@ -49,7 +49,7 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
     let replyType = resolveReplytype(recastAnalysisResult, seekEntities);
     let reply = resolveReply(recastAnalysisResult);
     let analysisStatus = resolveAnalysisStatus(recastAnalysisResult, replyType);
-    
+
     parsedResponse.utterance = recastAnalysisResult.source;
     parsedResponse.activity = conversationObj.activity;
     parsedResponse.language = recastAnalysisResult.language;
@@ -57,7 +57,7 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
 
     parsedResponse['intention'] = {
         intent: slugIntent.slug,
-        confidence: slugIntent.confidence, 
+        confidence: slugIntent.confidence,
         status: analysisStatus,
         replies: [
           {
@@ -85,8 +85,8 @@ const resolveIntentAction = function(recastAnalysisResult) {
   let slugIntent = recastAnalysisResult.intents.find(function(intent){
     return (intent.slug == recastAnalysisResult.action.slug);
   });
-  
-  return slugIntent;  
+
+  return slugIntent;
 }
 
 const findMissingEntities = function(seekEntities) {
