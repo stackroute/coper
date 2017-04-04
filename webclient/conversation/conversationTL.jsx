@@ -18,7 +18,7 @@ const style = {
         float: 'left'
     },
     paperStyle: {
-        backgroundcolor: '#154726'
+        //backgroundcolor: '#154726'
     }
 }
 class ConversationView extends React.Component
@@ -77,10 +77,10 @@ class ConversationView extends React.Component
                         height: '100vh'
                     }}>
                         <Row>
-                            <InteractionTimeLine/>
-                            <Col xs={12} sm={12} md={12} lg={12} style={{
+
+                    <Col xs={12} sm={12} md={12} lg={12} style={{
                                 height: '90vh'
-                            }}></Col>
+                            }}><InteractionTimeLine/></Col>
                             <Col xs={12} sm={12} md={12} lg={12}>
                                 <InstructionProcessor setNewMessage={this.setNewMessage}/></Col>
                         </Row>
