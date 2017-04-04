@@ -1,6 +1,8 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import Avatar from 'material-ui/Avatar';
+import {Card, CardMedia, CardHeader, CardActions} from 'material-ui/Card';
+import ScrollArea from 'react-custom-scrollbars';
 import InteractionTimeLine from './InteractionTimeLine.jsx';
 import InstructionProcessor from './instructionProcessor.jsx';
 import {
@@ -34,10 +36,12 @@ class ConversationView extends React.Component
     setNewMessage(msg)
     {
         const messages = this.state.messages;
-        console.log('msg',msg);
+        console.log('msg', msg);
         messages.push(msg);
-        this.setState({messages:messages});
+        this.setState({messages: messages});
+        this.refs.scrollbars.scrollToBottom();
     }
+
     render()
     {
         const styleFunction = (screenClass) => {
@@ -67,32 +71,44 @@ class ConversationView extends React.Component
             };
         };
         return (
-            <Container fluid>
-            <div id="fake"></div>
+            <Container >
+
+                <div style={{
+                    height: '10px'
+                }}></div>
                 <Row>
                     <Hidden xs sm>
                         <Col md={2} lg={2} style={{
                             height: '100vh'
                         }}></Col>
                     </Hidden>
-                    <Col xs={12} sm={12} md={10} lg={10} style={{
+                    <Col xs={12} sm={12} md={8} lg={8} style={{
                         height: '100vh'
                     }}>
                         <Row>
-                            <Col xs={12} sm={12} md={12} lg={12} style={{
-                                height: '70vh',
-                                overflowY : 'auto'
-                            }}><div ><InteractionTimeLine responses={this.state.messages}/></div></Col>
-                            <Col xs={12} sm={12} md={12} lg={12}>
+                            <ScrollArea universal ref="scrollbars">
+                                <Col xs={12} sm={12} md={12} lg={12}>
+                                    <InteractionTimeLine responses={this.state.messages}/>
+                                </Col>
+                            </ScrollArea>
+                            <Col xs={12} sm={12} md={8} lg={8} style={{
+                                position: 'fixed',
+                                bottom: '5px'
+                            }}>
                                 <InstructionProcessor setNewMessage={this.setNewMessage}/>
                             </Col>
                         </Row>
                     </Col>
+                    <Hidden xs sm>
+                        <Col md={2} lg={2} style={{
+                            height: '100vh'
+                        }}></Col>
+                    </Hidden>
                 </Row>
-
             </Container>
 
         );
     }
 }
+
 export default ConversationView;
