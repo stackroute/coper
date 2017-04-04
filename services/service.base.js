@@ -20,7 +20,7 @@ function run(subscribeTopic, consumerGroup, kafkaHost, processPipeLine) {
     return;
   }
 
-  kafkaHost = kafkaHost || config.KAFKA_HOST;
+  kafkaHost = kafkaHost || config.ZOOKEEPER.URL;
   consumerGroup = consumerGroup || '';
 
   highland(function(push, next) {
@@ -31,7 +31,7 @@ function run(subscribeTopic, consumerGroup, kafkaHost, processPipeLine) {
 
       let options = {
         groupId: consumerGroup,
-        autoCommit: true // Have made autoCommit to true, so that message offset is moved after consumer consumes the message, have to re-check again
+        autoCommit: false // Have made autoCommit to true, so that message offset is moved after consumer consumes the message, have to re-check again
       }
 
       let consumer = new kafka.Consumer(client, topics, options);

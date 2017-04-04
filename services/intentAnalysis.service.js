@@ -1,6 +1,7 @@
 const highland = require('highland');
 const serviceBase = require('./service.base')
-
+const config = require('../config/config')
+const kafka = require('kafka-node')
 const executeService = function() {
 
   let myProcessors = [];
@@ -15,7 +16,6 @@ const executeService = function() {
             reject(err);
             return;
           }
-
           resolve(analysisResult);
           return;
         });
@@ -28,6 +28,7 @@ const executeService = function() {
     promise.then(
       function(result) {
         //Publish message to Kafka with output topic, so that downstream service can pick it up
+
         return result;
       },
       function(err) {
@@ -37,9 +38,9 @@ const executeService = function() {
   )));
 
   try {
-    let subscribeTopic = "";
-    let consumerGroup = "";
-    let kafkaHost = "";
+    let subscribeTopic = config.KAFKA_TOPICS.UTTERANCES;
+    let consumerGroup = config.KAFKA_CONSUMER_GROUPS.CG_INTENT_ANALYZERS;
+    let kafkaHost = config.ZOOKEEPER.URL;
 
     let processPipeLine = highland.pipeline.apply(null, myProcessors);
 

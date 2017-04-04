@@ -12,6 +12,7 @@ const processUtterance = function(userName, convStartTime, utteranceText) {
     if (!userName) {
         return;
     }
+    logger.debug(userName);
 
     if (convStartTime === '' || !convStartTime) {
         let activity = 'SCRUM';
@@ -40,7 +41,7 @@ const processUtterance = function(userName, convStartTime, utteranceText) {
                     }
 
                     //Post utterance to messaging pipeline for further analysis
-                    publishUtterance(newConvObj, utteranceText, publishUtteranceReceipt);
+                    publishUtterance(convObj, utteranceText, publishUtteranceReceipt);
                 },
                 function(err) {
                     logger.error('Error in creating new conversation ', err);
@@ -50,7 +51,7 @@ const processUtterance = function(userName, convStartTime, utteranceText) {
 }
 
 const publishUtterance = function(newConvObj, utteranceText, callback) {
-    let client = new kafka.Client(config.KAFKA_HOST);
+    let client = new kafka.Client(config.ZOOKEEPER.URL);
     let producer = new kafka.Producer(client);
 
     producer.on('ready', function() {
@@ -60,16 +61,15 @@ const publishUtterance = function(newConvObj, utteranceText, callback) {
             context: newConvObj.context,
             utterance: utteranceText
         }
-
-        let payloads = [{ topic: config.KAFKA_TOPICS.UTTERANCES, messages: msgObj }];
-
+// logger.debug('msgObj',msgObj);
+        let payloads = [{ topic: config.KAFKA_TOPICS.UTTERANCES, messages: JSON.stringify(msgObj) }];
+      logger.debug('payloads',payloads);
         producer.send(payloads, function(err, data) {
             if (err) {
                 logger.error('Error in publishing new utterance ', payloads);
                 return;
             }
-
-            callback(newConvObj, utteranceText);
+        callback(newConvObj, utteranceText);
         });
     });
 
@@ -83,7 +83,7 @@ const publishUtterance = function(newConvObj, utteranceText, callback) {
 
 const publishUtteranceReceipt = function(newConvObj, utteranceText) {
     const redisClient = redis.createClient();
-    redisClient.publish('utterance::received::' + userName, JSON.stringify(utteranceText));
+    redisClient.publish('utterance::received::' + newConvObj.userName, JSON.stringify(utteranceText));
 }
 
 module.exports = {
