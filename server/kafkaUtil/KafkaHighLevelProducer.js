@@ -12,7 +12,7 @@ const publishMessageToTopic = function(topicName, messagePayload) {
 
   producer.on('ready', function() {
     // payloads.forEach(function(msg) {
-      producer.send([topic:topicName, messages:messagePayload], function(err, data) {
+      producer.send([topicName,messagePayload], function(err, data) {
         if (err)
           console.log(err)
         else
@@ -21,4 +21,4 @@ const publishMessageToTopic = function(topicName, messagePayload) {
     });
 }
 
-module.exports = messagePublisher;
+module.exports = {publishMessageToTopic};

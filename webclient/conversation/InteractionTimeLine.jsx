@@ -14,7 +14,7 @@ export default class InteractionTimeLine extends React.Component {
     constructor() {
         super();
         this.state = {
-            error: ''
+                           error: ''
         };
     }
 

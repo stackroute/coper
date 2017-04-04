@@ -2,12 +2,13 @@ import React from 'react';
 import ResponseViewContextUtil from  './ResponseViewContextUtil.jsx';
 import ShortTextResponse from './ShortTextResponse.jsx';
 
+
 export default class AcknowledgementHandler extends React.Component {
 	constructor() {
 		super();
 
 		this.state = {
-			error: ''
+				error: ''
 		};
 	}
 
