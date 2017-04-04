@@ -14,6 +14,7 @@ import {
 
 import io from 'socket.io-client';
 import ss from 'socket.io-stream';
+//import Speaker from 'speaker';
 
 const styles = {
     paperStyle: {
@@ -90,8 +91,9 @@ class InstructionProcessor extends React.Component
         super();
         this.state = {
             text: '',
-            conversation: { userToken: '',
-              startTime: ''
+            conversation: {
+                userToken: '',
+                startTime: ''
             },
             utterance: '',
             recorderOpen: false,
@@ -102,9 +104,12 @@ class InstructionProcessor extends React.Component
     }
 
     onConversationStart(convObj) {
-      this.setState({
-        conversation: { startTime: convObj.startTime }
-      });
+        console.log('convObj', convObj);
+        this.setState({
+            conversation: {
+                startTime: convObj.startTime
+            }
+        });
     }
 
     onConversationEnd() {
@@ -112,24 +117,29 @@ class InstructionProcessor extends React.Component
     }
 
     resetConversation() {
-      this.setState({
-        conversation: { startTime: '' }
-      });
+        this.setState({
+            conversation: {
+                startTime: ''
+            }
+        });
     }
 
     componentDidMount()
     {
         this.socket = io();
         this.timeout = null;
+        // this.speaker = new Speaker({
+        //     channels: 2, // 2 channels
+        //     bitDepth: 16, // 16-bit samples
+        //     sampleRate: 44100 // 44,100 Hz sample rate
+        // });
         const that = this;
         const conv = this.state.conversation;
         conv.userToken = localStorage.getItem('lucytoken');
         this.setState({conversation: conv});
         this.socket.on('send::text', (newText) => {
             if (newText.trim() !== '') {
-                this.setState({
-                  utterance: newText
-                });
+                this.setState({utterance: newText});
                 window.clearTimeout(this.timeout);
                 console.log(this.timeout);
                 this.timeout = setTimeout(function() {
@@ -137,13 +147,22 @@ class InstructionProcessor extends React.Component
                 }, 2000);
             }
         });
-        this.socket.emit('send::userToken',localStorage.getItem('lucytoken'));
-        this.socket.on('conversation::start',(convObj) => {
-          this.onConversationStart(convObj);
+        this.socket.emit('send::userToken', localStorage.getItem('lucytoken'));
+        this.socket.on('conversation::start', (convObj) => {
+            this.onConversationStart(convObj);
         });
-        this.socket.on('conversation::start',(convObj) => {
-          this.onConversationEnd();
+        this.socket.on('conversation::end', (convObj) => {
+            this.onConversationEnd();
         });
+        ss(this.socket).on('stream::textToSpeech', (speechStream) => {
+            console.log('stream speech to text');
+            //speechStream.pipe(this.speaker);
+            speechStream.on('data', function(data) {
+                console.log(data);
+            })
+        });
+
+
     }
 
     sendUtterance() {
@@ -156,18 +175,18 @@ class InstructionProcessor extends React.Component
         //Send the uttarance to server too
         //On server update the utterance timestamp, accoridng to Server's time settings, so that it is consistent
         this.socket.emit('utterance::new', {
-          conversation: this.state.conversation,
-          utterance: this.state.utterance
+            conversation: this.state.conversation,
+            utterance: this.state.utterance
         });
     }
 
     resetAudioStream() {
-      if (stream != null)
-          stream.end();
+        if (stream != null)
+            stream.end();
 
-      stream = ss.createStream();
+        stream = ss.createStream();
 
-      ss(this.socket).emit('stream::speech', stream);
+        ss(this.socket).emit('stream::speech', stream);
     }
 
     handleChange(event) {
@@ -205,7 +224,7 @@ class InstructionProcessor extends React.Component
         console.log('sending');
         const message = this.state.message;
         utterance.text = this.state.text;
-        this.setState({message: message,text: ''});
+        this.setState({message: message, text: ''});
         this.sendUtterance();
     }
     handleAttachment()
@@ -221,7 +240,7 @@ class InstructionProcessor extends React.Component
     }
     render()
     {
-
+        console.log('InstructionProcessor render');
         styles.paperStyle.backgroundColor = this.state.paperColor;
         let icons = null;
         if (this.state.text === '') {
