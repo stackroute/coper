@@ -1,22 +1,19 @@
 const kafka = require('kafka-node');
+const config = require('../../config/config.js');
 const Consumer = kafka.Consumer;
 const HighLevelConsumer = kafka.HighLevelConsumer;
 
-const subscriberToTopic = function() {
+const subscriberToTopic = function(topicName,groupId, callback) {
+  const client = new kafka.Client(config.ZOOKEEPER.URL);
 
+  consumer = new HighLevelConsumer(client,
+  	[
+      { topic: 'topicName'}
+    ],
+    { groupId: groupId }
+  );
 
-  const client = new kafka.Client("127.0.0.1:2181"),
-
-    consumer = new HighLevelConsumer(
-
-      client, [
-        { topic:'topicName', partition: 0 }]
-        { groupId:'actionhandler'}
-    );
-
-  consumer.on('message', function(message) {
-
-    console.log(message);
-  });
+  consumer.on('message', callback);
 }
-module.exports = subscriberToTopic;
+
+module.exports = {subscriberToTopic};

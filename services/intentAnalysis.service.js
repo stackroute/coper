@@ -8,7 +8,7 @@ const executeService = function() {
   myProcessors.push(highland.map(function(msgObj) {
     const intentAnalyzer = require('../server/textToIntent');
 
-    let promise = function(resolve, reject) {
+    let promise = new Promise(function(resolve, reject) {
       intentAnalyzer.processForIntent(conversation, utteranceText,
         function(err, analysisResult) {
           if (err) {
@@ -19,7 +19,7 @@ const executeService = function() {
           resolve(analysisResult);
           return;
         });
-    }
+    });
 
     return promise;
   }));
@@ -27,14 +27,14 @@ const executeService = function() {
   myProcessors.push(highland.flatMap(promise => highland(
     promise.then(
       function(result) {
-        //Publish back to a Kafka topic
+        //Publish message to Kafka with output topic, so that downstream service can pick it up
         return result;
       },
       function(err) {
         //Don't publish any thing
         return err;
       })
-  )))
+  )));
 
   try {
     let subscribeTopic = "";

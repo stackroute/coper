@@ -1,12 +1,15 @@
-module.exports = {
+const config = {
     KAFKA_TOPICS: {
         UTTERANCES: 'LUCY_UTTERANCES',
-        INTENTS: 'LUCY_INTENTS'
+        INTENTS: 'LUCY_INTENTS',
     },
-
     KAFKA_CONSUMER_GROUPS: {
         INTENT_ANALYSER: 'CG_INTENT_ANALYZERS',
-        ACTION_HANDLERS: 'CG_ACTION_HANDLERS'
+        ACTION_HANDLERS: 'CG_ACTION_HANDLERS',
+    },
+    ZOOKEEPER: {
+        HOST: '127.0.0.1',
+        PORT: '2181'
     },
 
     MONGO: {
@@ -71,3 +74,7 @@ module.exports = {
       port: 6379
     }
 };
+
+config.ZOOKEEPER['URL'] = config.ZOOKEEPER.HOST + ":" + config.ZOOKEEPER.PORT;
+
+module.exports = config;

@@ -69,6 +69,7 @@ describe('Test plan for conversation Analys', function() {
 
         });
     });
+
     it ('Testing for find the a conversation', function(done){
       this.timeout(10000);
       let strtdate = new Date('2017-04-04T09:56:21.402Z');
@@ -93,7 +94,7 @@ describe('Test plan for conversation Analys', function() {
       let startdate= new Date('2017-04-04T09:56:21.402Z');
       let userName = 'lollol';
       const analyser = require('./conversation.controller');
-      let context={ activity: 'create project Luccyyy', language: 'en', payload: [ 'luccy' ] };
+      let context={ activity: 'create project Lucyyii', language: 'en', payload: [ 'luccy' ] };
       analyser.updateUserConversation(userName,startdate,context).then(function(analysisRes){
         expect(analysisRes).to.not.equal(null);
         expect(analysisRes).to.not.equal(undefined);
@@ -105,4 +106,24 @@ describe('Test plan for conversation Analys', function() {
         throw err;
       });
     });
+
+     it ('Testing for find User Last conversation', function(done){
+      this.timeout(10000);
+      // let strtdate = new Date('2017-04-04T09:56:21.402Z');
+      let userName = 'lollol';
+      const analyser = require('./conversation.controller');
+     // console.log(strtdate);
+      analyser.findLastUserConversation(userName).then(function(analysisRes){
+        expect(analysisRes).to.not.equal(null);
+        expect(analysisRes).to.not.equal(undefined);
+        expect('lollol').to.not.equal(analysisRes.userName);
+       // expect(strtdate).to.not.equal(analysisRes.startTime);
+        done();
+
+      },function(err)
+      {
+        console.log(err);
+      });
+    });
+
   });

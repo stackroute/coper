@@ -28,15 +28,16 @@ function run(subscribeTopic, consumerGroup, kafkaHost, processPipeLine) {
       let topics = [{
         topic: subscribeTopic
       }];
+
       let options = {
         groupId: consumerGroup,
-        autoCommit: false
+        autoCommit: true // Have made autoCommit to true, so that message offset is moved after consumer consumes the message, have to re-check again
       }
 
       let consumer = new kafka.Consumer(client, topics, options);
 
       consumer.on('message', function(message) {
-        console.log('Message received: ', message);
+        // console.log('Message received: ', message);
 
         //If message is not JSON, parse it as JSON here, before passing it to the rest of the pipeline
 
@@ -44,19 +45,19 @@ function run(subscribeTopic, consumerGroup, kafkaHost, processPipeLine) {
         push(null, message);
 
         //Start calling the generator again for listening to next message
-        next();
+        //next();
       });
 
       consumer.on('error', function(err) {
         console.log("Error: ", err);
 
         push(err, null);
-        next();
+        // next();
       });
     }).map(function(messageObj) {
       //Temporarily keeping this map method, to intermediary log and verify if messages are coming from Kafka or not
       //Once well tested, this method can be removed
-      console.log('Received a message: ', messageObj);
+      console.log('[*] Received a message in pipeline: ', messageObj);
 
       //If not returned, the message will not be propagated to next set of pipeline
       return messageObj;
@@ -64,7 +65,7 @@ function run(subscribeTopic, consumerGroup, kafkaHost, processPipeLine) {
     .pipe(processPipeLine) //Assemble the calee's processing pipeline
     .errors(function(err) {
       //Listen to any error if happens
-      console.log('Got errors: ', err);
+      console.log('[*] Got errors: ', err);
       return err;
     })
     .each(function(messageObj) {

@@ -1,19 +1,20 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-    describe('Test plan for Text-To-Inent Analysis', function() {
-	it('Testing for processing an incomplete Utterance Text', function(done){
-		this.timeout(5000);
+describe('Test plan for Text-To-Inent Analysis', function() {
+    it('Testing for processing an incomplete Utterance Text', function(done) {
+        this.timeout(5000);
 
-		const analyzer = require('./');
+        const analyzer = require('./');
 
-		let conversation = {
-			"activity": "SCRUM"
-		};
-		let utteranceText = 'create project lucy';
+        let conversation = {
+            "activity": "SCRUM"
+        };
+        let utteranceText = 'create project lucy';
 
-		analyzer.processForIntent(conversation, utteranceText, function(err, analysisRes){
-			console.log("processForIntent result: ", JSON.stringify(analysisRes));
+        analyzer.processForIntent(conversation, utteranceText, function(err, analysisRes) {
+            console.log("processForIntent result: ", JSON.stringify(analysisRes));
+
 
 			expect('object').to.equal(typeof analysisRes.result);
 			expect(utteranceText).to.equal(analysisRes.result.utterance);
@@ -27,19 +28,18 @@ const expect = chai.expect;
 	});
 
 
-    it('Testing for adding members in project', function(done){
-		this.timeout(5000);
+    it('Testing for adding members in project', function(done) {
+        this.timeout(5000);
 
-		const analyzer = require('./');
+        const analyzer = require('./');
 
-		let conversation = {
-			"activity": "SCRUM"
-		};
-		let utteranceText = 'add members inder';
+        let conversation = {
+            "activity": "SCRUM"
+        };
+        let utteranceText = 'add members inder';
 
-		analyzer.processForIntent(conversation, utteranceText, function(err, analysisRes){
-			console.log("processForIntent result: ", JSON.stringify(analysisRes));
-
+        analyzer.processForIntent(conversation, utteranceText, function(err, analysisRes) {
+            console.log("processForIntent result: ", JSON.stringify(analysisRes));
 			expect('object').to.equal(typeof analysisRes.result);
 			expect(utteranceText).to.equal(analysisRes.result.utterance);
 			expect('object').to.equal(typeof analysisRes.result.intention);

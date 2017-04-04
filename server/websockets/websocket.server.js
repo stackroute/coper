@@ -69,7 +69,7 @@ const wsService = function(server) {
         });
         clientSocket.on('utterance::new', function(message) {
             logger.debug('utterance : ', message);
-            utteranceReceiver.processUtterance(message);
+            utteranceReceiver.processUtterance(username,message.conversation.startTime,message.utterance);
         });
         clientSocket.on('disconnect', function() {
             logger.debug('[*] Client socket disconnected ...!');

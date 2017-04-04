@@ -20,7 +20,7 @@ const style = {
         float: 'left'
     },
     paperStyle: {
-        backgroundcolor: '#154726'
+        //backgroundcolor: '#154726'
     }
 }
 class ConversationView extends React.Component
@@ -86,7 +86,7 @@ class ConversationView extends React.Component
                         height: '100vh'
                     }}>
                         <Row>
-                            <ScrollArea universal ref="scrollbars">
+                            <ScrollArea universal ref="scrollbars" style={{height: '70vh'}}>
                                 <Col xs={12} sm={12} md={12} lg={12}>
                                     <InteractionTimeLine responses={this.state.messages}/>
                                 </Col>

@@ -5,14 +5,14 @@ const watsonConfig = require('../../config/config.js').WATSON_TEXT_TO_SPEECH;
 
 const fs = require('fs');
 //This function is to convert the response text to speech.
-const watsonTextToSpeech = new textToSpeechV1(watsonConfig.auth);
 
+var watsonTextToSpeech = new textToSpeechV1(watsonConfig.auth);
 const params = watsonConfig.params;
 
 
-//watsonTextToSpeech.synthesize(params).pipe(fs.createWriteStream('output7.wav'));
+//watsonTextToSpsize(params).pipe(fs.createWriteStream('output7.wav'));
 
-
+//text_to_speech.synthesize(params).pipe(fs.createWriteStream('output7.wav'));eech.synthe
 
 module.exports = {
   watsonTextToSpeech : watsonTextToSpeech,
