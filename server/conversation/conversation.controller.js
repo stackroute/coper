@@ -1,5 +1,8 @@
 // var mongoose = require('mongoose');
 const ConversationModel = require('./conversation.entity');
+let log4js = require('log4js');
+let logger = log4js.getLogger();
+
 
 const startNewConversation = function(userName, utteranceText, activity) {
     //Starting a new conversation involves attaching the conversation timestamp freshly on server side, i.e., controller will do it
@@ -18,7 +21,7 @@ const startNewConversation = function(userName, utteranceText, activity) {
 
         convObj.save(function(err, savedConvObj) {
             if (err) {
-                logger.error('Error in saving new conversation object ', err);
+               logger.error('Error in saving new conversation object ', err);
                 reject(err);
             }
             resolve(savedConvObj);
@@ -103,7 +106,7 @@ module.exports = {
   findUserConversation: findUserConversation,
   saveUserConversation: saveUserConversation,
   updateUserConversation:updateUserConversation,
-  findLastUserConversation:findLastUserConversation
-
+  findLastUserConversation:findLastUserConversation,
+  startNewConversation:startNewConversation
 
 };
