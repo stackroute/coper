@@ -2,17 +2,13 @@ import React from 'react';
 import ResponseViewContextUtil from  './ResponseViewContextUtil.jsx';
 import ShortTextResponse from './ShortTextResponse.jsx';
 
+
 export default class AcknowledgementHandler extends React.Component {
 	constructor() {
 		super();
 
 		this.state = {
-			responses: [
-			{
-				contentType: 'shorttext',
-				content:'# This is a header\n\nAnd this is a paragraph'
-			}
-			],
+			responses: this.props.responses,
 			error: ''
 		};
 	}

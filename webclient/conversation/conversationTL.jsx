@@ -77,12 +77,16 @@ class ConversationView extends React.Component
                         height: '100vh'
                     }}>
                         <Row>
-
                     <Col xs={12} sm={12} md={12} lg={12} style={{
                                 height: '90vh'
-                            }}><InteractionTimeLine/></Col>
+                            }}>
+                            <Col xs={12} sm={12} md={12} lg={12} style={{
+                                height: '60vh'
+                            }}><InteractionTimeLine responses={this.state.messages}/></Col>
                             <Col xs={12} sm={12} md={12} lg={12}>
-                                <InstructionProcessor setNewMessage={this.setNewMessage}/></Col>
+                                <InstructionProcessor setNewMessage={this.setNewMessage}/>
+                            </Col>
+                        </Col>
                         </Row>
                     </Col>
                 </Row>

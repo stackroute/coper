@@ -24,7 +24,6 @@
   "dependencies": {
     "@google-cloud/speech": "^0.7.0",
     "axios": "^0.15.3",
-    "binaryjs": "^0.2.1",
     "body-parser": "^1.16.1",
     "chai": "^3.5.0",
     "compression": "^1.6.2",

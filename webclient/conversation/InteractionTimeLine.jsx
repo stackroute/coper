@@ -15,18 +15,6 @@ export default class InteractionTimeLine extends React.Component {
                     contentType: 'shorttext',
                     content: '# This is a header\n\nAnd this is a paragraph',
                     purpose: 'Acknowledgement'
-                }, {
-                    contentType: 'shorttext',
-                    content: '# This is a header\n\nAnd this is a actionresponse',
-                    purpose: 'Actionresponse'
-                }, {
-                    contentType: 'shorttext',
-                    content: '# This is a header\n\nAnd this is a defaultresponse',
-                    purpose: 'Defaultresponse'
-                }, {
-                    contentType: 'shorttext',
-                    content: '# This is a header\n\nAnd this is a Interruptedresponse',
-                    purpose: 'Interruptedresponse'
                 }
             ],
             error: ''
