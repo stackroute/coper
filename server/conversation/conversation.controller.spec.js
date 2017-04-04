@@ -94,7 +94,7 @@ describe('Test plan for conversation Analys', function() {
       let startdate= new Date('2017-04-04T09:56:21.402Z');
       let userName = 'lollol';
       const analyser = require('./conversation.controller');
-      let context={ activity: 'create project Lucyyi', language: 'en', payload: [ 'luccy' ] };
+      let context={ activity: 'create project Lucyyii', language: 'en', payload: [ 'luccy' ] };
       analyser.updateUserConversation(userName,startdate,context).then(function(analysisRes){
         expect(analysisRes).to.not.equal(null);
         expect(analysisRes).to.not.equal(undefined);
