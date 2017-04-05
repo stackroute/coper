@@ -2,6 +2,7 @@ const config = {
     KAFKA_TOPICS: {
         UTTERANCES: 'echo',
         INTENTS: 'LUCY_INTENTS'
+        ACTION: 'ACTION_HANDLERS'
     },
     KAFKA_CONSUMER_GROUPS: {
         INTENT_ANALYSER: 'CG_INTENT_ANALYZERS',
