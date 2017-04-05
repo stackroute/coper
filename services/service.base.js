@@ -20,7 +20,7 @@ function run(subscribeTopic, consumerGroup, kafkaHost, processPipeLine) {
     return;
   }
 
-  kafkaHost = kafkaHost || config.KAFKA_HOST;
+  kafkaHost = kafkaHost || config.ZOOKEEPER.URL;
   consumerGroup = consumerGroup || '';
 
   let client = new kafka.Client(kafkaHost);

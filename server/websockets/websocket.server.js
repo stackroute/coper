@@ -11,8 +11,9 @@ const logger = log4js.getLogger('wsService');
 const utteranceReceiver = require('../utteranceReceiver');
 const speechToTextProcessor = require('../speechToText');
 const textToSpeech = require('../textToSpeech');
-
-const redisClient = redis.createClient();
+const authController = require('../authentication/authentication.controller');
+const redisConfig = require('../../config/config').REDIS_CLIENT;
+const redisClient = redis.createClient(redisConfig);
 
 const wsService = function(server) {
 
@@ -29,10 +30,15 @@ const wsService = function(server) {
             // PONG is the event name
             clientSocket.emit('PONG', 'pong ping');
         });
-        let userToken = '';
+        let username = '';
         clientSocket.on('send::userToken',function(uToken){
-          userToken = uToken;
-          redisClient.subscribe('conversation::new::'+userToken);
+          userToken = authController.authenticatePage(uToken).then(function(user) {
+            username = user.username;
+            redisClient.subscribe('conversation::new::'+user.username);
+          }, function(err) {
+              logger.error(err);
+          });
+
         })
 
         ss(clientSocket).on('stream::speech', function(stream) {
@@ -63,7 +69,7 @@ const wsService = function(server) {
         });
         clientSocket.on('utterance::new', function(message) {
             logger.debug('utterance : ', message);
-            utteranceReceiver.processUtterance(message);
+            utteranceReceiver.processUtterance(username,message.conversation.startTime,message.utterance);
         });
         clientSocket.on('disconnect', function() {
             logger.debug('[*] Client socket disconnected ...!');
@@ -77,7 +83,7 @@ const wsService = function(server) {
         ss(clientSocket).emit('stream::textToSpeech',speechStream);
         redisClient.on('message',function(channel,message) {
           logger.debug(message);
-          if(channel === 'conversation::new::'+userToken)
+          if(channel === 'conversation::new::'+username)
           {
             logger.debug(message);
             clientSocket.emit('conversation::start',JSON.parse(message));
@@ -87,7 +93,7 @@ const wsService = function(server) {
             textToSpeech.watsonTextToSpeech.synthesize(params).pipe(speechStream);
 
           }
-          else if(channel === 'conversation::responseText::'+userToken)
+          else if(channel === 'conversation::responseText::'+username)
           {
             // let params = textToSpeech.params;
             // params.text = message.text;

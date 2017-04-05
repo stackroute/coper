@@ -222,18 +222,24 @@ class InstructionProcessor extends React.Component
     }
     handleSend() {
         const that = this;
-        this.setState({utterance: this.state.text, text: ''});
-        setTimeout(function() {
-            that.sendUtterance();
-        }, 2000)
+        if (this.state.text.trim() !== '') {
+            this.setState({utterance: this.state.text, text: ''});
+            setTimeout(function() {
+                that.sendUtterance();
+            }, 500)
+        }
     }
     handleAttachment()
     {}
     handleKeyPress(event)
     {
+        let that = this;
         if (event.charCode === 13) {
-            this.handleSend();
-            this.setState({text: ''});
+          this.handleSend();
+            setTimeout(function() {
+                that.setState({text: ''});
+            }, 50)
+
         }
     }
     render()
