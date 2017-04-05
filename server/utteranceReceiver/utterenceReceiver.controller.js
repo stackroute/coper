@@ -1,8 +1,8 @@
-const conversation = require('../conversation/conversation.controller')
+const conversation = require('../conversation');
 const kafka = require('kafka-node');
 const redis = require('redis');
 const config = require('../../config/config');
-
+const analysisFeeder = require('../analysisFeeder');
 const log4js = require('log4js');
 log4js.loadAppender('console');
 //log4js.addAppender(log4js.appenders.file('./logs/binaryjs.log'), 'binaryServer');
@@ -51,35 +51,39 @@ const processUtterance = function(userName, convStartTime, utteranceText) {
 }
 
 const publishUtterance = function(newConvObj, utteranceText, callback) {
-  let client = new kafka.Client(config.ZOOKEEPER.URL);
-  let producer = new kafka.Producer(client);
-
-  producer.on('ready', function() {
+  // let client = new kafka.Client(config.ZOOKEEPER.URL);
+  // let producer = new kafka.Producer(client);
+  //analysisFeeder.publishToAnalyse()
+  // producer.on('ready', function() {
     let msgObj = {
         userName: newConvObj.userName,
         startTime: newConvObj.startTime,
         context: newConvObj.context,
         utterance: utteranceText
       }
-      // logger.debug('msgObj',msgObj);
-    let payloads = [{ topic: config.KAFKA_TOPICS.UTTERANCES, messages: JSON.stringify(msgObj) }];
-    logger.debug('payloads', payloads);
-    producer.send(payloads, function(err, data) {
-      if (err) {
-        logger.error('Error in publishing new utterance ', payloads);
-        return;
-      }
-      logger.debug('msgObjPublished utterance ', payloads);
-      callback(newConvObj, utteranceText);
-    });
-  });
+      analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.UTTERANCES , msgObj , function(err, msgObj){
+        console.log('Published utternace to ', config.KAFKA_TOPICS.UTTERANCES, ' with err: ', err, ' result: ', msgObj);
+        });
+       //return;
+  //     // logger.debug('msgObj',msgObj);
+  //   let payloads = [{ topic: config.KAFKA_TOPICS.UTTERANCES, messages: JSON.stringify(msgObj) }];
+  //   logger.debug('payloads', payloads);
+  //   producer.send(payloads, function(err, data) {
+  //     if (err) {
+  //       logger.error('Error in publishing new utterance ', payloads);
+  //       return;
+  //     }
+  //     logger.debug('msgObjPublished utterance ', payloads);
+  //     callback(newConvObj, utteranceText);
+  //   });
+  // });
 
-  producer.on('error', function(err) {
-    if (err) {
-      logger.error('Error in publishing new utterance ', err);
-      return;
-    }
-  });
+  // producer.on('error', function(err) {
+  //   if (err) {
+  //     logger.error('Error in publishing new utterance ', err);
+  //     return;
+  //   }
+  // });
 }
 
 const publishUtteranceReceipt = function(newConvObj, utteranceText) {

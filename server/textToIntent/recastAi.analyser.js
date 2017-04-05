@@ -41,7 +41,6 @@ const requestRecast = function(utteranceText, callback) {
 }
 
 // Parses, recast.ai response to the required format of Lucy
-if()
 const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
     let parsedResponse = {};
 
