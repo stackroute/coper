@@ -9,13 +9,18 @@ const executeService = function() {
   myProcessors.push(highland.map(function(msgObj) {
     const intentAnalyzer = require('../server/textToIntent');
 
+    let data = JSON.parse(msgObj.value);
+
+    console.log('message to be published', data.utterance);
+
     let promise = new Promise(function(resolve, reject) {
-      intentAnalyzer.processForIntent(conversation, utteranceText,
+      intentAnalyzer.processForIntent(data, data.utterance,
         function(err, analysisResult) {
           if (err) {
             reject(err);
             return;
           }
+          // console.log("inside promise", analysisResult);
           resolve(analysisResult);
           return;
         });
@@ -26,9 +31,9 @@ const executeService = function() {
 
   myProcessors.push(highland.flatMap(promise => highland(
     promise.then(
-      function(result) {
+      function(msgObj) {
         //Publish message to Kafka with output topic, so that downstream service can pick it up
-
+        console.log('Got result from intent analysis: ', msgObj);
         return result;
       },
       function(err) {
@@ -39,7 +44,7 @@ const executeService = function() {
 
   try {
     let subscribeTopic = config.KAFKA_TOPICS.UTTERANCES;
-    let consumerGroup = config.KAFKA_CONSUMER_GROUPS.CG_INTENT_ANALYZERS;
+    let consumerGroup = config.KAFKA_CONSUMER_GROUPS.INTENT_ANALYSER;
     let kafkaHost = config.ZOOKEEPER.URL;
 
     let processPipeLine = highland.pipeline.apply(null, myProcessors);

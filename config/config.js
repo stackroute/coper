@@ -1,6 +1,6 @@
 const config = {
     KAFKA_TOPICS: {
-        UTTERANCES: 'LUCY_UTTERANCES',
+        UTTERANCES: 'echo',
         INTENTS: 'LUCY_INTENTS'
     },
     KAFKA_CONSUMER_GROUPS: {
@@ -8,7 +8,7 @@ const config = {
         ACTION_HANDLERS: 'CG_ACTION_HANDLERS'
     },
     ZOOKEEPER: {
-        HOST: '127.0.0.1',
+        HOST: '0.0.0.0',
         PORT: '2181'
     },
 
