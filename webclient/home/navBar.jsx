@@ -60,7 +60,7 @@ let styles = {
     },
     drawerAppbarStyle: {
         backgroundColor: '#2a7561',
-        opacity: 0.7
+        opacity: 0.9
     },
     appbarStyle: {
         backgroundColor: '#000',
@@ -68,7 +68,7 @@ let styles = {
         width: '100%',
         top:'0px',
         left:'0px',
-        opacity: 0.5
+        opacity: 0.8
     },
     linkStyle: {
         textDecoration: 'none',
@@ -270,7 +270,7 @@ class Navbar extends React.Component {
             anchorEl: event.currentTarget
         })
     }
-  
+
     render() {
         let rightIcon = {};
         if (this.state.loggedin === true) {
@@ -279,7 +279,7 @@ class Navbar extends React.Component {
             rightIcon = (
                 <div>
                     <div className='header'>
-                 
+
                     </div>
                 </div>
             );

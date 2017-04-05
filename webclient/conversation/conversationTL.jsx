@@ -1,10 +1,10 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import Avatar from 'material-ui/Avatar';
-import {Card, CardMedia, CardHeader, CardActions} from 'material-ui/Card';
 import ScrollArea from 'react-custom-scrollbars';
 import InteractionTimeLine from './InteractionTimeLine.jsx';
 import InstructionProcessor from './instructionProcessor.jsx';
+import './interaction.css';
 import {
     Container,
     Grid,
@@ -31,7 +31,19 @@ class ConversationView extends React.Component
         this.state = {
             messages: []
         }
+
         this.setNewMessage = this.setNewMessage.bind(this);
+    }
+    componentWillMount()
+    {
+      window.addEventListener('load',this.changeChatHeight.bind(this));
+      window.addEventListener('resize',this.changeChatHeight.bind(this));
+      //this.changeChatHeight();
+    }
+    changeChatHeight()
+    {
+      console.log(window.innerHeight-80);
+      this.setState({chatHeight:window.innerHeight-80});
     }
     setNewMessage(msg)
     {
@@ -71,42 +83,38 @@ class ConversationView extends React.Component
             };
         };
         return (
-            <Container >
-
-                <div style={{
-                    height: '10px'
-                }}></div>
-                <Row>
-                    <Hidden xs sm>
-                        <Col md={2} lg={2} style={{
-                            height: '100vh'
-                        }}></Col>
-                    </Hidden>
-                    <Col xs={12} sm={12} md={8} lg={8} style={{
-                        height: '100vh'
-                    }}>
-                        <Row>
-                            <ScrollArea universal ref="scrollbars" style={{height: '70vh'}}>
-                                <Col xs={12} sm={12} md={12} lg={12}>
-                                    <InteractionTimeLine responses={this.state.messages}/>
-                                </Col>
-                            </ScrollArea>
-                            <Col xs={12} sm={12} md={8} lg={8} style={{
-                                position: 'fixed',
-                                bottom: '5px'
-                            }}>
-                                <InstructionProcessor setNewMessage={this.setNewMessage}/>
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Hidden xs sm>
-                        <Col md={2} lg={2} style={{
-                            height: '100vh'
-                        }}></Col>
-                    </Hidden>
-                </Row>
+          <Container fluid style={{padding : '0px'}}>
+            <Row >
+            <Hidden xs sm>
+                <Col md={2} lg={2} style={{
+                    height: this.state.chatHeight
+                }}></Col>
+            </Hidden>
+            <Col xs={12} sm={12} md={8} lg={8}>
+            <div className="chat" style={{height: this.state.chatHeight, marginTop: '5px'}}>
+                <div className="chat-title">
+                    <span>Conversations...</span>
+                    <figure className="avatar">
+                        <img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80_4.jpg"/></figure>
+                </div>
+                <ScrollArea ref="scrollbars" >
+                <div className="messages">
+                    <InteractionTimeLine responses={this.state.messages}/>
+                </div>
+                </ScrollArea>
+                <div className="message-box">
+                    <InstructionProcessor setNewMessage={this.setNewMessage}/>
+                </div>
+                <div class="bg"></div>
+            </div>
+            </Col>
+            <Hidden xs sm>
+                <Col md={2} lg={2} style={{
+                    height: this.state.chatHeight
+                }}></Col>
+            </Hidden>
+            </Row>
             </Container>
-
         );
     }
 }
