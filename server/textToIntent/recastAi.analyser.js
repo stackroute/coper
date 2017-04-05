@@ -54,6 +54,8 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
     parsedResponse.utterance = recastAnalysisResult.source;
     parsedResponse.activity = conversationObj.activity;
     parsedResponse.language = recastAnalysisResult.language;
+    if(recastAnalysisResult.action.slug === null)
+    {
     parsedResponse.found = (recastAnalysisResult.action.slug !== '' || recastAnalysisResult.action.slug !== null);
 
     parsedResponse['intention'] = {
@@ -74,7 +76,7 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
             }
         ],
         entities: resolveEntities(recastAnalysisResult)
-    }
+    }  }
 
     return parsedResponse;
 }
