@@ -2,6 +2,7 @@ const highland = require('highland');
 const serviceBase = require('./service.base')
 const config = require('../config/config')
 const kafka = require('kafka-node')
+const analysisFeeder = require('../server/analysisFeeder')
 const executeService = function() {
 
   let myProcessors = [];
@@ -18,11 +19,11 @@ const executeService = function() {
         function(err, analysisResult) {
           if (err) {
             reject(err);
-            return;
+            return
           }
           // console.log("inside promise", analysisResult);
           resolve(analysisResult);
-          return;
+          return;r
         });
     });
 
@@ -31,10 +32,13 @@ const executeService = function() {
 
   myProcessors.push(highland.flatMap(promise => highland(
     promise.then(
-      function(msgObj) {
+      function(result) {
         //Publish message to Kafka with output topic, so that downstream service can pick it up
-        console.log('Got result from intent analysis: ', msgObj);
-        return result;
+        console.log('Got result from intent analysis: ', result);
+
+        analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.INTENTS, result, function(err, result){
+          console.log('Published INTENTs to ', config.KAFKA_TOPICS.INTENTS, ' with err: ', err, ' result: ', result);
+        });
       },
       function(err) {
         //Don't publish any thing

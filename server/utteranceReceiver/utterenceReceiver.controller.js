@@ -69,7 +69,7 @@ const publishUtterance = function(newConvObj, utteranceText, callback) {
         logger.error('Error in publishing new utterance ', payloads);
         return;
       }
-      logger.debug('Published utterance ', payloads);
+      logger.debug('msgObjPublished utterance ', payloads);
       callback(newConvObj, utteranceText);
     });
   });
