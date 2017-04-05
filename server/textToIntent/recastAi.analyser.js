@@ -65,16 +65,13 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
             type: replyType
           }
         ],
-
-        nextreplies: [
+        nextReply: [
             {
               intent: recastAnalysisResult.next_actions[0].slug,
               reply: recastAnalysisResult.next_actions[0].reply,
               type: replyType
             }
         ],
-
-
         entities: resolveEntities(recastAnalysisResult)
     }
 

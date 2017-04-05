@@ -1,1 +1,1 @@
-module.exports = require('./utteranceReceiver.controller');
+module.exports= require ('./utterenceReceiver.controller');

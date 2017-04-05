@@ -1,17 +1,20 @@
 
-var textToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
-var watsonConfig = require('../../config/textToSpeech.js');
-var fs = require('fs');
+const textToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
+
+const watsonConfig = require('../../config/config.js').WATSON_TEXT_TO_SPEECH;
+
+const fs = require('fs');
 //This function is to convert the response text to speech.
-var text_to_speech = new textToSpeechV1(watsonConfig);
 
-var params = {
-  text: 'hii i aa prem prakash',
-  voice: 'en-US_AllisonVoice',
-  accept: 'audio/wav'
+var watsonTextToSpeech = new textToSpeechV1(watsonConfig.auth);
+const params = watsonConfig.params;
+
+
+//watsonTextToSpsize(params).pipe(fs.createWriteStream('output7.wav'));
+
+//text_to_speech.synthesize(params).pipe(fs.createWriteStream('output7.wav'));eech.synthe
+
+module.exports = {
+  watsonTextToSpeech : watsonTextToSpeech,
+  params : params
 };
-
-
-//text_to_speech.synthesize(params).pipe(fs.createWriteStream('output7.wav'));
-
-module.exports = text_to_speech;

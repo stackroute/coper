@@ -1,3 +1,3 @@
  var textToSpeech = require('./watson.processor');
 
- module.exports= textToSpeech;
+ module.exports = textToSpeech;

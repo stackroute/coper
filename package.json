@@ -8,7 +8,7 @@
     "build": "gulp build",
     "lint": "gulp lint",
     "clean": "gulp clean",
-    "test":"mocha"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,6 @@
   "dependencies": {
     "@google-cloud/speech": "^0.7.0",
     "axios": "^0.15.3",
-    "binaryjs": "^0.2.1",
     "body-parser": "^1.16.1",
     "chai": "^3.5.0",
     "compression": "^1.6.2",
@@ -36,8 +35,10 @@
     "fs": "0.0.1-security",
     "gulp-ignore": "^2.0.2",
     "gulpfile": "^1.0.2",
+    "highland": "^2.10.5",
     "jsonwebtoken": "^7.3.0",
     "jwt-decode": "^2.2.0",
+    "kafka-node": "^1.6.0",
     "log4js": "^1.1.1",
     "material-ui": "^0.17.0",
     "mocha": "^3.2.0",
@@ -48,9 +49,11 @@
     "passport-jwt": "^2.2.1",
     "react-bootstrap": "^0.30.8",
     "react-cookie": "^1.0.4",
+    "react-custom-scrollbars": "^4.0.2",
     "react-grid-system": "^2.7.0",
     "react-markdown": "^2.4.6",
     "react-router": "^3.0.2",
+    "react-scrollbar": "^0.5.1",
     "react-tap-event-plugin": "^2.0.1",
     "redis": "^2.7.1",
     "request": "^2.81.0",
