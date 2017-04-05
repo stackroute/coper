@@ -131,7 +131,7 @@ Messages
 --------------------*/
 .messages {
   flex: 1 1 auto;
-  color: rgba(255, 255, 255, .5);
+  color: rgba(0, 0, 0, .5);
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -150,7 +150,7 @@ Messages
     clear: both;
     padding: 6px 10px 7px;
     border-radius: 10px 10px 10px 0;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, .3);
     margin: 8px 0;
     width:50%;
     font-size: 16px;
@@ -162,7 +162,7 @@ Messages
     right: 0;
     border-right: none;
     border-left: 10px solid transparent;
-    border-bottom: 10px solid rgba(0, 0, 0, .5);
+    border-bottom: 10px solid rgba(255, 255, 255, .1);
     bottom: -4px
    }
     .timestamp {

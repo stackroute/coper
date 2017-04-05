@@ -105,7 +105,7 @@ class ConversationView extends React.Component
                 <div className="message-box">
                     <InstructionProcessor setNewMessage={this.setNewMessage}/>
                 </div>
-                <div class="bg"></div>
+                
             </div>
             </Col>
             <Hidden xs sm>

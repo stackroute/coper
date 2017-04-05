@@ -12,7 +12,6 @@ import {
 } from 'react-grid-system';
 import './interaction.css';
 //const BinaryClient = require('binaryjs').BinaryClient;
-
 import io from 'socket.io-client';
 import ss from 'socket.io-stream';
 //import Speaker from 'speaker';
@@ -44,7 +43,6 @@ const styles = {
         borderRadius: '30px'
     }
 }
-
 //const client = new BinaryClient('/');
 const session = {
     audio: true,
@@ -62,7 +60,6 @@ const convertFloat32ToInt16 = function(buffer) {
     }
     return buf.buffer;
 }
-
 const recorderProcess = function(e) {
     const left = e.inputBuffer.getChannelData(0);
     //Stream.write(convertFloat32ToInt16(left));
@@ -82,7 +79,6 @@ const initializeRecorder = function(stream) {
     // connect our recorder to the previous destination
     recorder.connect(context.destination);
 }
-
 const onError = function() {
     console.log('error');
 }
@@ -104,7 +100,6 @@ class InstructionProcessor extends React.Component
             micColor: '#CCCCCC'
         }
     }
-
     onConversationStart(convObj) {
         console.log('convObj', convObj);
         this.setState({
@@ -113,11 +108,9 @@ class InstructionProcessor extends React.Component
             }
         });
     }
-
     onConversationEnd() {
         this.resetConversation();
     }
-
     resetConversation() {
         this.setState({
             conversation: {
@@ -145,7 +138,6 @@ class InstructionProcessor extends React.Component
                     previous = newText;
                 }
             }
-
         });
         this.socket.emit('send::userToken', localStorage.getItem('lucytoken'));
         this.socket.on('conversation::start', (convObj) => {
@@ -176,7 +168,6 @@ class InstructionProcessor extends React.Component
       if (typeof this.props.voice === 'object') {
           msg.voice = this.props.voice;
       }
-
       msg.addEventListener('end', this._speechDidEnd);
       msg.addEventListener('error', this._speechDidError);
       return msg;
@@ -184,7 +175,6 @@ class InstructionProcessor extends React.Component
     sendUtterance() {
         // As the time pause elaspses, a new uttarance has to start, hence reset current stream
         this.stopAudioStream();
-
         window.speechSynthesis.speak(this.textToSpeech(this.state.utterance));
         console.log({contentType: 'shorttext', content: this.state.utterance, purpose: 'Acknowledgement'});
         //Communicate to parent about the new utterance
@@ -205,19 +195,15 @@ class InstructionProcessor extends React.Component
       stream = ss.createStream();
       ss(this.socket).emit('stream::speech', stream);
     }
-
     handleChange(event) {
         this.setState({text: event.target.value});
     }
-
     handleFocus() {
         this.setState({paperColor: 'rgba(233, 240, 238,0.5)'});
     }
-
     handleBlur() {
         this.setState({paperColor: 'rgba(233, 240, 238,0)'});
     }
-
     handleRecord() {
         console.log('recording');
         this.setState({
@@ -236,7 +222,6 @@ class InstructionProcessor extends React.Component
             stream = ss.createStream();
             ss(this.socket).emit('stream::speech', stream);
             navigator.getUserMedia(session, initializeRecorder, onError);
-
             this.setState({micColor: '#F7A808'});
         } else {
             stream.end();
@@ -263,7 +248,6 @@ class InstructionProcessor extends React.Component
             setTimeout(function() {
                 that.setState({text: ''});
             }, 50)
-
         }
     }
     render()
@@ -273,7 +257,7 @@ class InstructionProcessor extends React.Component
         if (this.state.text === '') {
             icons = (
                 <span>
-                    <Col xs={1} sm={1} md={1} lg={1}>
+                    <Col xs={2} sm={2} md={2} lg={2} style={{textAlign:'center'}}>
                         <IconButton className="message-submit" style={styles.sendIconButtonStyle} onTouchTap={this.handleRecord.bind(this)}>
                             <svg fill={this.state.micColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
@@ -286,7 +270,7 @@ class InstructionProcessor extends React.Component
         } else {
             icons = (
                 <span >
-                    <Col xs={1} sm={1} md={1} lg={1} >
+                    <Col xs={2} sm={2} md={2} lg={2} style={{textAlign:'center'}}>
                         <IconButton className="message-submit" style={styles.sendIconButtonStyle} onTouchTap={this.handleSend.bind(this)}>
                             <svg fill="#1CAB98" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -304,7 +288,7 @@ class InstructionProcessor extends React.Component
                         <Paper style={styles.paperStyle} zDepth={0}>
                             <div>
                                 <Row>
-                                    <Col xs={11} sm={11} md={11} lg={11}>
+                                    <Col xs={10} sm={10} md={10} lg={10}>
                                         <TextField fullWidth={true} name='searchtext'
                                         className="message-input"
                                         value={this.state.text} hintText='Write something..'

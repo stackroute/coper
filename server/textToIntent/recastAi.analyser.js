@@ -42,20 +42,24 @@ const requestRecast = function(utteranceText, callback) {
 
 // Parses, recast.ai response to the required format of Lucy
 const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
+
     let parsedResponse = {};
 
-    let slugIntent = resolveIntentAction(recastAnalysisResult);
-    let seekEntities = resolveEntities(recastAnalysisResult);
-    let replyType = resolveReplytype(recastAnalysisResult, seekEntities);
-    let reply = resolveReply(recastAnalysisResult);
-    let analysisStatus = resolveAnalysisStatus(recastAnalysisResult, replyType);
+
 
     parsedResponse.utterance = recastAnalysisResult.source;
     parsedResponse.activity = conversationObj.activity;
     parsedResponse.language = recastAnalysisResult.language;
-    parsedResponse.found = (recastAnalysisResult.action.slug !== '' || recastAnalysisResult.action.slug !== null);
 
-    parsedResponse['intention'] = {
+    parsedResponse.found = (recastAnalysisResult.action !== null &&(recastAnalysisResult.action.slug !== '' || recastAnalysisResult.action.slug !== null));
+    if(parsedResponse.found)
+    {
+      let slugIntent = resolveIntentAction(recastAnalysisResult);
+      let seekEntities = resolveEntities(recastAnalysisResult);
+      let replyType = resolveReplytype(recastAnalysisResult, seekEntities);
+      let reply = resolveReply(recastAnalysisResult);
+      let analysisStatus = resolveAnalysisStatus(recastAnalysisResult, replyType);
+      parsedResponse['intention'] = {
         intent: slugIntent.slug,
         confidence: slugIntent.confidence,
         status: analysisStatus,
@@ -73,9 +77,26 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
             }
         ],
         entities: resolveEntities(recastAnalysisResult)
+      }
+    }
+    else {
+      parsedResponse['intention'] = {
+        intent: '',
+        confidence: '',
+        status: '',
+        replies: [
+          {
+            reply: recastAnalysisResult.replies,
+            //type: replyType
+          }
+        ],
+        nextReply: [],
+        entities: {}
+      }
     }
 
     return parsedResponse;
+
 }
 
 const resolveIntentAction = function(recastAnalysisResult) {

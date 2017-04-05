@@ -8,14 +8,14 @@ const executeService = function() {
   let myProcessors = [];
 
   myProcessors.push(highland.map(function(msgObj) {
-    const intentAnalyzer = require('../server/textToIntent');
+    const scrumAnalyzer = require('../server/scrumActivity');
 
     let data = JSON.parse(msgObj.value);
 
-    console.log('message to be published', data.utterance);
+    console.log('message to be published', data.action);
 
     let promise = new Promise(function(resolve, reject) {
-      intentAnalyzer.processForIntent(data, data.utterance,
+      scrumAnalyzer.analyseAction(data, data.action,
         function(err, analysisResult) {
           if (err) {
             reject(err);
@@ -36,7 +36,7 @@ const executeService = function() {
         //Publish message to Kafka with output topic, so that downstream service can pick it up
         console.log('Got result from intent analysis: ', result);
 
-        analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.INTENTS, result, function(err, result){
+        analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.SCRUM, result, function(err, result){
           console.log('Published INTENTs to ', config.KAFKA_TOPICS.INTENTS, ' with err: ', err, ' result: ', result);
         });
       },
@@ -47,8 +47,8 @@ const executeService = function() {
   )));
 
   try {
-    let subscribeTopic = config.KAFKA_TOPICS.UTTERANCES;
-    let consumerGroup = config.KAFKA_CONSUMER_GROUPS.INTENT_ANALYSER;
+    let subscribeTopic = config.KAFKA_TOPICS.ACTION;
+    let consumerGroup = config.KAFKA_CONSUMER_GROUPS.SCRUM_TASK;
     let kafkaHost = config.ZOOKEEPER.URL;
 
     let processPipeLine = highland.pipeline.apply(null, myProcessors);

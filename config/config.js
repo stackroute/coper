@@ -1,19 +1,22 @@
 const config = {
     KAFKA_TOPICS: {
-        UTTERANCES: 'LUCY_UTTERANCES',
+        UTTERANCES: 'echo',
         INTENTS: 'LUCY_INTENTS',
+        ACTION: 'ACTION_HANDLERS',
+        SCRUM: 'SCRUM_HANDLER'
     },
     KAFKA_CONSUMER_GROUPS: {
         INTENT_ANALYSER: 'CG_INTENT_ANALYZERS',
         ACTION_HANDLERS: 'CG_ACTION_HANDLERS',
+        SCRUM_TASK: 'CG_SCRUM_HANDLER'
     },
     ZOOKEEPER: {
-        HOST: '127.0.0.1',
+        HOST: '0.0.0.0',
         PORT: '2181'
     },
 
     MONGO: {
-        url: 'mongodb://localhost:27017/lucy'
+        URL: 'mongodb://localhost:27017/lucy'
     },
 
     GOOGLE_SPEECH_TO_TEXT: {
@@ -66,12 +69,13 @@ const config = {
         apiUrlMember: 'https://api.taiga.io/api/v1/memberships',
         apiUrlUserStories: 'https://api.taiga.io/api/v1/userstories',
         apiUrlTask: 'https://api.taiga.io/api/v1/tasks',
+        apiUrlSprint: 'https://api.taiga.io/api/v1/milestones',
 
         token: 'Bearer eyJ1c2VyX2F1dGhlbnRpY2F0aW9uX2lkIjoyMDg2MTF9:1ctGke:7wLPPqJ6RybMUqnxxqiGlW0_0sE'
     },
     REDIS_CLIENT: {
-      host: 'localhost',
-      port: 6379
+        host: 'localhost',
+        port: 6379
     }
 };
 

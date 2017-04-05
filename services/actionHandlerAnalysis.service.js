@@ -8,14 +8,14 @@ const executeService = function() {
   let myProcessors = [];
 
   myProcessors.push(highland.map(function(msgObj) {
-    const intentAnalyzer = require('../server/textToIntent');
+    const actionAnalyzer = require('../server/actionHandler');
 
     let data = JSON.parse(msgObj.value);
 
-    console.log('message to be published', data.utterance);
+    console.log('message to be published', data);
 
     let promise = new Promise(function(resolve, reject) {
-      intentAnalyzer.processForIntent(data, data.utterance,
+      actionAnalyzer.processForAction(data, data.activity,
         function(err, analysisResult) {
           if (err) {
             reject(err);
@@ -34,11 +34,11 @@ const executeService = function() {
     promise.then(
       function(result) {
         //Publish message to Kafka with output topic, so that downstream service can pick it up
-        console.log('Got result from intent analysis: ', result);
+        // console.log('Got result from intent analysis: ', result);
 
-        analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.INTENTS, result, function(err, result){
-          console.log('Published INTENTs to ', config.KAFKA_TOPICS.INTENTS, ' with err: ', err, ' result: ', result);
-        });
+        // analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.ACTION, result, function(err, result){
+        //   consolse.log('Published INTENTs to ', config.KAFKA_TOPICS.ACTION, ' with err: ', err, ' result: ', result);
+        // });
       },
       function(err) {
         //Don't publish any thing
@@ -47,8 +47,8 @@ const executeService = function() {
   )));
 
   try {
-    let subscribeTopic = config.KAFKA_TOPICS.UTTERANCES;
-    let consumerGroup = config.KAFKA_CONSUMER_GROUPS.INTENT_ANALYSER;
+    let subscribeTopic = config.KAFKA_TOPICS.INTENTS;
+    let consumerGroup = config.KAFKA_CONSUMER_GROUPS.ACTION_HANDLERS;
     let kafkaHost = config.ZOOKEEPER.URL;
 
     let processPipeLine = highland.pipeline.apply(null, myProcessors);
