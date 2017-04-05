@@ -41,6 +41,7 @@ const requestRecast = function(utteranceText, callback) {
 }
 
 // Parses, recast.ai response to the required format of Lucy
+if()
 const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
     let parsedResponse = {};
 
@@ -67,9 +68,9 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
         ],
         nextReply: [
             {
-              // intent: recastAnalysisResult.next_actions[0].slug,
-              // reply: recastAnalysisResult.next_actions[0].reply,
-              // type: replyType
+              intent: recastAnalysisResult.next_actions[0].slug,
+              reply: recastAnalysisResult.next_actions[0].reply,
+              type: replyType
             }
         ],
         entities: resolveEntities(recastAnalysisResult)
