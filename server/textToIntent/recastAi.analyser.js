@@ -53,6 +53,8 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
     parsedResponse.utterance = recastAnalysisResult.source;
     parsedResponse.activity = conversationObj.activity;
     parsedResponse.language = recastAnalysisResult.language;
+    if(recastAnalysisResult.action.slug === null)
+    {
     parsedResponse.found = (recastAnalysisResult.action.slug !== '' || recastAnalysisResult.action.slug !== null);
 
     parsedResponse['intention'] = {
@@ -67,13 +69,13 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
         ],
         nextReply: [
             {
-              // intent: recastAnalysisResult.next_actions[0].slug,
-              // reply: recastAnalysisResult.next_actions[0].reply,
-              // type: replyType
+              intent: recastAnalysisResult.next_actions[0].slug,
+              reply: recastAnalysisResult.next_actions[0].reply,
+              type: replyType
             }
         ],
         entities: resolveEntities(recastAnalysisResult)
-    }
+    }  }
 
     return parsedResponse;
 }
