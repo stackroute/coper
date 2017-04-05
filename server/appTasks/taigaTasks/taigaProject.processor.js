@@ -20,8 +20,18 @@ const createProject = function(projectName) {
         request(options, function(error, response, body) {
             if (error)
                 reject(error);
-
-            resolve(body);
+            var json = JSON.parse(body);
+            var filterCreateProject = {
+                "projectName": "",
+                "projectDescription": "",
+                "projectId": "",
+                "projectMembers": ""
+            }
+            filterCreateProject.projectName = json.name;
+            filterCreateProject.projectDescription = json.description;
+            filterCreateProject.projectId = json.id;
+            filterCreateProject.projectMembers = json.members;
+            resolve(filterCreateProject);
         });
     });
     return promise;

@@ -10,7 +10,7 @@ module.exports = {
     },
 
     MONGO: {
-        url: 'mongodb://localhost:27017/lucy'
+        URL: 'mongodb://localhost:27017/lucy'
     },
 
     GOOGLE_SPEECH_TO_TEXT: {
@@ -56,6 +56,7 @@ module.exports = {
         apiUrlMember: 'https://api.taiga.io/api/v1/memberships',
         apiUrlUserStories: 'https://api.taiga.io/api/v1/userstories',
         apiUrlTask: 'https://api.taiga.io/api/v1/tasks',
+        apiUrlSprint: 'https://api.taiga.io/api/v1/milestones',
 
         token: 'Bearer eyJ1c2VyX2F1dGhlbnRpY2F0aW9uX2lkIjoyMDg2MTF9:1ctGke:7wLPPqJ6RybMUqnxxqiGlW0_0sE'
     }

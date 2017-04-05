@@ -1,19 +1,20 @@
 const request = require("request");
 const configTaiga = require('../../../config/config.js');
 /*
- * API to add user story
+ * API to add sprint
  */
-const addUserStory = function(projectId, userStorySubject, sprintId) {
+const addSprint = function(projectId, sprintName) {
     var options = {
         method: 'POST',
-        url: configTaiga.TAIGA.apiUrlUserStories,
+        url: configTaiga.TAIGA.apiUrlSprint,
         headers: {
             authorization: configTaiga.TAIGA.token
         },
         formData: {
             project: projectId,
-            subject: userStorySubject,
-            milestone: sprintId
+            name: sprintName,
+            estimated_start: '2017-04-07',
+            estimated_finish: '2017-04-21'
         }
     };
     let promise = new Promise(function(resolve, reject) {
@@ -21,27 +22,27 @@ const addUserStory = function(projectId, userStorySubject, sprintId) {
             if (error)
                 reject(error);
             var json = JSON.parse(body);
-            var filterAddUserStory = {
+            var filterAddSprint = {
                 "projectId": "",
-                "userStorySubject": "",
-                "userStoryId": ""
+                "sprintName": "",
+                "sprintId": ""
             }
-            filterAddUserStory.projectId = json.project;
-            filterAddUserStory.userStorySubject = json.subject;
-            filterAddUserStory.userStoryId = json.id;
-            resolve(filterAddUserStory);
+            filterAddSprint.projectId = json.project;
+            filterAddSprint.sprintName = json.name;
+            filterAddSprint.sprintId = json.id;
+            resolve(filterAddSprint);
         });
     });
     return promise;
 };
 
 /*
- * API to list user stories
+ * API to list sprint
  */
-const listUserStories = function(projectId) {
+const listSprint = function(projectId) {
     var options = {
         method: 'GET',
-        url: configTaiga.TAIGA.apiUrlUserStories,
+        url: configTaiga.TAIGA.apiUrlSprint,
         qs: {
             project: projectId
         },
@@ -54,21 +55,23 @@ const listUserStories = function(projectId) {
             if (error)
                 reject(error);
             var json = JSON.parse(body);
-            var filterListUserStories = {
+            var filterListSprint = {
                 "projectId": "",
-                "userStorySubject": "",
+                "sprintName": "",
+                "sprintId": "",
                 "userStoryId": ""
             }
-            filterListUserStories.projectId = json[0].project;
-            filterListUserStories.userStorySubject = json[0].subject;
-            filterListUserStories.userStoryId = json[0].id;
-            resolve(filterListUserStories);
+            filterListSprint.projectId = json[0].project;
+            filterListSprint.sprintName = json[0].name;
+            filterListSprint.sprintId = json[0].id;
+            filterListSprint.userStoryId = json[0].user_stories[0].id;
+            resolve(filterListSprint);
         });
     });
     return promise;
 };
 
 module.exports = {
-    addUserStory: addUserStory,
-    listUserStories: listUserStories
+    addSprint: addSprint,
+    listSprint: listSprint
 };

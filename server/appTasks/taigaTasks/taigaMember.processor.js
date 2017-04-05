@@ -20,7 +20,18 @@ const addMember = function(projectId, userName) {
         request(options, function(error, response, body) {
             if (error)
                 reject(error);
-            resolve(body);
+            var json = JSON.parse(body);
+            var filterAddMember = {
+                "projectName": "",
+                "projectDescription": "",
+                "projectId": "",
+                "memberEmail": ""
+            }
+            filterAddMember.projectName = json.project_name;
+            filterAddMember.projectDescription = json.project_slug;
+            filterAddMember.projectId = json.project;
+            filterAddMember.memberEmail = json.email;
+            resolve(filterAddMember);
         });
     });
     return promise;
