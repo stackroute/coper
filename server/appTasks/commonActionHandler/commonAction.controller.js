@@ -1,8 +1,6 @@
-const config = require('../../config/config.js');
+const config = require('../../../config/config');
 const log4js = require('log4js');
-
-log4js.loadAppender('console');
-const logger = log4js.getLogger('actionHandler');
+const logger = log4js.getLogger('commonAction');
 
 const analyzeActivityAction = function(conversationObj, actionResult, callback) {
   logger.debug("Got request to process common action response for : ", conversationObj);
@@ -12,8 +10,8 @@ const analyzeActivityAction = function(conversationObj, actionResult, callback) 
 
   let result = {
     conversation: conversationObj,
-    actionResult: actionResult,activityResponse: activityResponse
-
+    actionResult: actionResult,
+    activityResponse: activityResponse
   }
 
   logger.debug('Result of processing for actions: ', result);
@@ -24,21 +22,8 @@ const analyzeActivityAction = function(conversationObj, actionResult, callback) 
 const processActionForActivity = function(conversationObj, actionResult) {
   let activityResponse = {};
 
-  logger.debug('Action results: ', actionResult);
-
-  if (actionResult.activityTask === 'TAKS_INCOMPREHENSIBLE') {
+  if (actionResult.activityTask === 'TASK_INCOMPREHENSIBLE') {
     activityResponse = {
-      purpose: 'ACTIVITY_RESPONSE',
-      results: [{
-        content: actionResult.activityNextAction.reply,
-        contentType: 'shorttext'
-      }, {
-        content: actionResult.activityNextAction.reply,
-        contentType: 'speech'
-      }]
-    };
-  } else if (actionResult.activityTask === 'TASK_CREATE_PROJECT') {
-      activityResponse = {
       purpose: 'ACTIVITY_RESPONSE',
       results: [{
         content: actionResult.activityNextAction.reply,
@@ -50,11 +35,9 @@ const processActionForActivity = function(conversationObj, actionResult) {
     };
   }
 
-  logger.debug('Returning activity response ', activityResponse);
-
   return activityResponse;
 }
 
 module.exports = {
   analyzeActivityAction: analyzeActivityAction
-}
+};

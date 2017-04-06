@@ -5,12 +5,12 @@ const config = require('../../config/config');
 log4js.loadAppender('console');
 const logger = log4js.getLogger('responseHandler');
 
-const processActivityResponse = function(conversationObj, actionResult, callback){
-   logger.debug("Got request to process action response for : ", conversationObj, " with data ", actionResult);
+const processActivityResponse = function(conversationObj, activityResponse, callback){
+   logger.debug("Got request to process action response for : ", conversationObj, " with data ", activityResponse);
 
    let result = {
       conversation: conversationObj,
-      actionResult: actionResult
+      activityResponse: activityResponse
    }
 
    let channelName = 'conversation::response::' + conversationObj.userName;

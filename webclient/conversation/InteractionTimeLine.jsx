@@ -20,6 +20,7 @@ export default class InteractionTimeLine extends React.Component {
 
     getResponseRendererMap() {
         return {
+            ACTIVITY_RESPONSE: <ActionResponseHandler/>,
             Acknowledgement: <AcknowledgementHandler />,
             Actionresponse: <ActionResponseHandler/>,
             Defaultresponse: <DefaultResponseHandler/>,

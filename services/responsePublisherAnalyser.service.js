@@ -15,7 +15,7 @@ const executeService = function() {
     console.log('message to be published', data.action);
 
     let promise = new Promise(function(resolve, reject) {
-      responseHandler.processActivityResponse(data.conversation, data.actionResult,
+      responseHandler.processActivityResponse(data.conversation, data.activityResponse,
         function(err, analysisResult) {
           if (err) {
             reject(err);

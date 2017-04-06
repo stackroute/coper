@@ -31,7 +31,7 @@ const publishToKafkaTopic = function(topicName, dataPayload, publishCallback) {
 
 const upsertKafkaTopic = function(topicName, callback) {
   try {
-    logger.debug('Connecting to ', config.ZOOKEEPER.URL);
+    // logger.debug('Connecting to ', config.ZOOKEEPER.URL);
     let client = new kafka.Client(config.ZOOKEEPER.URL);
 
     client.once('connect', function(err) {
@@ -58,7 +58,8 @@ const upsertKafkaTopic = function(topicName, callback) {
 }
 
 const publishToKafka = function(topicName, dataPayload, callback) {
-  logger.debug('Publishing to topic ', topicName, ' with data: ', dataPayload);
+  logger.debug('Publishing to topic ', topicName);
+  // logger.debug(' with data: ', dataPayload);
 
   let client = new kafka.Client(config.ZOOKEEPER.URL);
   let producer = new kafka.Producer(client);

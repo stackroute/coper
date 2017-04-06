@@ -38,10 +38,10 @@ function run(subscribeTopic, consumerGroup, serverHost, processPipeLine) {
   let client = new kafka.Client(serverHost);
   let consumer = new kafka.Consumer(client, topics, options);
 
-  process.on('SIGINT', function() {
-    consumer.close(true, function() {
+  process.on('SIGINT', () => {
+    consumer.close(true, ()=> {
       console.log('Closing consumer connection ..!');
-      client(function(){
+      client.close(function(){
         process.exit();
       });
     });
@@ -58,7 +58,7 @@ function run(subscribeTopic, consumerGroup, serverHost, processPipeLine) {
         push(null, message);
 
         //Start calling the generator again for listening to next message
-        //next(); //Commenting this as processing is currently slower than message producer
+        // next(); //Commenting this as processing is currently slower than message producer
       });
 
       consumer.on('error', function(err) {
@@ -69,7 +69,8 @@ function run(subscribeTopic, consumerGroup, serverHost, processPipeLine) {
     }).map(function(messageObj) {
       //Temporarily keeping this map method, to intermediary log and verify if messages are coming from Kafka or not
       //Once well tested, this method can be removed
-      console.log('[*] Received a message in pipeline: ', messageObj);
+      // console.log('[*] Received a message in pipeline: ', messageObj);
+      console.log('[*] Received a message in pipeline: ');
 
       //If not returned, the message will not be propagated to next set of pipeline
       return messageObj;

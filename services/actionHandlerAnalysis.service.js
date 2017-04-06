@@ -12,7 +12,7 @@ const executeService = function() {
 
     let data = JSON.parse(msgObj.value);
 
-    console.log('message to be published', data);
+    console.log('Recieved message from topic ');
 
     let promise = new Promise(function(resolve, reject) {
       actionAnalyzer.processForAction(data.conversation, data.intentResult,
@@ -34,7 +34,7 @@ const executeService = function() {
     promise.then(
       function(result) {
         // Publish message to Kafka with output topic, so that downstream service can pick it up
-        console.log('Got result from action handler: ', result);
+        console.log('Got result from action handler: ');
 
         let payload = {
           conversation: result.conversation,
