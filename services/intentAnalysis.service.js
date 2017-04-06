@@ -12,10 +12,10 @@ const executeService = function() {
 
     let data = JSON.parse(msgObj.value);
 
-    console.log('message to be published', data.utterance);
+    console.log('Recieved message from topic ', data);
 
     let promise = new Promise(function(resolve, reject) {
-      intentAnalyzer.processForIntent(data, data.utterance,
+      intentAnalyzer.processForIntent(data.conversation, data.utterance,
         function(err, analysisResult) {
           if (err) {
             reject(err);
@@ -36,8 +36,15 @@ const executeService = function() {
         //Publish message to Kafka with output topic, so that downstream service can pick it up
         console.log('Got result from intent analysis: ', result);
 
-        analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.INTENTS, result, function(err, result){
-          console.log('Published INTENTs to ', config.KAFKA_TOPICS.INTENTS, ' with err: ', err, ' result: ', result);
+        //Update conversation object
+
+        let payload = {
+          conversation: result.conversation,
+          intentResult: result.result
+        }
+
+        analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.INTENTS, payload, function(err, res){
+          console.log('Published INTENTs to ', config.KAFKA_TOPICS.INTENTS, ' with err: ', err, ' result: ', res);
         });
       },
       function(err) {

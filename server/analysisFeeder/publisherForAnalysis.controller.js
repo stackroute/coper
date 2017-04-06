@@ -30,8 +30,6 @@ const publishToKafkaTopic = function(topicName, dataPayload, publishCallback) {
 }
 
 const upsertKafkaTopic = function(topicName, callback) {
-  callback(null, 'good');
-  return;
   try {
     logger.debug('Connecting to ', config.ZOOKEEPER.URL);
     let client = new kafka.Client(config.ZOOKEEPER.URL);
@@ -68,6 +66,7 @@ const publishToKafka = function(topicName, dataPayload, callback) {
       topic: topicName,
       messages: JSON.stringify(dataPayload)
     }];
+
     producer.send(payloads, function(err, data) {
       if (err) {
         logger.error(

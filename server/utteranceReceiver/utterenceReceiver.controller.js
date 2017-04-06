@@ -72,20 +72,20 @@ const processUtterance = function(userName, convStartTime, utteranceText,
   }
 }
 
-const publishUtterance = function(newConvObj, utteranceText, callback) {
+const publishUtterance = function(convObj, utteranceText, callback) {
   let msgObj = {
-    userName: newConvObj.userName,
-    startTime: newConvObj.startTime,
-    context: newConvObj.context,
+    userName: convObj.userName,
+    startTime: convObj.startTime,
+    conversation: convObj,
     utterance: utteranceText
   }
   analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.UTTERANCES, msgObj,
     callback);
 }
 
-const publishUtteranceReceipt = function(newConvObj, utteranceText) {
+const publishUtteranceReceipt = function(convObj, utteranceText) {
   const redisClient = redis.createClient();
-  redisClient.publish('utterance::received::' + newConvObj.userName, JSON.stringify(
+  redisClient.publish('utterance::received::' + convObj.userName, JSON.stringify(
     utteranceText));
 }
 

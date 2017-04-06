@@ -1,1 +1,1 @@
-module.exports = require('./srumActivity.controller.js');
+module.exports = require('./scrumActivity.controller');

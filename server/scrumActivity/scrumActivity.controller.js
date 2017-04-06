@@ -1,18 +1,29 @@
-const recastConfig = require('../../config/config.js');
-const superAgent = require('superagent');
+const config = require('../../config/config.js');
+const log4js = require('log4js');
 
-const analyzeAction = function(result) {
-   requestTask(utteranceText, function(err, res) {
-    console.log('scrum data ', JSON.stringify(actions));
-    let errors = [];
-    if (err) {
-      errors.push(err);
-    };
+log4js.loadAppender('console');
+const logger = log4js.getLogger('actionHandler');
 
-    let result = {
-      "result": "create project",
-    }
+const analyzeActivityAction = function(conversationObj, actionResult, callback) {
+  logger.debug("Got request to analyze actions for : ", conversationObj, " with data ", actionResult);
 
-    callback(err, result);
-  });
+  let activityResponse = processActionForActivity(conversationObj, actionResult);
+
+   let result = {
+      conversation: conversationObj,
+      actionResult: actionResult,
+      activityResponse: activityResponse
+   }
+   callback(null, result);
+}
+
+const processActionForActivity = function(conversationObj, actionResult) {
+  return {
+    response: 'Project Lucy Created'
+  }
+}
+
+
+module.exports = {
+  analyzeActivityAction: analyzeActivityAction
 }
