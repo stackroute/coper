@@ -5,20 +5,16 @@ const config = require('../../config/config');
 const analysisFeeder = require('../analysisFeeder');
 const log4js = require('log4js');
 log4js.loadAppender('console');
-
 //log4js.addAppender(log4js.appenders.file('./logs/binaryjs.log'), 'binaryServer');
 const logger = log4js.getLogger('utteranceReceiver');
-
 const processUtterance = function(userName, convStartTime, utteranceText,
   callback) {
   if (!userName) {
     logger.debug('username not available');
     return;
   }
-
   logger.debug('Processing utterance from ', userName, ' @ ', convStartTime,
     ' => [', utteranceText, ']');
-
   if (convStartTime === '' || !convStartTime) {
     let activity = 'SCRUM';
     //New conversation
@@ -27,11 +23,9 @@ const processUtterance = function(userName, convStartTime, utteranceText,
       .then(
         function(newConvObj) {
           logger.debug('Started new conversation for ', utteranceText);
-
           const redisClient = redis.createClient();
           redisClient.publish('conversation::new::' + userName, JSON.stringify(
             newConvObj));
-
           //Post utterance to messaging pipeline for further analysis
           publishUtterance(newConvObj, utteranceText,
             function(err, publishResult) {
@@ -53,7 +47,6 @@ const processUtterance = function(userName, convStartTime, utteranceText,
             logger.error('Conversation object not found..!');
             return;
           }
-
           logger.debug('Attaching utterance ', utteranceText,
             ' to existing conversation ', convObj);
           //Post utterance to messaging pipeline for further analysis
@@ -72,7 +65,6 @@ const processUtterance = function(userName, convStartTime, utteranceText,
         });
   }
 }
-
 const publishUtterance = function(convObj, utteranceText, callback) {
   let msgObj = {
     userName: convObj.userName,
@@ -83,14 +75,12 @@ const publishUtterance = function(convObj, utteranceText, callback) {
   analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.UTTERANCES, msgObj,
     callback);
 }
-
 const publishUtteranceReceipt = function(convObj, utteranceText) {
   const redisClient = redis.createClient();
   logger.debug('lasdlfald');
   redisClient.publish('utterance::received::' + convObj.userName, JSON.stringify(
     utteranceText));
 }
-
 module.exports = {
   processUtterance: processUtterance
 }

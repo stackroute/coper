@@ -22,19 +22,29 @@ export default class ShortTextResponse extends React.Component {
     }
 
     render() {
-        let avatar = (
-            <span size={40}>
-                <Avatar src="../images/prem.jpg"/>
-            </span>
-        );
+      let classes = '';
+      let avatar ;
+        if(this.context.response.bot)
+        {
+          classes = 'message new';
+          avatar = (
+             <span size={40}>
+                 <Avatar src="../images/prem.jpg"/>
+             </span>
+         );
+       } else {
+         classes = 'message message-personal new';
+       }
+
         return (
             <div>
                 <Row>
                     <Col xs={12} sm={12} md={12} lg={12}>
                         <div>
-                            <div className='message new'>
+                            <div className={classes}>
                                 <ReactMarkdown source={this.context.response.content}></ReactMarkdown>
-                            </div>{avatar}
+                            </div>
+                            {avatar}
                         </div>
                     </Col>
                 </Row>

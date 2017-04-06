@@ -1,1 +1,0 @@
-module.exports = require('./generalisedTask.controller.js');

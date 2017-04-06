@@ -12,7 +12,7 @@ passport.use(new GoogleStrategy({
     process.nextTick(function() {
       // checking for the existence of user details in database
         Users.findOne({
-            username: profile.id
+            username: profile.emails[0].value
         }, function(err, user) {
             if (err)
                 return done(err);
@@ -21,7 +21,7 @@ passport.use(new GoogleStrategy({
             }
             // otherwise creating a new record of user details in database
             var newUser = new Users();
-            newUser.username = profile.id;
+            newUser.username = profile.emails[0].value;
             newUser.token = token;
             newUser.name = profile.displayName;
             newUser.email = profile.emails[0].value;
