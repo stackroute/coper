@@ -12,6 +12,7 @@ const logger = log4js.getLogger('utteranceReceiver');
 const processUtterance = function(userName, convStartTime, utteranceText,
   callback) {
   if (!userName) {
+    logger.debug('username not available');
     return;
   }
 
@@ -85,6 +86,7 @@ const publishUtterance = function(convObj, utteranceText, callback) {
 
 const publishUtteranceReceipt = function(convObj, utteranceText) {
   const redisClient = redis.createClient();
+  logger.debug('lasdlfald');
   redisClient.publish('utterance::received::' + convObj.userName, JSON.stringify(
     utteranceText));
 }

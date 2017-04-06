@@ -100,7 +100,7 @@ const wsService = function(server) {
       if (channel === 'conversation::new::' + username) {
         logger.debug(message);
         clientSocket.emit('conversation::start', JSON.parse(message));
-      } else if (channel === 'conversation::received::' + username) {
+      } else if (channel === 'utterance::received::' + username) {
         logger.debug('conversation::received::');
         clientSocket.emit('utterance::received', JSON.parse(message));
       } else if (channel === 'conversation::response::' + username) {
