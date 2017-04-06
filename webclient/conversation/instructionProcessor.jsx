@@ -149,11 +149,11 @@ class InstructionProcessor extends React.Component
         this.socket.on('conversation::end', (convObj) => {
             this.onConversationEnd();
         });
-        this.socket.on('utterance::received', (convObj) => {
-            console.log(convObj);
+        this.socket.on('utterance::received', (utterance) => {
+            console.log('utterance',utterance);
             this.props.setNewMessage({
                 contentType: 'shorttext',
-                content: convObj.interactions[convObj.interactions.length - 1].utterance,
+                content: utterance,
                 purpose: 'Acknowledgement',
                 bot: false
             });

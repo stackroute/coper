@@ -15,14 +15,14 @@ const executeService = function() {
     console.log('message to be published', data);
 
     let promise = new Promise(function(resolve, reject) {
-      actionAnalyzer.processForAction(data, data.activity,
-        function(err, analysisResult) {
+      actionAnalyzer.processForAction(data.conversation, data.intentResult,
+        function(err, actionResult) {
           if (err) {
             reject(err);
             return
           }
-          // console.log("inside promise", analysisResult);
-          resolve(analysisResult);
+
+          resolve(actionResult);
           return;r
         });
     });
@@ -33,15 +33,23 @@ const executeService = function() {
   myProcessors.push(highland.flatMap(promise => highland(
     promise.then(
       function(result) {
-        //Publish message to Kafka with output topic, so that downstream service can pick it up
-        // console.log('Got result from intent analysis: ', result);
+        // Publish message to Kafka with output topic, so that downstream service can pick it up
+        console.log('Got result from action handler: ', result);
 
-        // analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.ACTION, result, function(err, result){
-        //   consolse.log('Published INTENTs to ', config.KAFKA_TOPICS.ACTION, ' with err: ', err, ' result: ', result);
-        // });
+        let payload = {
+          conversation: result.conversation,
+          intentResult: result.intentResult,
+          actionResult: result.actionResult
+        }
+
+        analysisFeeder.publishToAnalyze(result.actionResult.activityTopic, payload, function(err, res){
+          console.log('Published ACTIONs to ', result.actionResult.activityTopic, ' with err: ', err, ' result: ', res);
+        });
+
       },
       function(err) {
         //Don't publish any thing
+        console.log('Got error in action handler ', err);
         return err;
       })
   )));

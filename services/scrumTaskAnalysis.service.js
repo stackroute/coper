@@ -12,10 +12,10 @@ const executeService = function() {
 
     let data = JSON.parse(msgObj.value);
 
-    console.log('message to be published', data.action);
+    console.log('message to be published', data);
 
     let promise = new Promise(function(resolve, reject) {
-      scrumAnalyzer.analyseAction(data, data.action,
+      scrumAnalyzer.analyzeActivityAction(data.conversation, data.actionResult,
         function(err, analysisResult) {
           if (err) {
             reject(err);
@@ -23,7 +23,8 @@ const executeService = function() {
           }
           // console.log("inside promise", analysisResult);
           resolve(analysisResult);
-          return;r
+          return;
+          r
         });
     });
 
@@ -34,10 +35,16 @@ const executeService = function() {
     promise.then(
       function(result) {
         //Publish message to Kafka with output topic, so that downstream service can pick it up
-        console.log('Got result from intent analysis: ', result);
+        console.log('Got result from scrum activity handler: ', result);
 
-        analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.SCRUM, result, function(err, result){
-          console.log('Published INTENTs to ', config.KAFKA_TOPICS.INTENTS, ' with err: ', err, ' result: ', result);
+        let payload = {
+          conversation: result.conversation,
+          actionResult: result.actionResult,
+          activityResponse: result.activityResponse
+        }
+
+        analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.RESPONSE, payload, function(err, res) {
+          console.log('Published INTENTs to ', config.KAFKA_TOPICS.RESPONSE, ' with err: ', err, ' result: ', res);
         });
       },
       function(err) {
@@ -47,7 +54,7 @@ const executeService = function() {
   )));
 
   try {
-    let subscribeTopic = config.KAFKA_TOPICS.ACTION;
+    let subscribeTopic = config.KAFKA_TOPICS.SCRUM;
     let consumerGroup = config.KAFKA_CONSUMER_GROUPS.SCRUM_TASK;
     let kafkaHost = config.ZOOKEEPER.URL;
 

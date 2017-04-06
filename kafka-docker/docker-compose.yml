@@ -13,7 +13,7 @@ services:
       - zookeeper
     environment:
       KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
-      KAFKA_CREATE_TOPICS: "echo:1:1"
+      KAFKA_CREATE_TOPICS: "echo:1:1,LUCY_UTTERANCES:1:1,LUCY_INTENTS:1:1,LUCY_ACTIONS:1:1,LUCY_ACTIVITY_SCRUM:1:1,LUCY_RESPONSE_HANDLER:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

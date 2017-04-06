@@ -12,21 +12,21 @@ const utteranceReceiver = require('../utteranceReceiver');
 const speechToTextProcessor = require('../speechToText');
 const textToSpeech = require('../textToSpeech');
 const authController = require('../authentication/authentication.controller');
-const redisConfig = require('../../config/config').REDIS_CLIENT;
-const redisClient = redis.createClient(redisConfig);
+const config = require('../../config/config').REDIS_CLIENT;
+
+const redisClient = redis.createClient(config.REDIS_CLIENT);
 
 const wsService = function(server) {
 
-    const wsServer = socketIO(server);
+  const wsServer = socketIO(server);
 
-    wsServer.on('connection', function(clientSocket) {
-        console.log('[*] Got new client socket connection ');
-        // PING is the event name
-        clientSocket.on('PING', function(message) {
-            console.log('received: %s', message);
+  wsServer.on('connection', function(clientSocket) {
+    console.log('[*] Got new client socket connection ');
+    // PING is the event name
+    clientSocket.on('PING', function(message) {
+      console.log('received: %s', message);
 
-            let now = new Date();
-
+      let now = new Date();
             // PONG is the event name
             clientSocket.emit('PONG', 'pong ping');
         });
@@ -36,6 +36,7 @@ const wsService = function(server) {
             username = user.username;
             redisClient.subscribe('conversation::new::'+user.username);
             redisClient.subscribe('utterance::received::'+user.username);
+            redisClient.subscribe('conversation::response::'+user.username);
           }, function(err) {
               logger.error(err);
           });
@@ -76,27 +77,42 @@ const wsService = function(server) {
             logger.debug('[*] Client socket disconnected ...!');
         });
 
-        redisClient.on('ready', function(){
-          logger.debug('ready');
 
-        });
-        const speechStream = ss.createStream();
-        ss(clientSocket).emit('stream::textToSpeech',speechStream);
-        redisClient.on('message',function(channel,message) {
-          logger.debug('redis channels',channel);
-          if(channel === 'conversation::new::'+username)
-          {
-            logger.debug(message);
-            clientSocket.emit('conversation::start',JSON.parse(message));
-          }
-          else if(channel === 'utterance::received::'+username)
-          {
-            logger.debug('conversation::received::');
-            logger.debug('redis message',message);
-            clientSocket.emit('utterance::received',JSON.parse(message));
-          }
+    clientSocket.on('utterance::new', function(message) {
+      logger.debug('utterance : ', message);
+      utteranceReceiver.processUtterance(username, message.conversation
+        .startTime, message.utterance,
+        function(newConvObj, utteranceText) {
+          logger.debug('Conversation for [', utteranceText,
+            '] registered ', newConvObj, utteranceText);
         });
     });
+    clientSocket.on('disconnect', function() {
+      logger.debug('[*] Client socket disconnected ...!');
+    });
+
+    redisClient.on('ready', function() {
+      logger.debug('ready');
+
+    });
+
+    const speechStream = ss.createStream();
+    ss(clientSocket).emit('stream::textToSpeech', speechStream);
+
+    redisClient.on('message', function(channel, message) {
+      logger.debug('channel',channel);
+      if (channel === 'conversation::new::' + username) {
+        logger.debug(message);
+        clientSocket.emit('conversation::start', JSON.parse(message));
+      } else if (channel === 'utterance::received::' + username) {
+        logger.debug('utterance::received::');
+        clientSocket.emit('utterance::received', JSON.parse(message));
+      } else if (channel === 'conversation::response::' + username) {
+        logger.debug("Got message from channel " + channel + ": " + message);
+        clientSocket.emit('conversation::response', JSON.parse(message));
+      }
+    });
+  });
 }
 
 module.exports = wsService;
