@@ -13,6 +13,7 @@ const analyzeIntent = function(conversationObj, utteranceText, callback) {
 
         let result = {
             result: parseRecastResponse(conversationObj, res.body.results),
+            "conversationObj": conversationObj,
             "start": start,
             "end": new Date(),
             "errors": errors
