@@ -37,6 +37,7 @@ const upsertKafkaTopic = function(topicName, callback) {
     client.once('connect', function(err) {
       if (err) {
         logger.error('Error in connecting for upsertKafkaTopic', err);
+        client.close();
         callback(err, null);
         return;
       }
@@ -45,12 +46,13 @@ const upsertKafkaTopic = function(topicName, callback) {
         logger.debug("Topic upsert finish with err: ", err,
           " result: ",
           JSON.stringify(resp));
-
+        client.close();
         callback(err, resp);
       });
     });
   } catch (err) {
     logger.error('unexpected error in upsertKafkaTopic ', err);
+    client.close();
     callback(err, null);
   }
 }
@@ -72,11 +74,13 @@ const publishToKafka = function(topicName, dataPayload, callback) {
         logger.error(
           'Error in publishing message to messaging pipeline ', err
         );
+        client.close();
         callback(err, null)
         return;
       }
       logger.debug('Published message to messaging pipeline topic ',
         topicName, ' with result: ', data);
+      client.close();
       callback(null, data);
       return;
     });
