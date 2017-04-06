@@ -24,21 +24,31 @@ function run(subscribeTopic, consumerGroup, serverHost, processPipeLine) {
 
   console.log('Registering client to host ', serverHost);
 
+  let topics = [{
+    topic: subscribeTopic
+  }];
+
+  let options = {
+    groupId: consumerGroup,
+    autoCommit: true
+  };
+
+  console.log('Subscribing consumer to topic ', subscribeTopic, ' with consumergroup as ', consumerGroup);
+
   let client = new kafka.Client(serverHost);
+  let consumer = new kafka.Consumer(client, topics, options);
+
+  process.on('SIGINT', function() {
+    consumer.close(true, function() {
+      console.log('Closing consumer connection ..!');
+      client(function(){
+        process.exit();
+      });
+    });
+  });
+
 
   highland(function(push, next) {
-      let topics = [{
-        topic: subscribeTopic
-      }];
-
-      let options = {
-        groupId: consumerGroup,
-        autoCommit: true
-      };
-
-      console.log('Subscribing consumer to topic ', subscribeTopic, ' with consumergroup as ', consumerGroup);
-      let consumer = new kafka.Consumer(client, topics, options);
-
       consumer.on('message', function(message) {
         // logger.debug('Message received: ', message);
 
@@ -48,7 +58,7 @@ function run(subscribeTopic, consumerGroup, serverHost, processPipeLine) {
         push(null, message);
 
         //Start calling the generator again for listening to next message
-        next(); //Commenting this as processing is currently slower than message producer
+        //next(); //Commenting this as processing is currently slower than message producer
       });
 
       consumer.on('error', function(err) {
