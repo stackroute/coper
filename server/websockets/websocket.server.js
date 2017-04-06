@@ -35,6 +35,7 @@ const wsService = function(server) {
           userToken = authController.authenticatePage(uToken).then(function(user) {
             username = user.username;
             redisClient.subscribe('conversation::new::'+user.username);
+            redisClient.subscribe('utterance::received::'+user.username);
           }, function(err) {
               logger.error(err);
           });
@@ -82,15 +83,16 @@ const wsService = function(server) {
         const speechStream = ss.createStream();
         ss(clientSocket).emit('stream::textToSpeech',speechStream);
         redisClient.on('message',function(channel,message) {
-          logger.debug(message);
+          logger.debug('redis channels',channel);
           if(channel === 'conversation::new::'+username)
           {
             logger.debug(message);
             clientSocket.emit('conversation::start',JSON.parse(message));
           }
-          else if(channel === 'conversation::received::'+username)
+          else if(channel === 'utterance::received::'+username)
           {
             logger.debug('conversation::received::');
+            logger.debug('redis message',message);
             clientSocket.emit('utterance::received',JSON.parse(message));
           }
         });

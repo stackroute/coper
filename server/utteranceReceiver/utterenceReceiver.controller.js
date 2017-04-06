@@ -23,6 +23,7 @@ const processUtterance = function(userName, convStartTime, utteranceText) {
           redisClient.publish('conversation::new::' + userName, JSON.stringify(newConvObj));
           //Post utterance to messaging pipeline for further analysis
           publishUtterance(newConvObj, utteranceText, publishUtteranceReceipt);
+          publishUtteranceReceipt(newConvObj,utteranceText);
         },
         function(err) {
           logger.error('Error in creating new conversation ', err);
@@ -38,6 +39,7 @@ const processUtterance = function(userName, convStartTime, utteranceText) {
           }
           //Post utterance to messaging pipeline for further analysis
           publishUtterance(convObj, utteranceText, publishUtteranceReceipt);
+          publishUtteranceReceipt(convObj,utteranceText);
         },
         function(err) {
           logger.error('Error in creating new conversation ', err);
@@ -81,7 +83,8 @@ const publishUtterance = function(newConvObj, utteranceText, callback) {
 }
 const publishUtteranceReceipt = function(newConvObj, utteranceText) {
   const redisClient = redis.createClient();
-  redisClient.publish('utterance::received::' + newConvObj.userName, JSON.stringify(utteranceText));
+  logger.debug('utterance::received::'+newConvObj.userName)
+  redisClient.publish('utterance::received::' + newConvObj.userName, JSON.stringify(newConvObj));
 }
 module.exports = {
   processUtterance: processUtterance

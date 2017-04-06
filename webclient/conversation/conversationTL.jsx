@@ -42,8 +42,8 @@ class ConversationView extends React.Component
     }
     changeChatHeight()
     {
-      console.log(window.innerHeight-80);
-      this.setState({chatHeight:window.innerHeight-80});
+      console.log(window.innerHeight-95);
+      this.setState({chatHeight:window.innerHeight-95});
     }
     setNewMessage(msg)
     {
@@ -91,7 +91,7 @@ class ConversationView extends React.Component
                 }}></Col>
             </Hidden>
             <Col xs={12} sm={12} md={8} lg={8}>
-            <div className="chat" style={{height: this.state.chatHeight, marginTop: '5px'}}>
+            <div className="chat" style={{height: this.state.chatHeight, marginTop: '0px'}}>
                 <div className="chat-title">
                     <span>Conversations...</span>
                     <figure className="avatar">
@@ -105,7 +105,7 @@ class ConversationView extends React.Component
                 <div className="message-box">
                     <InstructionProcessor setNewMessage={this.setNewMessage}/>
                 </div>
-                
+
             </div>
             </Col>
             <Hidden xs sm>

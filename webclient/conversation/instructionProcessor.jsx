@@ -22,8 +22,8 @@ const styles = {
         width: 'auto',
         padding: '0px 20px 0px 20px',
         borderRadius: '4px',
-        borderBottomLeftRadius: '30px',
-        borderBottomRightRadius: '30px'
+        borderBottomLeftRadius: '20px',
+        borderBottomRightRadius: '20px'
     },
     textFieldStyle: {
         backgroundColor: '#fff',
@@ -41,6 +41,12 @@ const styles = {
         padding: '0px',
         backgroundColor: '#FFFFFF',
         borderRadius: '30px'
+    },
+    hintStyle: {
+        color: '#FFFFFF'
+    },
+    inputStyle: {
+        color: '#FFFFFF'
     }
 }
 //const client = new BinaryClient('/');
@@ -97,27 +103,14 @@ class InstructionProcessor extends React.Component
             recorderOpen: false,
             paperColor: 'rgba(233, 240, 238,0)',
             iconColor: '#ccc',
-            micColor: '#CCCCCC'
+            micColor: '#CCCCCC',
+            quickReplies: [
+                'Sure!!', 'Working on it :)', 'Looking into it..', 'Anything for you ;)', 'Okay sir, doing it for you'
+            ],
+            apologyReplies: ['Pardon me for delay', 'Please wait a little']
         }
     }
-    onConversationStart(convObj) {
-        console.log('convObj', convObj);
-        this.setState({
-            conversation: {
-                startTime: convObj.startTime
-            }
-        });
-    }
-    onConversationEnd() {
-        this.resetConversation();
-    }
-    resetConversation() {
-        this.setState({
-            conversation: {
-                startTime: ''
-            }
-        });
-    }
+
     componentDidMount()
     {
         this.socket = io();
@@ -142,12 +135,28 @@ class InstructionProcessor extends React.Component
         this.socket.emit('send::userToken', localStorage.getItem('lucytoken'));
         this.socket.on('conversation::start', (convObj) => {
             this.onConversationStart(convObj);
+            let index = this.getRandomInt(0, this.state.quickReplies.length - 1);
+            setTimeout(function() {
+                that.props.setNewMessage({
+                  contentType: 'shorttext',
+                  content: that.state.quickReplies[index],
+                  purpose: 'Acknowledgement',
+                  bot: true
+                });
+            }, 1000);
+            window.speechSynthesis.speak(this.textToSpeech(this.state.quickReplies[index]));
         });
         this.socket.on('conversation::end', (convObj) => {
             this.onConversationEnd();
         });
-        this.socket.on('utterance::received', (timestamp) => {
-            console.log(timestamp.utteranceTime);
+        this.socket.on('utterance::received', (convObj) => {
+            console.log(convObj);
+            this.props.setNewMessage({
+                contentType: 'shorttext',
+                content: convObj.interactions[convObj.interactions.length - 1].utterance,
+                purpose: 'Acknowledgement',
+                bot: false
+            });
             this.startAudioStream();
         });
         ss(this.socket).on('stream::textToSpeech', (speechStream) => {
@@ -157,28 +166,16 @@ class InstructionProcessor extends React.Component
             })
         });
     }
-    textToSpeech(text)
-    {
-      console.log(text);
-      var msg = new SpeechSynthesisUtterance();
-      msg.text = text;
-      msg.lang = 'en-US-male';
-      msg.rate = .8;
-      msg.volume = 2;
-      if (typeof this.props.voice === 'object') {
-          msg.voice = this.props.voice;
-      }
-      msg.addEventListener('end', this._speechDidEnd);
-      msg.addEventListener('error', this._speechDidError);
-      return msg;
+
+    getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
     sendUtterance() {
         // As the time pause elaspses, a new uttarance has to start, hence reset current stream
         this.stopAudioStream();
-        window.speechSynthesis.speak(this.textToSpeech(this.state.utterance));
         console.log({contentType: 'shorttext', content: this.state.utterance, purpose: 'Acknowledgement'});
         //Communicate to parent about the new utterance
-        this.props.setNewMessage({contentType: 'shorttext', content: this.state.utterance, purpose: 'Acknowledgement'});
+        //this.props.setNewMessage({contentType: 'shorttext', content: this.state.utterance, purpose: 'Acknowledgement'});
         //Send the uttarance to server too
         //On server update the utterance timestamp, accoridng to Server's time settings, so that it is consistent
         this.socket.emit('utterance::new', {
@@ -187,19 +184,58 @@ class InstructionProcessor extends React.Component
         });
     }
 
+    onConversationStart(convObj) {
+        console.log('convObj', convObj);
+        this.setState({
+            conversation: {
+                startTime: convObj.startTime
+            }
+        });
+    }
+
+    onConversationEnd() {
+        this.resetConversation();
+    }
+
+    resetConversation() {
+        this.setState({
+            conversation: {
+                startTime: ''
+            }
+        });
+    }
+
+    textToSpeech(text)
+    {
+        console.log(text);
+        var msg = new SpeechSynthesisUtterance();
+        msg.text = text;
+        msg.lang = 'en-US-male';
+        msg.rate = .8;
+        msg.volume = 2;
+        if (typeof this.props.voice === 'object') {
+            msg.voice = this.props.voice;
+        }
+        msg.addEventListener('end', this._speechDidEnd);
+        msg.addEventListener('error', this._speechDidError);
+        return msg;
+    }
+
     stopAudioStream() {
         if (stream != null)
             stream.end();
-    }
+        }
+
     startAudioStream() {
-      stream = ss.createStream();
-      ss(this.socket).emit('stream::speech', stream);
+        stream = ss.createStream();
+        ss(this.socket).emit('stream::speech', stream);
     }
+
     handleChange(event) {
         this.setState({text: event.target.value});
     }
     handleFocus() {
-        this.setState({paperColor: 'rgba(233, 240, 238,0.5)'});
+        this.setState({paperColor: 'rgba(233, 240, 238,0.1)'});
     }
     handleBlur() {
         this.setState({paperColor: 'rgba(233, 240, 238,0)'});
@@ -209,12 +245,8 @@ class InstructionProcessor extends React.Component
         this.setState({
             recorderOpen: !this.state.recorderOpen
         });
-        if(x === 0)
-        {
-          navigator.getUserMedia = ( navigator.getUserMedia ||
-                       navigator.webkitGetUserMedia ||
-                       navigator.mozGetUserMedia ||
-                       navigator.msGetUserMedia);
+        if (x === 0) {
+            navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
         }
         if (x % 2 == 0) {
             // Stream = client.createStream();
@@ -257,7 +289,9 @@ class InstructionProcessor extends React.Component
         if (this.state.text === '') {
             icons = (
                 <span>
-                    <Col xs={2} sm={2} md={2} lg={2} style={{textAlign:'center'}}>
+                    <Col xs={2} sm={2} md={2} lg={2} style={{
+                        textAlign: 'center'
+                    }}>
                         <IconButton className="message-submit" style={styles.sendIconButtonStyle} onTouchTap={this.handleRecord.bind(this)}>
                             <svg fill={this.state.micColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
@@ -270,7 +304,9 @@ class InstructionProcessor extends React.Component
         } else {
             icons = (
                 <span >
-                    <Col xs={2} sm={2} md={2} lg={2} style={{textAlign:'center'}}>
+                    <Col xs={2} sm={2} md={2} lg={2} style={{
+                        textAlign: 'center'
+                    }}>
                         <IconButton className="message-submit" style={styles.sendIconButtonStyle} onTouchTap={this.handleSend.bind(this)}>
                             <svg fill="#1CAB98" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -289,13 +325,7 @@ class InstructionProcessor extends React.Component
                             <div>
                                 <Row>
                                     <Col xs={10} sm={10} md={10} lg={10}>
-                                        <TextField fullWidth={true} name='searchtext'
-                                        className="message-input"
-                                        value={this.state.text} hintText='Write something..'
-                                        onChange={this.handleChange.bind(this)}
-                                        onFocus={this.handleFocus.bind(this)}
-                                        onBlur={this.handleBlur.bind(this)}
-                                        onKeyPress={this.handleKeyPress.bind(this)}/>
+                                        <TextField fullWidth={true} name='searchtext' className="message-input" value={this.state.text} hintText='Write something..' hintStyle={styles.hintStyle} inputStyle={styles.inputStyle} onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} onKeyPress={this.handleKeyPress.bind(this)}/>
                                     </Col>
                                     {icons}
                                     <ClearFix/>

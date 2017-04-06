@@ -135,7 +135,8 @@ Messages
   overflow: hidden;
   position: relative;
   width: 100%;
-  margin-left: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
  .messages-content {
     position: absolute;
@@ -152,8 +153,10 @@ Messages
     border-radius: 10px 10px 10px 0;
     background: rgba(0, 0, 0, .3);
     margin: 8px 0;
-    width:50%;
+    width: auto;
+    max-width: 50%;
     font-size: 16px;
+    color: rgba(255, 255, 255, 1);
     line-height: 1.4;
     margin-left: 35px;
     position: relative;
@@ -162,7 +165,7 @@ Messages
     right: 0;
     border-right: none;
     border-left: 10px solid transparent;
-    border-bottom: 10px solid rgba(255, 255, 255, .1);
+
     bottom: -4px
    }
     .timestamp {
@@ -200,7 +203,6 @@ Messages
         right: 0;
         border-right: none;
         border-left: 5px solid transparent;
-        border-top: 4px solid #257287;
         bottom: -4px;
       }
 
