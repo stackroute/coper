@@ -2,9 +2,10 @@ const highland = require('highland');
 const serviceBase = require('./service.base')
 const config = require('../config/config')
 const kafka = require('kafka-node')
+const log4js = require('log4js');
+const logger = log4js.getLogger('commonActionAnalyzer');
 const analysisFeeder = require('../server/analysisFeeder')
 const executeService = function() {
-
   let myProcessors = [];
 
   myProcessors.push(highland.map(function(msgObj) {
@@ -12,7 +13,7 @@ const executeService = function() {
 
     let data = JSON.parse(msgObj.value);
 
-    console.log('Recieved message from topic ', data);
+    logger.debug('Recieved message from topic ', data);
 
     let promise = new Promise(function(resolve, reject) {
       commonActionAnalyzer.analyzeActivityAction(data.conversation, data.actionResult,
@@ -35,7 +36,7 @@ const executeService = function() {
     promise.then(
       function(result) {
         //Publish message to Kafka with output topic, so that downstream service can pick it up
-        console.log('Got result from scrum activity handler: ', result);
+        logger.debug('Got result from common activity handler: ', result);
 
         let payload = {
           conversation: result.conversation,
@@ -44,7 +45,7 @@ const executeService = function() {
         }
 
         analysisFeeder.publishToAnalyze(config.KAFKA_TOPICS.RESPONSE, payload, function(err, res) {
-          console.log('Published INTENTs to ', config.KAFKA_TOPICS.RESPONSE, ' with err: ', err, ' result: ', res);
+          logger.debug('Published INTENTs to ', config.KAFKA_TOPICS.RESPONSE, ' with err: ', err, ' result: ', res);
         });
       },
       function(err) {
@@ -62,10 +63,10 @@ const executeService = function() {
 
     serviceBase.run(subscribeTopic, consumerGroup, kafkaHost, processPipeLine);
 
-    console.log('Services is now running..!');
+    logger.debug('Services is now running..!');
 
   } catch (err) {
-    console.log('Error in executing Intent Analysis service ', err);
+    logger.debug('Error in executing Intent Analysis service ', err);
   }
 }
 

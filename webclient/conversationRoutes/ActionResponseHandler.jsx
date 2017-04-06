@@ -8,16 +8,6 @@ export default class ActionResponseHandler extends React.Component {
     super();
 
     this.state = {
-      responses: [
-        {
-          contentType: 'shorttext',
-          content:'# This is a header\n\nAnd this is a actionresponse'
-        },
-        {
-          contentType: 'imagelist',
-          content:'./images/response.jpg'
-        }
-        ],
       error: ''
     };
   }
@@ -35,13 +25,11 @@ export default class ActionResponseHandler extends React.Component {
         {
           this.state.responses.map((respObj) => {
             return (
-              <div key={respObj.contentType}>
-              <ResponseViewContextUtil response={respObj}>
-                {
-                  this.getResponseRendererMap()[respObj.contentType]
-                }
-              </ResponseViewContextUtil>
-              </div>
+              <div>
+      <ResponseViewContextUtil response={this.context.response}>
+        {this.getResponseRendererMap()[this.context.response.contentType]}
+      </ResponseViewContextUtil>
+      </div>
             )
           })
         }

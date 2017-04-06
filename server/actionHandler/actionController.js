@@ -12,16 +12,17 @@ const logger = log4js.getLogger('utteranceReceiver');
 
 let commonActivityIntent = {
   map: {
-    DEFAULT: 'TAKS_INCOMPREHENSIBLE'
+    DEFAULT: 'TASK_INCOMPREHENSIBLE'
   },
   topic: config.KAFKA_TOPICS.COMMON
 };
 
 let scrumActivityIntent = {
   map: {
-    DEFAULT: 'TAKS_INCOMPREHENSIBLE'
+    DEFAULT: 'TASK_INCOMPREHENSIBLE',
+    'create-project': 'TASK_CREATE_PROJECT'
   },
-  topic: config.KAFKA_TOPICS.COMMON
+  topic: config.KAFKA_TOPICS.SCRUM
 };
 
 const processForAction = function(conversationObj, intentResult, callback) {
@@ -85,7 +86,8 @@ const processActionForActionTopic = function(conversationObj, intentResult) {
     activityFound: activityFound,
     activityIntent: activityIntent,
     activityIntentStatus: activityIntentStatus,
-    activityNextAction: activityNextAction
+    activityNextAction: activityNextAction,
+    intentResult: intentResult
   }
 }
 

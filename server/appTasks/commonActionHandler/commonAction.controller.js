@@ -22,9 +22,9 @@ const analyzeActivityAction = function(conversationObj, actionResult, callback) 
 const processActionForActivity = function(conversationObj, actionResult) {
   let activityResponse = {};
 
-  if (actionResult.activityTask === 'TAKS_INCOMPREHENSIBLE') {
+  if (actionResult.activityTask === 'TASK_INCOMPREHENSIBLE') {
     activityResponse = {
-      purpose: 'ACITIVITY_RESPONSE',
+      purpose: 'ACTIVITY_RESPONSE',
       results: [{
         content: actionResult.activityNextAction.reply,
         contentType: 'shorttext'
