@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
+import LinearProgress from 'material-ui/LinearProgress';
 import {
     Container,
     Grid,
@@ -14,6 +15,8 @@ import './interaction.css';
 //const BinaryClient = require('binaryjs').BinaryClient;
 import io from 'socket.io-client';
 import ss from 'socket.io-stream';
+
+
 //import Speaker from 'speaker';
 //import Readalong from 'react-readalong-component';
 const styles = {
@@ -38,7 +41,6 @@ const styles = {
     sendIconButtonStyle: {
         height: '30px',
         width: '30px',
-        padding: '0px',
         backgroundColor: '#FFFFFF',
         borderRadius: '30px'
     },
@@ -47,6 +49,13 @@ const styles = {
     },
     inputStyle: {
         color: '#FFFFFF'
+    },
+    progressStyle: {
+      color: ''
+    },
+    linearProgressStyle: {
+      height: '10px',
+      marginTop: '10px'
     }
 }
 //const client = new BinaryClient('/');
@@ -104,10 +113,11 @@ class InstructionProcessor extends React.Component
             paperColor: 'rgba(233, 240, 238,0)',
             iconColor: '#ccc',
             micColor: '#CCCCCC',
+            progressColor: '',
             quickReplies: [
                 'Sure!!', 'Working on it :)', 'Looking into it..', 'Anything for you ;)', 'Okay sir, doing it for you'
             ],
-            apologyReplies: ['Pardon me for delay', 'Please wait a little']
+            waitingReplies: ['Pardon me for delay', 'Please wait a little']
         }
     }
 
@@ -120,11 +130,21 @@ class InstructionProcessor extends React.Component
         let previous = '';
         conv.userToken = localStorage.getItem('lucytoken');
         this.setState({conversation: conv});
+        // this.siriwave = new SiriWave({
+        //     container: document.getElementById('siriwave'),
+        //     style: 'ios9',
+        //     width: '100%',
+        //     height: 200,
+        //     autostart: true
+        // });
+        //On receiving speech to text
         this.socket.on('send::text', (newText) => {
             if (newText.trim() !== '') {
+                //Checking if it is repeating same text and is recorder open
                 if (previous != newText && this.state.recorderOpen === true) {
                     this.setState({utterance: newText});
                     window.clearTimeout(this.timeout);
+                    //Setting utterance gap and sending to sendUtterance
                     this.timeout = setTimeout(function() {
                         that.sendUtterance();
                     }, 2000);
@@ -132,33 +152,47 @@ class InstructionProcessor extends React.Component
                 }
             }
         });
+
         this.socket.emit('send::userToken', localStorage.getItem('lucytoken'));
+        //On conversation start event
         this.socket.on('conversation::start', (convObj) => {
             this.onConversationStart(convObj);
-            let index = this.getRandomInt(0, this.state.quickReplies.length - 1);
-            setTimeout(function() {
-                that.props.setNewMessage({
-                  contentType: 'shorttext',
-                  content: that.state.quickReplies[index],
-                  purpose: 'Acknowledgement',
-                  bot: true
-                });
-            }, 1000);
-            window.speechSynthesis.speak(this.textToSpeech(this.state.quickReplies[index]));
         });
+        //On conversation response event
+        this.socket.on('conversation::response', (responseObj) => {
+            //Setting response time
+            const responseTime = this.responseTime;
+            window.clearTimeout(this.responseTime);
+            //Forwarding responsetime in conversationTL
+            this.props.setResponseTime(this.getResponseTimeMSM(responseTime));
+            //Forwarding response to conversationTL
+            this.props.setNewMessage({contentType: '', content: '', purpose: '', bot: true});
+            window.clearTimeout(this.delayTimeout);
+
+        });
+        //On conversation end event
         this.socket.on('conversation::end', (convObj) => {
+            //resetting conversation object
             this.onConversationEnd();
         });
+        //On utterance received event
         this.socket.on('utterance::received', (utterance) => {
-            console.log('utterance',utterance);
-            this.props.setNewMessage({
-                contentType: 'shorttext',
-                content: utterance,
-                purpose: 'Acknowledgement',
-                bot: false
-            });
+            //for testing
+            this.props.setResponseTime(this.getResponseTimeMSM(this.getRandomInt(10, 100101010)));
+            //start counting response time
+            this.setResponseTime();
+            //Forwarding utterance to conversationTL
+            this.props.setNewMessage({contentType: 'shorttext', content: utterance, purpose: 'Acknowledgement', bot: false});
+            //Showing quick replies or Acknowledgement
+            let index = this.getRandomInt(0, this.state.quickReplies.length - 1);
+            setTimeout(function() {
+                that.props.setNewMessage({contentType: 'shorttext', content: that.state.quickReplies[index], purpose: 'Acknowledgement', bot: true});
+                that.textToSpeech(that.state.quickReplies[index]);
+            }, 1000);
+            //Starting audio stream
             this.startAudioStream();
         });
+
         ss(this.socket).on('stream::textToSpeech', (speechStream) => {
             //speechStream.pipe(this.speaker);
             speechStream.on('data', function(data) {
@@ -170,7 +204,24 @@ class InstructionProcessor extends React.Component
     getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+    getResponseTimeMSM(timeInMilis) {
+        const min = Math.floor(timeInMilis / (60 * 1000));
+        const sec = Math.floor((timeInMilis % (60 * 1000)) / 1000);
+        const mili = timeInMilis % 1000;
+        let timeString = '';
+        if (min != 0) {
+            timeString += (min + ' Min');
+        }
+        if (sec != 0) {
+            timeString += (sec + ' Sec');
+        }
+        if (mili != 0) {
+            timeString += (mili + ' MiliSec');
+        }
+        return timeString;
+    }
     sendUtterance() {
+        const that = this;
         // As the time pause elaspses, a new uttarance has to start, hence reset current stream
         this.stopAudioStream();
         console.log({contentType: 'shorttext', content: this.state.utterance, purpose: 'Acknowledgement'});
@@ -182,8 +233,35 @@ class InstructionProcessor extends React.Component
             conversation: this.state.conversation,
             utterance: this.state.utterance
         });
+
+        this.setWaitingReply();
     }
 
+    setResponseTime() {
+        this.responseTime = setTimeout(function() {
+            //Do nothing for now
+        }, 10 * 60 * 1000);
+    }
+
+    setWaitingReply() {
+        const that = this;
+        this.delayTimeout = setTimeout(function() {
+            let index = that.getRandomInt(0, that.state.waitingReplies.length - 1);
+            that.props.setNewMessage({contentType: 'shorttext', content: that.state.waitingReplies[index], purpose: 'Acknowledgement', bot: true});
+            that.textToSpeech(that.state.waitingReplies[index]);
+        }, 8000);
+    }
+
+    setProgressColor() {
+      this.setState({progressColor: 'rgb('+this.getRandomInt(0,255)+','+this.getRandomInt(0,255)+','+this.getRandomInt(0,255)+')'})
+    }
+
+    changeProgressColor() {
+      const that = this;
+      this.progressInterval = setInterval(function(){
+        that.setProgressColor();
+      },100);
+    }
     onConversationStart(convObj) {
         console.log('convObj', convObj);
         this.setState({
@@ -218,7 +296,7 @@ class InstructionProcessor extends React.Component
         }
         msg.addEventListener('end', this._speechDidEnd);
         msg.addEventListener('error', this._speechDidError);
-        return msg;
+        window.speechSynthesis.speak(msg);
     }
 
     stopAudioStream() {
@@ -255,9 +333,11 @@ class InstructionProcessor extends React.Component
             ss(this.socket).emit('stream::speech', stream);
             navigator.getUserMedia(session, initializeRecorder, onError);
             this.setState({micColor: '#F7A808'});
+            this.changeProgressColor();
         } else {
             stream.end();
             this.setState({micColor: '#CCCCCC'});
+            window.clearInterval(this.progressInterval);
         }
         x++;
     }
@@ -285,7 +365,16 @@ class InstructionProcessor extends React.Component
     render()
     {
         styles.paperStyle.backgroundColor = this.state.paperColor;
+        styles.progressStyle.color = this.state.progressColor;
         let icons = null;
+        let inputField;
+        if (this.state.recorderOpen) {
+            inputField = (
+              <LinearProgress mode="indeterminate" color={styles.progressStyle.color} style={styles.linearProgressStyle}/>
+            );
+        } else {
+            inputField = (<TextField fullWidth={true} name='searchtext' className="message-input" value={this.state.text} hintText='Write something..' hintStyle={styles.hintStyle} inputStyle={styles.inputStyle} onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} onKeyPress={this.handleKeyPress.bind(this)}/>);
+        }
         if (this.state.text === '') {
             icons = (
                 <span>
@@ -325,7 +414,7 @@ class InstructionProcessor extends React.Component
                             <div>
                                 <Row>
                                     <Col xs={10} sm={10} md={10} lg={10}>
-                                        <TextField fullWidth={true} name='searchtext' className="message-input" value={this.state.text} hintText='Write something..' hintStyle={styles.hintStyle} inputStyle={styles.inputStyle} onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} onKeyPress={this.handleKeyPress.bind(this)}/>
+                                        {inputField}
                                     </Col>
                                     {icons}
                                     <ClearFix/>

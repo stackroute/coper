@@ -29,7 +29,7 @@ export default class ShortTextResponse extends React.Component {
           classes = 'message new';
           avatar = (
              <span size={40}>
-                 <Avatar src="../images/prem.jpg"/>
+                 <Avatar src="../images/lucybot.jpg"/>
              </span>
          );
        } else {
