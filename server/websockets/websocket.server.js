@@ -87,18 +87,11 @@ const wsService = function(server) {
           {
             logger.debug(message);
             clientSocket.emit('conversation::start',JSON.parse(message));
-            //Trial
-            let params = textToSpeech.params;
-            params.text = 'hey you';
-            textToSpeech.watsonTextToSpeech.synthesize(params).pipe(speechStream);
-
           }
-          else if(channel === 'conversation::responseText::'+username)
+          else if(channel === 'conversation::received::'+username)
           {
-            // let params = textToSpeech.params;
-            // params.text = message.text;
-            // textToSpeech.watsonTextToSpeech.synthesize(params).pipe(speechStream);
-            // ss(clientSocket).emit('stream::textToSpeech',speechStream);
+            logger.debug('conversation::received::');
+            clientSocket.emit('utterance::received',JSON.parse(message));
           }
         });
     });

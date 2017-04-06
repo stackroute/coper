@@ -32,7 +32,7 @@ export default class ShortTextResponse extends React.Component {
                 <Row>
                     <Col xs={12} sm={12} md={12} lg={12}>
                         <div>
-                            <div className='message'>
+                            <div className='message new'>
                                 <ReactMarkdown source={this.context.response.content}></ReactMarkdown>
                             </div>{avatar}
                         </div>
