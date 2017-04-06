@@ -101,12 +101,55 @@ const findLastUserConversation = function(userName){
 };
 
 
+const updateSpecificInteraction = function(utterance, timestamp, modifiedObjToBeSaved) {
+    let promise = new Promise(function(resolve, reject) {
+        console.log(utterance);
+        ConversationModel.update({
+            interactions: { $elemMatch :{utterance:utterance,timestamp:timestamp}}
+        }, { $set: { interactions: modifiedObjToBeSaved } }, function(err, conversation1) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(conversation1);
+               // console.log("modified obj >>>>>>> "+JSON.stringify(conversation1));
+
+            }
+
+
+        });
+    });
+    return promise;
+};
+
+const findSpecificInteraction = function(utterance, timestamp){
+  let promise = new Promise(function(resolve, reject){
+    ConversationModel.find({
+      interactions: { $elemMatch :{utterance:utterance,timestamp:timestamp}}
+    },function(err, ConversationModel){
+      if (err)
+        {
+            reject(err);
+            console.log(err);
+        }
+      if (!ConversationModel){
+        reject({error: 'No ConversationModel found in mongo..!'});
+      }
+      resolve(ConversationModel[0]);
+
+    });
+  });
+  return promise;
+};
+
+
 module.exports = {
 
   findUserConversation: findUserConversation,
   saveUserConversation: saveUserConversation,
   updateUserConversation:updateUserConversation,
   findLastUserConversation:findLastUserConversation,
-  startNewConversation:startNewConversation
+  startNewConversation:startNewConversation,
+  findSpecificInteraction:findSpecificInteraction,
+  updateSpecificInteraction:updateSpecificInteraction
 
 };
