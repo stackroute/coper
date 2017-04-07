@@ -81,6 +81,48 @@ const processActionForActivity = function(conversationObj, actionResult, callbac
       callback(null, activityResponse);
     }
 
+  } else if (actionResult.activityTask === SCRUM_ACTION_CONSTS.TASK_CREATE_SPRINT) {
+    //check status
+    logger.debug('Processing task ', SCRUM_ACTION_CONSTS.TASK_CREATE_SPRINT);
+
+    if (actionResult.activityIntentStatus == 'complete' && actionResult.intentResult.intention.intent == 'create-project') {
+      logger.debug('Processing create project task ', JSON.stringify(actionResult));
+
+      //Have to execute a task
+      //Here call taiga task controller for the specific task
+      let projectName = actionResult.intentResult.intention.entities.find((entity) => {
+        return (entity.name == 'projectname')
+      }).value.value;
+      let members = actionResult.intentResult.intention.entities.find((entity) => {
+        return (entity.name == 'membersname')
+      }).value.value;
+      let payload = {name: projectName, members: [members]};
+      logger.debug('Project create payload ', payload);
+
+      //Split members name with and, or comma whatever the way it is captured
+
+      taigaTaskCtrl.createNewProject(payload, function(err, result) {
+        logger.debug('Got result from taiga for project create ', result);
+        let activityResponse = {
+          purpose: 'ACTIVITY_RESPONSE',
+          content: actionResult.activityNextAction.reply,
+          contentType: 'shorttext',
+          speech: actionResult.activityNextAction.reply,
+          taskResult: result
+        };
+        callback(null, activityResponse);
+      }).intent == 'create-project'
+
+    } else {
+      let activityResponse = {
+        purpose: 'ACTIVITY_RESPONSE',
+        content: actionResult.activityNextAction.reply,
+        contentType: 'shorttext',
+        speech: actionResult.activityNextAction.reply
+      };
+      callback(null, activityResponse);
+    }
+
   } else if (actionResult.activityTask === SCRUM_ACTION_CONSTS.TASK_CREATE_STORY) {
     //check status
     logger.debug('Processing task ', SCRUM_ACTION_CONSTS.TASK_CREATE_STORY);

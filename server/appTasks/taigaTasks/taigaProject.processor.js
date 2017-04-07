@@ -4,6 +4,7 @@ const configTaiga = require('../../../config/config.js');
 * API to create project
 */
 const createProject = function(projectName) {
+    console.log('Taiga createProject ', projectName);
     var options = {
         method: 'POST',
         url: configTaiga.TAIGA.apiUrlProject,

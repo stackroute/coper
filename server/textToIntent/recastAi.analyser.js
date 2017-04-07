@@ -92,7 +92,16 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
 
 const resolveIntentAction = function(recastAnalysisResult) {
   let slugIntent = recastAnalysisResult.intents.find(function(intent) {
-    return (intent.slug == recastAnalysisResult.action.slug);
+    let actionSlug = '';
+
+    if(recastAnalysisResult.action) {
+
+      if(recastAnalysisResult.action.slug) {
+
+        actionSlug = recastAnalysisResult.action.slug;
+      }
+    }
+    return (intent.slug == actionSlug);
   });
 
   return slugIntent;
