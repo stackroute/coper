@@ -18,13 +18,13 @@ const executeService = function() {
       scrumAnalyzer.analyzeActivityAction(data.conversation, data.actionResult,
         function(err, analysisResult) {
           if (err) {
+            console.log('Error occurred ', err);
             reject(err);
             return
           }
-          // console.log("inside promise", analysisResult);
+
           resolve(analysisResult);
           return;
-          r
         });
     });
 
@@ -49,6 +49,7 @@ const executeService = function() {
       },
       function(err) {
         //Don't publish any thing
+        console.log('Got error: ', err);
         return err;
       })
   )));

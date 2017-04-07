@@ -24,12 +24,13 @@ const analyzeActivityAction = function(conversationObj, actionResult, callback) 
       conversation: conversationObj,
       actionResult: actionResult,
       activityResponse: activityResponse
+    };
 
-    }
-
-    logger.debug('Result of processing for actions: ', result);
+    logger.debug('Result of processing for SCRUM actions: ', JSON.stringify(result));
 
     callback(null, result);
+
+    return;
   });
 }
 
@@ -111,7 +112,7 @@ const processActionForActivity = function(conversationObj, actionResult, callbac
           taskResult: result
         };
         callback(null, activityResponse);
-      }).intent == 'create-project'
+      });
 
     } else {
       let activityResponse = {
