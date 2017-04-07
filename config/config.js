@@ -60,7 +60,7 @@ const config = {
     },
 
     RECAST: {
-        token: 'Token be9a0f773ceab460f64ee463e08c6f4a'
+        token: 'Token 275b6b3c7467bc43237b4617d99fd1df'
     },
 
     TAIGA: {

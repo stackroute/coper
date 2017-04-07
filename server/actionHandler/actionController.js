@@ -21,7 +21,12 @@ let scrumActivityIntent = {
   map: {
     DEFAULT: 'TASK_INCOMPREHENSIBLE',
     'create-project': 'TASK_CREATE_PROJECT',
-    'wishing': 'TASK_WISH'
+    'create-sprint': 'TASK_CREATE_SPRINT',
+    'create-story': 'TASK_CREATE_STORY',
+    'wishing': 'TASK_WISH',
+    'greeting': 'TASK_WISH',
+    'introduction': 'TASK_INTRODUCTION',
+    'functionality': 'TASK_FUNCTIONALITY'
   },
   topic: config.KAFKA_TOPICS.SCRUM
 };

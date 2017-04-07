@@ -39,8 +39,8 @@ const styles = {
         padding: '0px'
     },
     sendIconButtonStyle: {
-        height: '30px',
-        width: '30px',
+        height: '50px',
+        width: '50px',
         backgroundColor: '#FFFFFF',
         borderRadius: '30px'
     },
@@ -181,8 +181,6 @@ class InstructionProcessor extends React.Component
         });
         //On utterance received event
         this.socket.on('utterance::received', (utterance) => {
-            //for testing
-            this.props.setResponseTime(this.getResponseTimeMSM(this.getRandomInt(10, 100101010)));
             //start counting response time
             this.setResponseTime();
             //Forwarding utterance to conversationTL
@@ -386,7 +384,7 @@ class InstructionProcessor extends React.Component
                         textAlign: 'center'
                     }}>
                         <IconButton className="message-submit" style={styles.sendIconButtonStyle} onTouchTap={this.handleRecord.bind(this)}>
-                            <svg fill={this.state.micColor} height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                            <svg fill={this.state.micColor} height="30" viewBox="0 0 24 24" width="30" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
                                 <path d="M0 0h24v24H0z" fill="none"/>
                             </svg>
@@ -401,7 +399,7 @@ class InstructionProcessor extends React.Component
                         textAlign: 'center'
                     }}>
                         <IconButton className="message-submit" style={styles.sendIconButtonStyle} onTouchTap={this.handleSend.bind(this)}>
-                            <svg fill="#1CAB98" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                            <svg fill="#1CAB98" height="30" viewBox="0 0 24 24" width="30" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
                                 <path d="M0 0h24v24H0z" fill="none"/>
                             </svg>
