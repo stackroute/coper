@@ -160,9 +160,11 @@ class InstructionProcessor extends React.Component
         });
         //On conversation response event
         this.socket.on('conversation::response', (responseObj) => {
-            responseObj.activityResponse.bot = true;
-            console.log("**** conversation response: ", responseObj.activityResponse);
-            this.props.setNewMessage(responseObj.activityResponse);
+            if(responseObj.activityResponse) {
+                responseObj.activityResponse.bot = true;
+                this.props.setNewMessage(responseObj.activityResponse);
+            }
+
             //Setting response time
             const responseTime = this.responseTime;
             window.clearTimeout(this.responseTime);

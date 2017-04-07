@@ -54,10 +54,13 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
 
   let slugIntent = resolveIntentAction(recastAnalysisResult);
   let seekEntities = resolveEntities(recastAnalysisResult);
-  let replyType = resolveReplytype(recastAnalysisResult, seekEntities);
-  let analysisStatus = resolveAnalysisStatus(recastAnalysisResult, replyType);
+  let replyType = '';
+  let analysisStatus = '';
 
   if (parsedResponse.found) {
+    analysisStatus = resolveAnalysisStatus(recastAnalysisResult, replyType);
+    replyType = resolveReplytype(recastAnalysisResult, slugIntent);
+
     parsedResponse['intention'] = {
       intent: slugIntent.slug || '',
       confidence: slugIntent.confidence,
@@ -73,7 +76,7 @@ const parseRecastResponse = function(conversationObj, recastAnalysisResult) {
     parsedResponse['intention'] = {
       intent: '',
       confidence: '',
-      status: '',
+      status: 'unrecognized',
       replies: [{
         reply: recastAnalysisResult.replies[0],
         type: replyType
@@ -105,24 +108,20 @@ const findMissingEntities = function(seekEntities) {
   return missingEntities;
 }
 
-const resolveReplytype = function(recastAnalysisResult, seekEntities) {
+const resolveReplytype = function(recastAnalysisResult, slugIntent) {
   let replyType = '';
-
-  let missingEntities = findMissingEntities(seekEntities);
-
-  if (missingEntities.length > 0) {
-    replyType = "missingInfo";
-  } else {
+  if (slugIntent == recastAnalysisResult.action.slug && recastAnalysisResult.action.done) {
     replyType = "readyToAct";
+  } else {
+    replyType = "missingInfo";
   }
-
   return replyType;
 }
 
 const resolveAnalysisStatus = function(recastAnalysisResult, replyType) {
   let status = '';
 
-  if (replyType == "missingInfo") {
+  if (!recastAnalysisResult.action.done) {
     status = 'incomplete';
   } else {
     status = 'complete';

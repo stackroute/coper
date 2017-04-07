@@ -20,7 +20,8 @@ let commonActivityIntent = {
 let scrumActivityIntent = {
   map: {
     DEFAULT: 'TASK_INCOMPREHENSIBLE',
-    'create-project': 'TASK_CREATE_PROJECT'
+    'create-project': 'TASK_CREATE_PROJECT',
+    'wishing': 'TASK_WISH'
   },
   topic: config.KAFKA_TOPICS.SCRUM
 };
