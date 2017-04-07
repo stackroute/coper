@@ -115,7 +115,7 @@ class InstructionProcessor extends React.Component
             micColor: '#CCCCCC',
             progressColor: '',
             quickReplies: [
-                'Sure!!', 'Working on it :)', 'Looking into it..', 'Anything for you ;)', 'Okay sir, doing it for you'
+                'Sure!!', 'Working on it ', 'Looking into it..', 'Anything for you', 'Okay sir, doing it for you'
             ],
             waitingReplies: ['Pardon me for delay', 'Please wait a little']
         }
@@ -163,6 +163,7 @@ class InstructionProcessor extends React.Component
             if(responseObj.activityResponse) {
                 responseObj.activityResponse.bot = true;
                 this.props.setNewMessage(responseObj.activityResponse);
+                this.textToSpeech(responseObj.activityResponse.speech);
             }
 
             //Setting response time
