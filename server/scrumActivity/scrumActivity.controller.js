@@ -19,7 +19,7 @@ const analyzeActivityAction = function(conversationObj, actionResult, callback) 
   logger.debug("Got request to process common action response for : ", conversationObj);
   logger.debug(" with data ", actionResult);
 
-  let activityResponse = processActionForActivity(conversationObj, actionResult, function(err, activityResponse) {
+  processActionForActivity(conversationObj, actionResult, function(err, activityResponse) {
     let result = {
       conversation: conversationObj,
       actionResult: actionResult,
@@ -34,11 +34,19 @@ const analyzeActivityAction = function(conversationObj, actionResult, callback) 
 }
 
 const processActionForActivity = function(conversationObj, actionResult, callback) {
-  let activityResponse = {};
+  logger.debug('Got ', actionResult.activityTask, ' Action results: ', actionResult);
 
-  logger.debug('Action results: ', actionResult);
+  if(actionResult.activityTask === SCRUM_ACTION_CONSTS.TASK_INCOMPREHENSIBLE) {
+    logger.debug('Processing task ', SCRUM_ACTION_CONSTS.TASK_INCOMPREHENSIBLE);
 
-  if (actionResult.activityTask === SCRUM_ACTION_CONSTS.TASK_CREATE_PROJECT) {
+    let activityResponse = {
+          purpose: 'ACTIVITY_RESPONSE',
+          content: actionResult.activityNextAction.reply,
+          contentType: 'shorttext',
+          speech: actionResult.activityNextAction.reply,
+        };
+        callback(null, activityResponse);
+  } else if (actionResult.activityTask === SCRUM_ACTION_CONSTS.TASK_CREATE_PROJECT) {
     logger.debug('Processing task ', SCRUM_ACTION_CONSTS.TASK_CREATE_PROJECT);
     //check status
     if (actionResult.activityIntentStatus == 'complete') {
@@ -53,7 +61,7 @@ const processActionForActivity = function(conversationObj, actionResult, callbac
 
       taigaTaskCtrl.createNewProject({name: projectName, members: [members]}, function(err, result) {
         logger.debug('Got result from taiga for project create ', result);
-        activityResponse = {
+        let activityResponse = {
           purpose: 'ACTIVITY_RESPONSE',
           content: actionResult.activityNextAction.reply,
           contentType: 'shorttext',
@@ -64,7 +72,7 @@ const processActionForActivity = function(conversationObj, actionResult, callbac
       })
 
     } else {
-      activityResponse = {
+      let activityResponse = {
         purpose: 'ACTIVITY_RESPONSE',
         content: actionResult.activityNextAction.reply,
         contentType: 'shorttext',
@@ -76,7 +84,7 @@ const processActionForActivity = function(conversationObj, actionResult, callbac
   } else if (actionResult.activityTask === SCRUM_ACTION_CONSTS.TASK_CREATE_STORY) {
     //check status
     logger.debug('Processing task ', SCRUM_ACTION_CONSTS.TASK_CREATE_STORY);
-    activityResponse = {
+    let activityResponse = {
       purpose: 'ACTIVITY_RESPONSE',
       content: actionResult.activityNextAction.reply,
       contentType: 'shorttext',
@@ -88,7 +96,7 @@ const processActionForActivity = function(conversationObj, actionResult, callbac
   } else if (actionResult.activityTask === SCRUM_ACTION_CONSTS.TASK_WISH || actionResult.activityTask === SCRUM_ACTION_CONSTS.TASK_FUNCTIONALITY) {
     //check status
     logger.debug('Processing task ', SCRUM_ACTION_CONSTS.TASK_WISH, ' or ', SCRUM_ACTION_CONSTS.TASK_FUNCTIONALITY);
-    activityResponse = {
+    let activityResponse = {
       purpose: 'ACTIVITY_RESPONSE',
       content: actionResult.activityNextAction.reply,
       contentType: 'shorttext',
@@ -98,7 +106,8 @@ const processActionForActivity = function(conversationObj, actionResult, callbac
     callback(null, activityResponse);
   } else {
     logger.debug('Processing task ', TASK_INCOMPREHENSIBLE);
-    activityResponse = {
+
+    let activityResponse = {
       purpose: 'ACTIVITY_RESPONSE',
       content: actionResult.activityNextAction.reply,
       contentType: 'shorttext',
