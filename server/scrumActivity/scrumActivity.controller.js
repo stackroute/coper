@@ -29,24 +29,20 @@ const processActionForActivity = function(conversationObj, actionResult) {
   if (actionResult.activityTask === 'TAKS_INCOMPREHENSIBLE') {
     activityResponse = {
       purpose: 'ACTIVITY_RESPONSE',
-      results: [{
+      results: {
         content: actionResult.activityNextAction.reply,
-        contentType: 'shorttext'
-      }, {
-        content: actionResult.activityNextAction.reply,
-        contentType: 'speech'
-      }]
+        contentType: 'shorttext',
+        speech: actionResult.activityNextAction.reply
+      }
     };
   } else if (actionResult.activityTask === 'TASK_CREATE_PROJECT') {
       activityResponse = {
       purpose: 'ACTIVITY_RESPONSE',
-      results: [{
+      results: {
         content: actionResult.activityNextAction.reply,
-        contentType: 'shorttext'
-      }, {
-        content: actionResult.activityNextAction.reply,
-        contentType: 'speech'
-      }]
+        contentType: 'shorttext',
+        speech: actionResult.activityNextAction.reply
+      }
     };
   }
 
