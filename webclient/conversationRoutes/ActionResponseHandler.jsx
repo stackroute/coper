@@ -11,6 +11,11 @@ export default class ActionResponseHandler extends React.Component {
       error: ''
     };
   }
+
+  static get contextTypes() {
+        return {response: React.PropTypes.object.isRequired};
+  }
+
   getResponseRendererMap() {
     return {
       shorttext: <ShortTextResponse/>,
@@ -19,7 +24,6 @@ export default class ActionResponseHandler extends React.Component {
   }
 
   render() {
-    console.log("inside");
     return (
        <div>
       <ResponseViewContextUtil response={this.context.response}>

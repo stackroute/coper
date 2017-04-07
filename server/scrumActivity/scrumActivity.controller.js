@@ -12,7 +12,8 @@ const analyzeActivityAction = function(conversationObj, actionResult, callback) 
 
   let result = {
     conversation: conversationObj,
-    actionResult: actionResult,activityResponse: activityResponse
+    actionResult: actionResult,
+    activityResponse: activityResponse
 
   }
 
@@ -29,20 +30,16 @@ const processActionForActivity = function(conversationObj, actionResult) {
   if (actionResult.activityTask === 'TAKS_INCOMPREHENSIBLE') {
     activityResponse = {
       purpose: 'ACTIVITY_RESPONSE',
-      results: {
-        content: actionResult.activityNextAction.reply,
-        contentType: 'shorttext',
-        speech: actionResult.activityNextAction.reply
-      }
+      content: actionResult.activityNextAction.reply,
+      contentType: 'shorttext',
+      speech: actionResult.activityNextAction.reply
     };
   } else if (actionResult.activityTask === 'TASK_CREATE_PROJECT') {
-      activityResponse = {
+    activityResponse = {
       purpose: 'ACTIVITY_RESPONSE',
-      results: {
-        content: actionResult.activityNextAction.reply,
-        contentType: 'shorttext',
-        speech: actionResult.activityNextAction.reply
-      }
+      content: actionResult.activityNextAction.reply,
+      contentType: 'shorttext',
+      speech: actionResult.activityNextAction.reply
     };
   }
 

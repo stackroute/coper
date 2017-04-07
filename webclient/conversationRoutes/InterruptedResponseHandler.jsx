@@ -6,6 +6,11 @@ class InterruptedResponse extends React.Component {
   {
     super();
   }
+
+  static get contextTypes() {
+        return {response: React.PropTypes.object.isRequired};
+  }
+
   render() {
    const style={
      height: 'auto',

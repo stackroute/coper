@@ -68,8 +68,7 @@ class ConversationView extends React.Component
 
     setNewMessage(msg)
     {
-        const tempMessages = this.state.tempMessages;
-        console.log('msg', msg);
+        let tempMessages = this.state.tempMessages;
         tempMessages.push(msg);
         this.setState({messages: tempMessages, tempMessages: tempMessages});
         this.refs.scrollbars.scrollToBottom();
@@ -172,7 +171,6 @@ class ConversationView extends React.Component
                             </div>
                             <ScrollArea ref="scrollbars">
                                 <div className="messages">
-                                    {welcome}
                                     <InteractionTimeLine responses={this.state.messages}/>
                                 </div>
                             </ScrollArea>

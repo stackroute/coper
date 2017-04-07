@@ -25,11 +25,9 @@ const processActionForActivity = function(conversationObj, actionResult) {
   if (actionResult.activityTask === 'TASK_INCOMPREHENSIBLE') {
     activityResponse = {
       purpose: 'ACTIVITY_RESPONSE',
-      result: {
-        content: actionResult.activityNextAction.reply,
-        contentType: 'shorttext',
-        speech: actionResult.activityNextAction.reply
-      }
+      content: actionResult.activityNextAction.reply,
+      contentType: 'shorttext',
+      speech: actionResult.activityNextAction.reply
     };
   }
 

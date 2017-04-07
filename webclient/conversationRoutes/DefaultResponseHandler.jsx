@@ -15,6 +15,11 @@ export default class DefaultResponseHandler extends React.Component {
       error: ''
     };
   }
+
+  static get contextTypes() {
+        return {response: React.PropTypes.object.isRequired};
+  }
+
   getResponseRendererMap() {
     return {
       shorttext: <ShortTextResponse/>,
