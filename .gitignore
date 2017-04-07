@@ -1,4 +1,4 @@
-# Logs
+.j# Logs
 *.log*
 npm-debug.log*
 yarn.lock
@@ -39,3 +39,4 @@ jspm_packages
 
 # Ignore distribution folder
 dist
+bundle.js*

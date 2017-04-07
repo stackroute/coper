@@ -1,0 +1,46 @@
+version: '2'
+services:
+  webapp:
+    image: coper/coper-webapp:v1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: host
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+      - redis
+  mongo:
+    image: mvertes/alpine-mongo
+    network_mode: host
+    expose:
+      - 27017
+    ports:
+      - "27017:27017"
+  redis:
+   image: smebberson/alpine-redis
+   network_mode: host
+   restart: always
+   expose:
+    - 6379
+   ports:
+    - "6379:6379"
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - 2181:2181
+
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - 9092:9092
+    links:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
+      KAFKA_CREATE_TOPICS: "echo:1:1,LUCY_UTTERANCES:1:1,LUCY_INTENTS:1:1,LUCY_ACTIONS:1:1,LUCY_ACTIVITY_SCRUM:1:1,LUCY_RESPONSE_HANDLER:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

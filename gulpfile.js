@@ -1,5 +1,6 @@
 const path = require('path');
 const gulp = require('gulp');
+const gulpIgnore = require('gulp-ignore');
 const usemin = require('gulp-usemin');
 const minifyHtml = require('gulp-minify-html');
 const uglify = require('gulp-uglify');
@@ -23,7 +24,7 @@ gulp.task('webpack', ['clean'], function() {
 
 gulp.task('usemin', ['clean'], function() {
   return gulp
-  .src([__dirname,'webclient/*.html','webclient/client/**/**/*.js'])
+  .src([__dirname,'webclient/*.html','webclient/*.js'])
     .pipe(usemin({
       html: [minifyHtml({
         empty: true
@@ -32,7 +33,7 @@ gulp.task('usemin', ['clean'], function() {
       inlinejs: [uglify()],
       css: [rev()],
       inlinecss: [minifyCss()]
-    })).pipe(gulp.dest('dist/webclient/**/'));
+    })).pipe(gulp.dest('dist/webclient/'));
 });
 
 gulp.task('copy:package.json', ['clean'], function() {
@@ -56,15 +57,16 @@ gulp.task('clean', function() {
     })
     .pipe(clean());
 });
-
+const condition = './key.json';
 gulp.task('eslint', function() {
   return gulp.src([
       '!gulpfile.js', 'webpack.config.js', '.eslintrc.js',
-      'server/**/*',
-      'webclient/**/*.jsx', '!dist/**/*'
+      'server/webscokets/key.json',
+      'webclient/*.jsx', '!dist/**/*'
     ])
     .pipe(eslint())
     .pipe(eslint.format())
+    .pipe(gulpIgnore.exclude(condition))
     .pipe(eslint.failAfterError())
     .pipe(eslint.result(result => {
       // Called for each ESLint result.
