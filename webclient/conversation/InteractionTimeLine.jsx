@@ -22,7 +22,7 @@ export default class InteractionTimeLine extends React.Component {
         return {
             ACTIVITY_RESPONSE: <ActionResponseHandler/>,
             Acknowledgement: <AcknowledgementHandler />,
-            Actionresponse: <ActionResponseHandler/>,
+            // Actionresponse: <ActionResponseHandler/>,
             Defaultresponse: <DefaultResponseHandler/>,
             Interruptedresponse: <InterruptedResponseHandler/>
         };
@@ -30,6 +30,7 @@ export default class InteractionTimeLine extends React.Component {
     render() {
         return (
             <div>
+            {console.log("InteractionTimeLine ", this.props.responses)}
                 {this.props.responses.map((respObj, index) => {
                     return (
                         <div key={index}>

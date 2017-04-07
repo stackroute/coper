@@ -21,21 +21,13 @@ export default class ActionResponseHandler extends React.Component {
   render() {
     console.log("inside");
     return (
-      <div>
-        {
-          this.state.responses.map((respObj) => {
-            return (
-              <div>
+       <div>
       <ResponseViewContextUtil response={this.context.response}>
         {this.getResponseRendererMap()[this.context.response.contentType]}
       </ResponseViewContextUtil>
       </div>
-            )
-          })
-        }
-      </div>
-    );
-  }
+      );
+     }
 }
 
 
