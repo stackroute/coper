@@ -160,8 +160,16 @@ class InstructionProcessor extends React.Component
         });
         //On conversation response event
         this.socket.on('conversation::response', (responseObj) => {
+            console.log(responseObj);
             if(responseObj.activityResponse) {
                 responseObj.activityResponse.bot = true;
+                try
+                {
+                    this.props.setNewMessage({content: 'https://tree.taiga.io/project/lucywave16-'+responseObj.activityResponse.taskResult.projectName,contentType:'shorttext',purpose:'ACTIVITY_RESPONSE',speech:'',bot:true});
+                }catch(e){
+
+                }
+
                 this.props.setNewMessage(responseObj.activityResponse);
                 this.textToSpeech(responseObj.activityResponse.speech);
             }

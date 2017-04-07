@@ -67,7 +67,7 @@ const processActionForActivity = function(conversationObj, actionResult, callbac
           content: actionResult.activityNextAction.reply,
           contentType: 'shorttext',
           speech: actionResult.activityNextAction.reply,
-          taskResult: result
+          taskResult: result.projectName,
         };
         callback(null, activityResponse);
       })
